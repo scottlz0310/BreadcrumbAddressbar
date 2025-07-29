@@ -98,6 +98,22 @@ python examples/basic_example.py
 python examples/qt_theme_demo.py
 ```
 
+## 既知の問題
+
+### WSL2環境での制限事項
+
+WSL2（Windows Subsystem for Linux 2）環境では、PySide6のQComboBoxドロップダウンが正常に閉じない問題が確認されています。これはWSL2のGUIレンダリング（WSLg）の制限によるものです。
+
+**影響を受ける機能:**
+- デモスクリプト内のQComboBoxドロップダウン（テーマ選択、セパレーター選択、サイズ選択）
+- ドロップダウンリストが選択後も表示されたままになる
+
+**回避策:**
+- Windowsネイティブ環境での実行を推奨
+- または、Kubuntu等のネイティブLinux環境での実行を推奨
+
+**注意:** この問題はBreadcrumbAddressBarライブラリ自体の問題ではなく、WSL2環境の制限です。ライブラリの機能は正常に動作します。
+
 ### Phase 2機能のデモ（オリジナル）
 ```bash
 python examples/phase2_demo.py

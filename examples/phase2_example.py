@@ -15,7 +15,7 @@ import logging
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, 
-    QWidget, QLabel, QPushButton, QComboBox, QCheckBox
+    QWidget, QLabel, QComboBox
 )
 
 from breadcrumb_addressbar import BreadcrumbAddressBar, get_theme_manager
@@ -57,20 +57,20 @@ class Phase2DemoWindow(QMainWindow):
         separator_label = QLabel("セパレーター:")
         controls_layout.addWidget(separator_label)
         
-        separator_combo = QComboBox()
-        separator_combo.addItems(["なし", " > ", " / ", " \\ "])
-        separator_combo.currentTextChanged.connect(self.on_separator_changed)
-        controls_layout.addWidget(separator_combo)
+        self.separator_combo = QComboBox()
+        self.separator_combo.addItems(["なし", " > ", " / ", " \\ "])
+        self.separator_combo.activated.connect(self.on_separator_activated)
+        controls_layout.addWidget(self.separator_combo)
         
         # ボタンサイズ
         size_label = QLabel("ボタンサイズ:")
         controls_layout.addWidget(size_label)
         
-        size_combo = QComboBox()
-        size_combo.addItems(["28px", "32px", "36px", "40px"])
-        size_combo.setCurrentText("32px")
-        size_combo.currentTextChanged.connect(self.on_size_changed)
-        controls_layout.addWidget(size_combo)
+        self.size_combo = QComboBox()
+        self.size_combo.addItems(["28px", "32px", "36px", "40px"])
+        self.size_combo.setCurrentText("32px")
+        self.size_combo.activated.connect(self.on_size_activated)
+        controls_layout.addWidget(self.size_combo)
         
         controls_layout.addStretch()
         layout.addLayout(controls_layout)
@@ -125,11 +125,16 @@ class Phase2DemoWindow(QMainWindow):
         self.logger.info("Phase 2 Demo を開始しました")
         
         # テーママネージャーの情報を表示
-        theme_manager = get_theme_manager()
-        available_themes = theme_manager.get_available_themes()
-        current_theme = theme_manager.get_current_theme_name()
-        self.logger.info(f"利用可能なテーマ: {list(available_themes.keys())}")
-        self.logger.info(f"現在のテーマ: {current_theme}")
+        try:
+            theme_manager = get_theme_manager()
+            available_themes = theme_manager.get_available_themes()
+            current_theme = theme_manager.get_current_theme_name()
+            self.logger.info(f"利用可能なテーマ: {list(available_themes.keys())}")
+            self.logger.info(f"現在のテーマ: {current_theme}")
+        except RuntimeError as e:
+            self.logger.error(f"テーママネージャーの初期化に失敗: {e}")
+    
+
     
     def on_path_changed(self, path: str) -> None:
         """パス変更時の処理"""
@@ -143,14 +148,16 @@ class Phase2DemoWindow(QMainWindow):
     
 
     
-    def on_separator_changed(self, separator: str) -> None:
+    def on_separator_activated(self, index: int) -> None:
         """セパレーター変更時の処理"""
+        separator = self.separator_combo.currentText()
         self.logger.info(f"セパレーター変更: {separator}")
         self.addressbar.setSeparator(separator)
         self.log_label.setText(f"ログ: セパレーターが変更されました → '{separator}'")
     
-    def on_size_changed(self, size: str) -> None:
+    def on_size_activated(self, index: int) -> None:
         """ボタンサイズ変更時の処理"""
+        size = self.size_combo.currentText()
         height = int(size.replace("px", ""))
         self.logger.info(f"ボタンサイズ変更: {height}px")
         self.addressbar.setButtonHeight(height)

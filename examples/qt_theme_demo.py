@@ -14,7 +14,7 @@ import logging
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, 
-    QWidget, QLabel, QPushButton, QComboBox
+    QWidget, QLabel, QComboBox
 )
 
 from breadcrumb_addressbar import BreadcrumbAddressBar, get_theme_manager
@@ -57,7 +57,7 @@ class QtThemeDemoWindow(QMainWindow):
         controls_layout.addWidget(theme_label)
         
         self.theme_combo = QComboBox()
-        self.theme_combo.currentTextChanged.connect(self.on_theme_changed)
+        self.theme_combo.activated.connect(self.on_theme_activated)
         controls_layout.addWidget(self.theme_combo)
         
         # セパレーター設定
@@ -66,7 +66,7 @@ class QtThemeDemoWindow(QMainWindow):
         
         self.separator_combo = QComboBox()
         self.separator_combo.addItems(["なし", " > ", " / ", " \\ "])
-        self.separator_combo.currentTextChanged.connect(self.on_separator_changed)
+        self.separator_combo.activated.connect(self.on_separator_activated)
         controls_layout.addWidget(self.separator_combo)
         
         # ボタンサイズ
@@ -76,7 +76,7 @@ class QtThemeDemoWindow(QMainWindow):
         self.size_combo = QComboBox()
         self.size_combo.addItems(["28px", "32px", "36px", "40px"])
         self.size_combo.setCurrentText("32px")
-        self.size_combo.currentTextChanged.connect(self.on_size_changed)
+        self.size_combo.activated.connect(self.on_size_activated)
         controls_layout.addWidget(self.size_combo)
         
         controls_layout.addStretch()
@@ -118,6 +118,8 @@ class QtThemeDemoWindow(QMainWindow):
         
         self.logger.info("Qt Theme Manager Demo を開始しました")
     
+
+    
     def setup_theme_manager(self):
         """テーママネージャーをセットアップ"""
         try:
@@ -152,8 +154,9 @@ class QtThemeDemoWindow(QMainWindow):
         self.logger.info(f"フォルダ選択: {path}")
         self.log_label.setText(f"ログ: フォルダが選択されました → {path}")
     
-    def on_theme_changed(self, theme: str) -> None:
+    def on_theme_activated(self, index: int) -> None:
         """テーマ変更時の処理"""
+        theme = self.theme_combo.currentText()
         try:
             theme_manager = get_theme_manager()
             success = theme_manager.set_theme(theme)
@@ -169,9 +172,6 @@ class QtThemeDemoWindow(QMainWindow):
                 # メインウィンドウにもテーマを適用
                 self.apply_theme_to_window(theme)
                 
-                # コンボボックスのドロップダウンを閉じる
-                self.theme_combo.hidePopup()
-                
             else:
                 self.logger.error(f"テーマ変更に失敗: {theme}")
                 self.log_label.setText(f"ログ: テーマ変更に失敗しました → {theme}")
@@ -183,33 +183,32 @@ class QtThemeDemoWindow(QMainWindow):
     def apply_theme_to_window(self, theme_name: str) -> None:
         """メインウィンドウにテーマを適用"""
         try:
+            # qt-theme-managerのインポートを試行
             from theme_manager import apply_theme_to_widget
             
             # メインウィンドウにテーマを適用
             apply_theme_to_widget(self, theme_name)
             self.logger.info(f"メインウィンドウにテーマ '{theme_name}' を適用しました")
             
+        except ImportError:
+            self.logger.error("qt-theme-manager is not available")
         except Exception as e:
             self.logger.error(f"メインウィンドウのテーマ適用に失敗: {e}")
     
-    def on_separator_changed(self, separator: str) -> None:
+    def on_separator_activated(self, index: int) -> None:
         """セパレーター変更時の処理"""
+        separator = self.separator_combo.currentText()
         self.logger.info(f"セパレーター変更: {separator}")
         self.addressbar.setSeparator(separator)
         self.log_label.setText(f"ログ: セパレーターが変更されました → '{separator}'")
-        
-        # コンボボックスのドロップダウンを閉じる
-        self.separator_combo.hidePopup()
     
-    def on_size_changed(self, size: str) -> None:
+    def on_size_activated(self, index: int) -> None:
         """ボタンサイズ変更時の処理"""
+        size = self.size_combo.currentText()
         height = int(size.replace("px", ""))
         self.logger.info(f"ボタンサイズ変更: {height}px")
         self.addressbar.setButtonHeight(height)
         self.log_label.setText(f"ログ: ボタンサイズが変更されました → {height}px")
-        
-        # コンボボックスのドロップダウンを閉じる
-        self.size_combo.hidePopup()
 
 
 def main():
@@ -230,6 +229,8 @@ def main():
         from theme_manager import apply_theme_to_widget
         apply_theme_to_widget(app, "dark")  # デフォルトでダークテーマを適用
         print("アプリケーション全体にテーマを適用しました")
+    except ImportError:
+        print("qt-theme-manager is not available")
     except Exception as e:
         print(f"アプリケーションテーマの適用に失敗: {e}")
     

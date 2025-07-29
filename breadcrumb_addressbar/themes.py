@@ -8,7 +8,15 @@ from typing import Optional
 from PySide6.QtCore import QObject
 from PySide6.QtWidgets import QWidget
 
-from theme_manager import ThemeController, apply_theme_to_widget
+# qt-theme-managerのインポート（オプショナル）
+try:
+    from theme_manager import ThemeController, apply_theme_to_widget
+    THEME_MANAGER_AVAILABLE = True
+except ImportError:
+    THEME_MANAGER_AVAILABLE = False
+    ThemeController = None
+    apply_theme_to_widget = None
+
 from .logger_setup import get_logger
 
 
@@ -23,9 +31,15 @@ class ThemeManager(QObject):
         """Initialize the theme manager."""
         super().__init__()
         self._logger = get_logger("breadcrumb_addressbar.themes")
-        self._theme_controller = ThemeController()
+        
+        if THEME_MANAGER_AVAILABLE:
+            self._theme_controller = ThemeController()
+        else:
+            self._theme_controller = None
+            self._logger.warning("qt-theme-manager is not available")
     
-    def apply_theme_to_widget(self, widget: QWidget, theme_name: Optional[str] = None) -> bool:
+    def apply_theme_to_widget(self, widget: QWidget, 
+                            theme_name: Optional[str] = None) -> bool:
         """
         Apply theme to a widget using qt-theme-manager.
         
@@ -36,6 +50,10 @@ class ThemeManager(QObject):
         Returns:
             True if theme was successfully applied
         """
+        if not THEME_MANAGER_AVAILABLE:
+            self._logger.warning("qt-theme-manager is not available")
+            return False
+            
         try:
             return apply_theme_to_widget(widget, theme_name)
         except Exception as e:
@@ -49,6 +67,8 @@ class ThemeManager(QObject):
         Returns:
             Current theme name
         """
+        if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
+            raise RuntimeError("qt-theme-manager is not available")
         return self._theme_controller.get_current_theme_name()
     
     def get_available_themes(self) -> dict:
@@ -58,6 +78,8 @@ class ThemeManager(QObject):
         Returns:
             Dictionary of available themes
         """
+        if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
+            raise RuntimeError("qt-theme-manager is not available")
         return self._theme_controller.get_available_themes()
     
     def set_theme(self, theme_name: str) -> bool:
@@ -70,6 +92,9 @@ class ThemeManager(QObject):
         Returns:
             True if theme was successfully set
         """
+        if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
+            raise RuntimeError("qt-theme-manager is not available")
+            
         try:
             self._theme_controller.set_theme(theme_name)
             self._logger.info(f"Theme changed to: {theme_name}")
@@ -102,6 +127,9 @@ class ThemeManager(QObject):
         Returns:
             CSS stylesheet string
         """
+        if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
+            raise RuntimeError("qt-theme-manager is not available")
+            
         # qt-theme-managerのテーマ情報を取得
         current_theme = self._theme_controller.get_current_theme_name()
         themes = self._theme_controller.get_available_themes()
@@ -227,6 +255,9 @@ class ThemeManager(QObject):
         Returns:
             Color string
         """
+        if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
+            raise RuntimeError("qt-theme-manager is not available")
+            
         current_theme = self._theme_controller.get_current_theme_name()
         themes = self._theme_controller.get_available_themes()
         
