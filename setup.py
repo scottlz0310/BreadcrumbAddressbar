@@ -11,7 +11,7 @@ setup(
     description="A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/scottlz0310/BreadcrumbAdressbar",
+    url="https://github.com/scottlz0310/BreadcrumbAddressbar",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",

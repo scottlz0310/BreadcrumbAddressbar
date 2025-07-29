@@ -108,8 +108,8 @@ python examples/phase2_demo.py
 ### セットアップ
 
 ```bash
-git clone https://github.com/scottlz0310/BreadcrumbAdressbar.git
-cd BreadcrumbAdressbar
+git clone https://github.com/scottlz0310/BreadcrumbAddressbar.git
+cd BreadcrumbAddressbar
 pip install -e ".[dev]"
 ```
 

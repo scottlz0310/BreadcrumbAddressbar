@@ -6,8 +6,8 @@
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/yourusername/BreadcrumbAdressbar.git
-cd BreadcrumbAdressbar
+git clone https://github.com/yourusername/BreadcrumbAddressbar.git
+cd BreadcrumbAddressbar
 
 # 仮想環境を作成
 python3 -m venv venv
@@ -135,7 +135,7 @@ pytest tests/test_core.py
 ## プロジェクト構造
 
 ```
-BreadcrumbAdressbar/
+BreadcrumbAddressbar/
 ├── breadcrumb_addressbar/     # メインライブラリ
 │   ├── __init__.py           # パッケージ初期化
 │   ├── core.py               # メインクラス
