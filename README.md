@@ -110,7 +110,7 @@ WSL2（Windows Subsystem for Linux 2）環境では、PySide6のQComboBoxドロ�
 
 **回避策:**
 - Windowsネイティブ環境での実行を推奨
-- または、Kubuntu等のネイティブLinux環境での実行を推奨
+- または、Ubuntu等のネイティブLinux環境での実行を推奨
 
 **注意:** この問題はBreadcrumbAddressBarライブラリ自体の問題ではなく、WSL2環境の制限です。ライブラリの機能は正常に動作します。
 
