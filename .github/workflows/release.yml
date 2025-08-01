@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'  # v1.0.0, v1.2.3 などのタグでトリガー
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -78,5 +82,7 @@ jobs:
       with:
         files: dist/*
         generate_release_notes: true
+        draft: false
+        prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
