@@ -177,13 +177,17 @@ class ThemeManager(QObject):
                 pressed_bg = button_data.get('pressed', '#e0e0e0')
                 focus_color = button_data.get('focus', '#0078d4')
                 
-                self._logger.debug(f"Non-current button colors - text: {text_color}, hover_bg: {hover_bg}")
+                # 非選択ボタン用の軽い枠色を計算
+                # テキスト色をベースに、透明度を下げた色を使用
+                light_border = self._get_light_border_color(text_color)
+                
+                self._logger.debug(f"Non-current button colors - text: {text_color}, hover_bg: {hover_bg}, light_border: {light_border}")
                 
                 return f"""
                     QPushButton {{
                         background-color: transparent;
                         color: {text_color};
-                        border: 1px solid transparent;
+                        border: 1px solid {light_border};
                         border-radius: 4px;
                         padding: 4px 8px;
                         font-weight: normal;
@@ -230,7 +234,7 @@ class ThemeManager(QObject):
                 QPushButton {
                     background-color: transparent;
                     color: palette(text);
-                    border: 1px solid transparent;
+                    border: 1px solid palette(mid);
                     border-radius: 4px;
                     padding: 4px 8px;
                 }
@@ -266,6 +270,84 @@ class ThemeManager(QObject):
             return theme_data.get('textColor', '#cccccc')
         
         return "palette(mid)"
+    
+    def _get_light_border_color(self, text_color: str) -> str:
+        """
+        Get a light border color based on the text color.
+        First tries to use existing theme colors, then falls back to calculation.
+        
+        Args:
+            text_color: Base text color (hex format)
+            
+        Returns:
+            Light border color (hex format)
+        """
+        try:
+            # まず、テーマの既存の色を優先的に使用
+            if THEME_MANAGER_AVAILABLE and self._theme_controller is not None:
+                current_theme = self._theme_controller.get_current_theme_name()
+                themes = self._theme_controller.get_available_themes()
+                
+                if current_theme in themes:
+                    theme_data = themes[current_theme]
+                    button_data = theme_data.get('button', {})
+                    
+                    # 優先順位1: ボタンのborder色（非選択状態用）
+                    if 'border' in button_data:
+                        border_color = button_data['border']
+                        self._logger.debug(f"テーマのボタンborder色を使用: {border_color}")
+                        return border_color
+                    
+                    # 優先順位2: panelのborder色を使用
+                    panel_data = theme_data.get('panel', {})
+                    if 'border' in panel_data:
+                        panel_border_color = panel_data['border']
+                        self._logger.debug(f"panelのborder色を使用: {panel_border_color}")
+                        return panel_border_color
+                    
+                    # 優先順位3: セパレーター色を使用
+                    separator_color = theme_data.get('textColor', '#cccccc')
+                    if separator_color != text_color:  # テキスト色と異なる場合
+                        self._logger.debug(f"セパレーター色を使用: {separator_color}")
+                        return separator_color
+            
+            # フォールバック: テキスト色に基づく計算
+            if text_color.startswith('#'):
+                hex_color = text_color[1:]  # '#'を除去
+                if len(hex_color) == 6:
+                    r = int(hex_color[0:2], 16)
+                    g = int(hex_color[2:4], 16)
+                    b = int(hex_color[4:6], 16)
+                    
+                    # 明度を計算（0-255の範囲で）
+                    brightness = (r + g + b) / 3
+                    
+                    # デバッグログを追加
+                    self._logger.debug(f"色計算: RGB({r},{g},{b}) -> 明度: {brightness:.1f}")
+                    
+                    # 明度に基づいて適切な枠色を決定
+                    if brightness > 200:  # 明るい色（白に近い）
+                        # 暗いグレーを使用
+                        result = "#666666"
+                        self._logger.debug(f"明るい色 -> 暗いグレー: {result}")
+                        return result
+                    elif brightness > 100:  # 中間の明度
+                        # 中程度のグレーを使用
+                        result = "#999999"
+                        self._logger.debug(f"中間の明度 -> 中程度のグレー: {result}")
+                        return result
+                    else:  # 暗い色（黒に近い）
+                        # 明るいグレーを使用
+                        result = "#cccccc"
+                        self._logger.debug(f"暗い色 -> 明るいグレー: {result}")
+                        return result
+            
+            # フォールバック: デフォルトの軽いグレー
+            return "#cccccc"
+            
+        except (ValueError, IndexError):
+            # エラーが発生した場合はデフォルトの軽いグレー
+            return "#cccccc"
 
 
 # グローバルテーママネージャーインスタンス

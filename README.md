@@ -98,6 +98,56 @@ python examples/basic_example.py
 python examples/qt_theme_demo.py
 ```
 
+## 開発・リリース
+
+### 開発環境のセットアップ
+
+```bash
+# リポジトリをクローン
+git clone https://github.com/scottlz0310/BreadcrumbAddressbar.git
+cd BreadcrumbAddressbar
+
+# 仮想環境を作成
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+# または
+venv\Scripts\activate  # Windows
+
+# 開発依存関係をインストール
+pip install -e ".[dev]"
+```
+
+### テスト実行
+
+```bash
+# 全テストを実行
+pytest tests/ -v
+
+# リントチェック
+black --check breadcrumb_addressbar/ tests/ examples/
+isort --check-only breadcrumb_addressbar/ tests/ examples/
+flake8 breadcrumb_addressbar/ tests/ examples/
+```
+
+### リリース
+
+リリース手順の詳細は [RELEASE.md](RELEASE.md) を参照してください。
+
+```bash
+# リリーススクリプトを使用（推奨）
+python scripts/release.py 1.0.0
+
+# または手動でタグを作成
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+GitHub Actionsが自動的に以下を実行します：
+- 全Pythonバージョンでのテスト
+- リントチェック
+- PyPIへの自動公開
+- GitHub Releaseの作成
+
 ## 既知の問題
 
 ### WSL2環境での制限事項

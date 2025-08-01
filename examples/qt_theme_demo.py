@@ -139,6 +139,9 @@ class QtThemeDemoWindow(QMainWindow):
             self.logger.info(f"利用可能なテーマ: {list(available_themes.keys())}")
             self.logger.info(f"現在のテーマ: {current_theme}")
             
+            # 初期テーマの色情報をデバッグ出力
+            self._debug_theme_colors(theme_manager, current_theme)
+            
         except Exception as e:
             self.logger.error(f"テーママネージャーの初期化に失敗: {e}")
             self.themes_label.setText("利用可能なテーマ: エラー")
@@ -166,6 +169,9 @@ class QtThemeDemoWindow(QMainWindow):
                 self.current_theme_label.setText(f"現在のテーマ: {theme}")
                 self.log_label.setText(f"ログ: テーマが変更されました → {theme}")
                 
+                # テーマの色情報をデバッグ出力
+                self._debug_theme_colors(theme_manager, theme)
+                
                 # パンくずリストのテーマを更新
                 self.addressbar.refresh_theme()
                 
@@ -179,6 +185,47 @@ class QtThemeDemoWindow(QMainWindow):
         except Exception as e:
             self.logger.error(f"テーマ変更エラー: {e}")
             self.log_label.setText(f"ログ: テーマ変更エラー → {e}")
+    
+    def _debug_theme_colors(self, theme_manager, theme_name: str) -> None:
+        """テーマの色情報をデバッグ出力"""
+        try:
+            available_themes = theme_manager.get_available_themes()
+            if theme_name in available_themes:
+                theme_data = available_themes[theme_name]
+                
+                self.logger.info(f"=== テーマ '{theme_name}' の色情報 ===")
+                self.logger.info(f"テーマデータ全体: {theme_data}")
+                
+                # 主要な色情報を抽出
+                text_color = theme_data.get('textColor', 'N/A')
+                primary_color = theme_data.get('primaryColor', 'N/A')
+                button_data = theme_data.get('button', {})
+                
+                self.logger.info(f"テキスト色: {text_color}")
+                self.logger.info(f"プライマリ色: {primary_color}")
+                self.logger.info(f"ボタンデータ: {button_data}")
+                
+                # ボタンの各状態の色を確認
+                if button_data:
+                    self.logger.info("--- ボタン色の詳細 ---")
+                    for key, value in button_data.items():
+                        self.logger.info(f"  ボタン.{key}: {value}")
+                
+                # 計算される軽い枠色を確認
+                if text_color != 'N/A':
+                    try:
+                        # テーママネージャーの内部メソッドを呼び出して軽い枠色を計算
+                        light_border = theme_manager._get_light_border_color(text_color)
+                        self.logger.info(f"計算された軽い枠色: {light_border}")
+                        self.logger.info(f"  元のテキスト色: {text_color}")
+                        self.logger.info(f"  軽い枠色: {light_border}")
+                    except Exception as e:
+                        self.logger.error(f"軽い枠色の計算エラー: {e}")
+                
+                self.logger.info("=== 色情報デバッグ完了 ===")
+                
+        except Exception as e:
+            self.logger.error(f"テーマ色情報のデバッグ出力エラー: {e}")
     
     def apply_theme_to_window(self, theme_name: str) -> None:
         """メインウィンドウにテーマを適用"""
@@ -197,10 +244,17 @@ class QtThemeDemoWindow(QMainWindow):
     
     def on_separator_activated(self, index: int) -> None:
         """セパレーター変更時の処理"""
-        separator = self.separator_combo.currentText()
-        self.logger.info(f"セパレーター変更: {separator}")
+        separator_text = self.separator_combo.currentText()
+        
+        # "なし"が選択された場合は空文字列を設定
+        if separator_text == "なし":
+            separator = ""
+        else:
+            separator = separator_text
+            
+        self.logger.info(f"セパレーター変更: {separator_text} -> '{separator}'")
         self.addressbar.setSeparator(separator)
-        self.log_label.setText(f"ログ: セパレーターが変更されました → '{separator}'")
+        self.log_label.setText(f"ログ: セパレーターが変更されました → '{separator_text}'")
     
     def on_size_activated(self, index: int) -> None:
         """ボタンサイズ変更時の処理"""
