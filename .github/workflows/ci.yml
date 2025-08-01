@@ -63,7 +63,7 @@ jobs:
     
     - name: Run flake8
       run: |
-        flake8 breadcrumb_addressbar/ tests/ examples/
+        flake8 breadcrumb_addressbar/ tests/ examples/ --max-line-length=79
     
     - name: Run mypy
       run: |

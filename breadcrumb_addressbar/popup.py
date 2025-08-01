@@ -63,7 +63,7 @@ class FolderSelectionPopup(QMenu):
         self.clear()
 
         # フォルダ一覧を取得
-        folders = self._get_folders(path)
+        folders: List[Tuple[str, str]] = self._get_folders(path)
 
         if not folders:
             # フォルダが見つからない場合
