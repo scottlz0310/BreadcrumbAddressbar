@@ -8,16 +8,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.1] - 2025-08-01
 
 ### Added
-- 
+- **CI/CD Pipeline**: 完全なCI/CDパイプラインの構築
+  - GitHub Actionsによる自動テスト・リント・ビルド
+  - 複数Pythonバージョン（3.8-3.12）でのテスト実行
+  - 自動PyPI公開機能
+  - GitHub Release自動生成
+- **Code Quality Tools**: コード品質向上ツールの統合
+  - Black（コードフォーマット）
+  - isort（import整理）
+  - flake8（リント）
+  - mypy（型チェック）
+- **Release Automation**: リリース自動化スクリプト
+  - `scripts/release.py`による自動リリースプロセス
+  - バージョン管理の自動化
+  - CHANGELOG.mdの自動更新
 
 ### Changed
-- 
+- **Project Configuration**: プロジェクト設定の統一
+  - `pyproject.toml`での一元管理
+  - 79文字行長での統一フォーマット
+  - 開発依存関係の整理
+- **CI Workflow**: CIワークフローの改善
+  - テストとlintingの分離
+  - 効率的な並列実行
+  - 適切な権限設定
 
 ### Fixed
-- 
-
-### Removed
--
+- **CI Issues**: CI/CDパイプラインの問題を解決
+  - mypyの設定とPySide6型スタブの問題を解決
+  - GitHub Actionsの権限設定を修正
+  - リリースワークフローの安定化
+- **Code Formatting**: コードフォーマットの統一
+  - 行の長さを79文字に統一
+  - import文の整理
+  - 一貫したコーディングスタイル
 ## [0.2.0] - 2025-07-29
 
 ### Added
