@@ -75,6 +75,7 @@ warn_unused_ignores = false
 warn_no_return = false
 warn_unreachable = false
 strict_equality = false
+show_error_codes = false
 
 [[tool.mypy.overrides]]
 module = [
@@ -83,4 +84,12 @@ module = [
     "breadcrumb_addressbar.*",
 ]
 ignore_missing_imports = true
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = [
+    "PySide6.QtGui",
+    "PySide6.QtCore", 
+    "PySide6.QtWidgets",
+]
 ignore_errors = true 
