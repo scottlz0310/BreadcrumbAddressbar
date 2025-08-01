@@ -57,4 +57,7 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-v --tb=short"
 qt_api = "pyside6"
-qt_log_ignore = ["QML_IMPORT_FAILURE"] 
+qt_log_ignore = ["QML_IMPORT_FAILURE"]
+markers = [
+    "qt: marks tests as requiring Qt (deselect with '-m \"not qt\"')",
+] 

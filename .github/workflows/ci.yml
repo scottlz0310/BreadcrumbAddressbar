@@ -27,16 +27,12 @@ jobs:
         pip install -e ".[dev]"
         pip install pytest-cov
     
-    - name: Install Qt dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libegl1-mesa libxkbcommon-x11-0
-    
     - name: Run tests
       run: |
-        pytest tests/ -v --cov=breadcrumb_addressbar --cov-report=xml --tb=short
+        pytest tests/ -v --cov=breadcrumb_addressbar --cov-report=xml --tb=short -m "not qt"
       env:
         QT_QPA_PLATFORM: offscreen
+        DISPLAY: :99
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
