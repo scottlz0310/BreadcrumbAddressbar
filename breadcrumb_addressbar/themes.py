@@ -143,7 +143,8 @@ class ThemeManager(QObject):
 
             # デバッグログ
             self._logger.debug(
-                f"Generating stylesheet for theme: {current_theme}, is_current: {is_current}"
+                f"Generating stylesheet for theme: {current_theme}, "
+                f"is_current: {is_current}"
             )
             self._logger.debug(f"Theme data keys: {list(theme_data.keys())}")
             self._logger.debug(f"Button data: {button_data}")

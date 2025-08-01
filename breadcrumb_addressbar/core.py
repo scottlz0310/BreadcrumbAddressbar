@@ -263,16 +263,31 @@ class BreadcrumbAddressBar(QWidget):
 
         # 残りのパスを分割
         if path:
-            path_parts = path.replace("\\", "/").split("/")
-            current_path = parts[0][1] if parts else ""
+            # Windowsパスの場合はバックスラッシュを保持
+            if "\\" in path:
+                path_parts = path.split("\\")
+                current_path = parts[0][1] if parts else ""
 
-            for part in path_parts:
-                if part:
-                    current_path = os.path.join(current_path, part).replace(
-                        "\\", "/"
-                    )
-                    display_text = self._get_display_text(part, current_path)
-                    parts.append((display_text, current_path))
+                for part in path_parts:
+                    if part:
+                        if current_path.endswith("\\"):
+                            current_path = current_path + part
+                        else:
+                            current_path = current_path + "\\" + part
+                        display_text = self._get_display_text(part, current_path)
+                        parts.append((display_text, current_path))
+            else:
+                # Unixパスの場合
+                path_parts = path.split("/")
+                current_path = parts[0][1] if parts else ""
+
+                for part in path_parts:
+                    if part:
+                        current_path = os.path.join(current_path, part).replace(
+                            "\\", "/"
+                        )
+                        display_text = self._get_display_text(part, current_path)
+                        parts.append((display_text, current_path))
 
         return parts
 
@@ -340,7 +355,8 @@ class BreadcrumbAddressBar(QWidget):
             is_current: Whether this is the current folder button
         """
         self._logger.debug(
-            f"Item clicked: path='{path}', is_current={is_current}, current_path='{self._current_path}'"
+            f"Item clicked: path='{path}', is_current={is_current}, "
+            f"current_path='{self._current_path}'"
         )
 
         if path:
