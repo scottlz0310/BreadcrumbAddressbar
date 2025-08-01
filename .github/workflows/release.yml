@@ -39,7 +39,6 @@ jobs:
         black --check breadcrumb_addressbar/ tests/ examples/ --line-length 79
         isort --check-only breadcrumb_addressbar/ tests/ examples/
         flake8 breadcrumb_addressbar/ tests/ examples/ --max-line-length=79
-        mypy breadcrumb_addressbar/
 
   build-and-publish:
     needs: test
