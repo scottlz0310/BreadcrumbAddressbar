@@ -47,7 +47,9 @@ class Phase2DemoWindow(QMainWindow):
         # タイトル
         title_label = QLabel("Phase 2 機能デモ")
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 18px; font-weight: bold; margin: 10px;")
+        title_label.setStyleSheet(
+            "font-size: 18px; font-weight: bold; margin: 10px;"
+        )
         layout.addWidget(title_label)
 
         # パンくずリスト型アドレスバー
@@ -143,7 +145,9 @@ class Phase2DemoWindow(QMainWindow):
             theme_manager = get_theme_manager()
             available_themes = theme_manager.get_available_themes()
             current_theme = theme_manager.get_current_theme_name()
-            self.logger.info(f"利用可能なテーマ: {list(available_themes.keys())}")
+            self.logger.info(
+                f"利用可能なテーマ: {list(available_themes.keys())}"
+            )
             self.logger.info(f"現在のテーマ: {current_theme}")
         except RuntimeError as e:
             self.logger.error(f"テーママネージャーの初期化に失敗: {e}")
@@ -163,7 +167,9 @@ class Phase2DemoWindow(QMainWindow):
         separator = self.separator_combo.currentText()
         self.logger.info(f"セパレーター変更: {separator}")
         self.addressbar.setSeparator(separator)
-        self.log_label.setText(f"ログ: セパレーターが変更されました → '{separator}'")
+        self.log_label.setText(
+            f"ログ: セパレーターが変更されました → '{separator}'"
+        )
 
     def on_size_activated(self, index: int) -> None:
         """ボタンサイズ変更時の処理"""
@@ -171,7 +177,9 @@ class Phase2DemoWindow(QMainWindow):
         height = int(size.replace("px", ""))
         self.logger.info(f"ボタンサイズ変更: {height}px")
         self.addressbar.setButtonHeight(height)
-        self.log_label.setText(f"ログ: ボタンサイズが変更されました → {height}px")
+        self.log_label.setText(
+            f"ログ: ボタンサイズが変更されました → {height}px"
+        )
 
 
 def main():

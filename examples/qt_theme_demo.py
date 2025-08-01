@@ -46,7 +46,9 @@ class QtThemeDemoWindow(QMainWindow):
         # タイトル
         title_label = QLabel("Qt Theme Manager 統合デモ")
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 18px; font-weight: bold; margin: 10px;")
+        title_label.setStyleSheet(
+            "font-size: 18px; font-weight: bold; margin: 10px;"
+        )
         layout.addWidget(title_label)
 
         # パンくずリスト型アドレスバー
@@ -148,7 +150,9 @@ class QtThemeDemoWindow(QMainWindow):
             )
             self.current_theme_label.setText(f"現在のテーマ: {current_theme}")
 
-            self.logger.info(f"利用可能なテーマ: {list(available_themes.keys())}")
+            self.logger.info(
+                f"利用可能なテーマ: {list(available_themes.keys())}"
+            )
             self.logger.info(f"現在のテーマ: {current_theme}")
 
             # 初期テーマの色情報をデバッグ出力
@@ -179,7 +183,9 @@ class QtThemeDemoWindow(QMainWindow):
             if success:
                 self.logger.info(f"テーマ変更: {theme}")
                 self.current_theme_label.setText(f"現在のテーマ: {theme}")
-                self.log_label.setText(f"ログ: テーマが変更されました → {theme}")
+                self.log_label.setText(
+                    f"ログ: テーマが変更されました → {theme}"
+                )
 
                 # テーマの色情報をデバッグ出力
                 self._debug_theme_colors(theme_manager, theme)
@@ -192,7 +198,9 @@ class QtThemeDemoWindow(QMainWindow):
 
             else:
                 self.logger.error(f"テーマ変更に失敗: {theme}")
-                self.log_label.setText(f"ログ: テーマ変更に失敗しました → {theme}")
+                self.log_label.setText(
+                    f"ログ: テーマ変更に失敗しました → {theme}"
+                )
 
         except Exception as e:
             self.logger.error(f"テーマ変更エラー: {e}")
@@ -227,7 +235,9 @@ class QtThemeDemoWindow(QMainWindow):
                 if text_color != "N/A":
                     try:
                         # テーママネージャーの内部メソッドを呼び出して軽い枠色を計算
-                        light_border = theme_manager._get_light_border_color(text_color)
+                        light_border = theme_manager._get_light_border_color(
+                            text_color
+                        )
                         self.logger.info(f"計算された軽い枠色: {light_border}")
                         self.logger.info(f"  元のテキスト色: {text_color}")
                         self.logger.info(f"  軽い枠色: {light_border}")
@@ -247,7 +257,9 @@ class QtThemeDemoWindow(QMainWindow):
 
             # メインウィンドウにテーマを適用
             apply_theme_to_widget(self, theme_name)
-            self.logger.info(f"メインウィンドウにテーマ '{theme_name}' を適用しました")
+            self.logger.info(
+                f"メインウィンドウにテーマ '{theme_name}' を適用しました"
+            )
 
         except ImportError:
             self.logger.error("qt-theme-manager is not available")
@@ -264,7 +276,9 @@ class QtThemeDemoWindow(QMainWindow):
         else:
             separator = separator_text
 
-        self.logger.info(f"セパレーター変更: {separator_text} -> '{separator}'")
+        self.logger.info(
+            f"セパレーター変更: {separator_text} -> '{separator}'"
+        )
         self.addressbar.setSeparator(separator)
         self.log_label.setText(
             f"ログ: セパレーターが変更されました → '{separator_text}'"
@@ -276,7 +290,9 @@ class QtThemeDemoWindow(QMainWindow):
         height = int(size.replace("px", ""))
         self.logger.info(f"ボタンサイズ変更: {height}px")
         self.addressbar.setButtonHeight(height)
-        self.log_label.setText(f"ログ: ボタンサイズが変更されました → {height}px")
+        self.log_label.setText(
+            f"ログ: ボタンサイズが変更されました → {height}px"
+        )
 
 
 def main():

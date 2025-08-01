@@ -22,7 +22,9 @@ class BreadcrumbItem(QPushButton):
 
     # シグナル
     clicked_with_path = Signal(str)  # パス付きクリックシグナル
-    clicked_with_info = Signal(str, bool)  # パスと最下層フラグ付きクリックシグナル
+    clicked_with_info = Signal(
+        str, bool
+    )  # パスと最下層フラグ付きクリックシグナル
 
     def __init__(
         self,
@@ -111,7 +113,9 @@ class BreadcrumbItem(QPushButton):
         from .logger_setup import get_logger
 
         logger = get_logger("breadcrumb_addressbar.widgets")
-        logger.debug(f"Applied stylesheet for '{self.text()}': {stylesheet[:100]}...")
+        logger.debug(
+            f"Applied stylesheet for '{self.text()}': {stylesheet[:100]}..."
+        )
 
     def refresh_theme(self) -> None:
         """Refresh the button style when theme changes."""

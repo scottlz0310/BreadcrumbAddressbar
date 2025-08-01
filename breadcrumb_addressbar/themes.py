@@ -319,7 +319,9 @@ class ThemeManager(QObject):
                     # 優先順位3: セパレーター色を使用
                     separator_color = theme_data.get("textColor", "#cccccc")
                     if separator_color != text_color:  # テキスト色と異なる場合
-                        self._logger.debug(f"セパレーター色を使用: {separator_color}")
+                        self._logger.debug(
+                            f"セパレーター色を使用: {separator_color}"
+                        )
                         return separator_color
 
             # フォールバック: テキスト色に基づく計算
@@ -347,7 +349,9 @@ class ThemeManager(QObject):
                     elif brightness > 100:  # 中間の明度
                         # 中程度のグレーを使用
                         result = "#999999"
-                        self._logger.debug(f"中間の明度 -> 中程度のグレー: {result}")
+                        self._logger.debug(
+                            f"中間の明度 -> 中程度のグレー: {result}"
+                        )
                         return result
                     else:  # 暗い色（黒に近い）
                         # 明るいグレーを使用

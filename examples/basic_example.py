@@ -71,17 +71,23 @@ class FileManagerWindow(QMainWindow):
 
         # セパレーター設定
         separator_button = QPushButton("セパレーター: >")
-        separator_button.clicked.connect(lambda: self.addressbar.setSeparator(" > "))
+        separator_button.clicked.connect(
+            lambda: self.addressbar.setSeparator(" > ")
+        )
         settings_layout.addWidget(separator_button)
 
         # セパレーターなし
         no_separator_button = QPushButton("セパレーターなし")
-        no_separator_button.clicked.connect(lambda: self.addressbar.setSeparator(""))
+        no_separator_button.clicked.connect(
+            lambda: self.addressbar.setSeparator("")
+        )
         settings_layout.addWidget(no_separator_button)
 
         # ボタンサイズ設定
         size_button = QPushButton("ボタンサイズ: 40px")
-        size_button.clicked.connect(lambda: self.addressbar.setButtonHeight(40))
+        size_button.clicked.connect(
+            lambda: self.addressbar.setButtonHeight(40)
+        )
         settings_layout.addWidget(size_button)
 
         # フォントサイズ設定

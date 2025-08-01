@@ -36,7 +36,9 @@ class DropdownTestFixWindow(QMainWindow):
         # タイトル
         title_label = QLabel("QComboBox ドロップダウン修正テスト")
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 16px; font-weight: bold; margin: 10px;")
+        title_label.setStyleSheet(
+            "font-size: 16px; font-weight: bold; margin: 10px;"
+        )
         layout.addWidget(title_label)
 
         # テスト1: フォーカスイベントを使用
@@ -102,7 +104,9 @@ class DropdownTestFixWindow(QMainWindow):
         """イベントフィルター"""
         if obj == self.combo1 and event.type() == QEvent.FocusOut:
             print("フォーカスアウトイベントを検出")
-            QTimer.singleShot(10, lambda: self._force_close_dropdown(self.combo1))
+            QTimer.singleShot(
+                10, lambda: self._force_close_dropdown(self.combo1)
+            )
         return super().eventFilter(obj, event)
 
     def _force_close_dropdown(self, combo_box):

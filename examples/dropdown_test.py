@@ -35,7 +35,9 @@ class DropdownTestWindow(QMainWindow):
         # タイトル
         title_label = QLabel("QComboBox ドロップダウンテスト")
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("font-size: 16px; font-weight: bold; margin: 10px;")
+        title_label.setStyleSheet(
+            "font-size: 16px; font-weight: bold; margin: 10px;"
+        )
         layout.addWidget(title_label)
 
         # テスト1: 基本的なQComboBox
@@ -59,7 +61,9 @@ class DropdownTestWindow(QMainWindow):
         self.combo2.addItems(["選択肢A", "選択肢B", "選択肢C"])
         self.combo2.activated.connect(self.on_combo2_activated)
         self.combo2.currentIndexChanged.connect(
-            lambda _: QTimer.singleShot(50, lambda: self._close_dropdown(self.combo2))
+            lambda _: QTimer.singleShot(
+                50, lambda: self._close_dropdown(self.combo2)
+            )
         )
         test2_layout.addWidget(self.combo2)
 

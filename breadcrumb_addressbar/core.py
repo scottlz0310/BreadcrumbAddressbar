@@ -5,7 +5,7 @@ Main breadcrumb address bar widget for file manager navigation.
 """
 
 import os
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QFont
@@ -13,7 +13,6 @@ from PySide6.QtWidgets import QHBoxLayout, QLabel, QWidget
 
 from .logger_setup import get_logger
 from .popup import FolderSelectionPopup
-from .themes import get_theme_manager
 from .widgets import BreadcrumbItem
 
 
@@ -269,7 +268,9 @@ class BreadcrumbAddressBar(QWidget):
 
             for part in path_parts:
                 if part:
-                    current_path = os.path.join(current_path, part).replace("\\", "/")
+                    current_path = os.path.join(current_path, part).replace(
+                        "\\", "/"
+                    )
                     display_text = self._get_display_text(part, current_path)
                     parts.append((display_text, current_path))
 
@@ -360,7 +361,9 @@ class BreadcrumbAddressBar(QWidget):
         """
         try:
             # ポップアップの位置を計算（最下層ボタンの下）
-            last_item = self._breadcrumb_items[-1] if self._breadcrumb_items else None
+            last_item = (
+                self._breadcrumb_items[-1] if self._breadcrumb_items else None
+            )
             if last_item:
                 popup = FolderSelectionPopup(self)
                 popup.folderSelected.connect(self._on_folder_selected)

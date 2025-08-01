@@ -2,8 +2,6 @@
 Test cases for BreadcrumbAddressBar core functionality.
 """
 
-import os
-
 import pytest
 from PySide6.QtWidgets import QApplication
 
@@ -80,7 +78,10 @@ class TestBreadcrumbAddressBar:
 
     def test_set_custom_labels(self):
         """Test setting custom labels."""
-        labels = {"/home/user": "ホーム", "/home/user/documents": "ドキュメント"}
+        labels = {
+            "/home/user": "ホーム",
+            "/home/user/documents": "ドキュメント",
+        }
         self.addressbar.setCustomLabels(labels)
         assert self.addressbar._custom_labels == labels
 
