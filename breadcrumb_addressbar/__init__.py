@@ -19,4 +19,4 @@ __all__ = [
     "FolderSelectionPopup",
     "ThemeManager",
     "get_theme_manager",
-] 
+]

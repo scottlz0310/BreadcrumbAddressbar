@@ -11,6 +11,7 @@ from PySide6.QtWidgets import QWidget
 # qt-theme-managerのインポート（オプショナル）
 try:
     from theme_manager import ThemeController, apply_theme_to_widget
+
     THEME_MANAGER_AVAILABLE = True
 except ImportError:
     THEME_MANAGER_AVAILABLE = False
@@ -23,78 +24,79 @@ from .logger_setup import get_logger
 class ThemeManager(QObject):
     """
     Theme manager for the breadcrumb address bar.
-    
+
     Integrates with qt-theme-manager for consistent theming.
     """
-    
+
     def __init__(self):
         """Initialize the theme manager."""
         super().__init__()
         self._logger = get_logger("breadcrumb_addressbar.themes")
-        
+
         if THEME_MANAGER_AVAILABLE:
             self._theme_controller = ThemeController()
         else:
             self._theme_controller = None
             self._logger.warning("qt-theme-manager is not available")
-    
-    def apply_theme_to_widget(self, widget: QWidget, 
-                            theme_name: Optional[str] = None) -> bool:
+
+    def apply_theme_to_widget(
+        self, widget: QWidget, theme_name: Optional[str] = None
+    ) -> bool:
         """
         Apply theme to a widget using qt-theme-manager.
-        
+
         Args:
             widget: Widget to apply theme to
             theme_name: Name of theme to apply (uses current theme if None)
-            
+
         Returns:
             True if theme was successfully applied
         """
         if not THEME_MANAGER_AVAILABLE:
             self._logger.warning("qt-theme-manager is not available")
             return False
-            
+
         try:
             return apply_theme_to_widget(widget, theme_name)
         except Exception as e:
             self._logger.error(f"Failed to apply theme: {e}")
             return False
-    
+
     def get_current_theme_name(self) -> str:
         """
         Get the current theme name.
-        
+
         Returns:
             Current theme name
         """
         if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
             raise RuntimeError("qt-theme-manager is not available")
         return self._theme_controller.get_current_theme_name()
-    
+
     def get_available_themes(self) -> dict:
         """
         Get available themes.
-        
+
         Returns:
             Dictionary of available themes
         """
         if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
             raise RuntimeError("qt-theme-manager is not available")
         return self._theme_controller.get_available_themes()
-    
+
     def set_theme(self, theme_name: str) -> bool:
         """
         Set the current theme.
-        
+
         Args:
             theme_name: Name of theme to set
-            
+
         Returns:
             True if theme was successfully set
         """
         if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
             raise RuntimeError("qt-theme-manager is not available")
-            
+
         try:
             self._theme_controller.set_theme(theme_name)
             self._logger.info(f"Theme changed to: {theme_name}")
@@ -102,11 +104,11 @@ class ThemeManager(QObject):
         except Exception as e:
             self._logger.error(f"Failed to set theme: {e}")
             return False
-    
+
     def refresh_widget_styles(self, widget) -> None:
         """
         Refresh styles for a widget after theme change.
-        
+
         Args:
             widget: Widget to refresh styles for
         """
@@ -116,41 +118,43 @@ class ThemeManager(QObject):
             self._logger.debug(f"Refreshed styles for widget: {widget}")
         except Exception as e:
             self._logger.error(f"Failed to refresh widget styles: {e}")
-    
+
     def get_button_stylesheet(self, is_current: bool = False) -> str:
         """
         Get button stylesheet that adapts to the current theme.
-        
+
         Args:
             is_current: Whether this is the current folder button
-            
+
         Returns:
             CSS stylesheet string
         """
         if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
             raise RuntimeError("qt-theme-manager is not available")
-            
+
         # qt-theme-managerのテーマ情報を取得
         current_theme = self._theme_controller.get_current_theme_name()
         themes = self._theme_controller.get_available_themes()
-        
+
         if current_theme in themes:
             theme_data = themes[current_theme]
-            button_data = theme_data.get('button', {})
-            
+            button_data = theme_data.get("button", {})
+
             # デバッグログ
-            self._logger.debug(f"Generating stylesheet for theme: {current_theme}, is_current: {is_current}")
+            self._logger.debug(
+                f"Generating stylesheet for theme: {current_theme}, is_current: {is_current}"
+            )
             self._logger.debug(f"Theme data keys: {list(theme_data.keys())}")
             self._logger.debug(f"Button data: {button_data}")
-            
+
             # テキスト色の取得を改善
-            text_color = theme_data.get('textColor', '#333333')
-            if not text_color or text_color == '#333333':
+            text_color = theme_data.get("textColor", "#333333")
+            if not text_color or text_color == "#333333":
                 # フォールバック: テーマのprimaryColorを使用
-                text_color = theme_data.get('primaryColor', '#333333')
-            
+                text_color = theme_data.get("primaryColor", "#333333")
+
             self._logger.debug(f"Using text color: {text_color}")
-            
+
             if is_current:
                 return f"""
                     QPushButton {{
@@ -172,17 +176,19 @@ class ThemeManager(QObject):
                 """
             else:
                 # 非選択ボタン用のより詳細なスタイル
-                hover_bg = button_data.get('hover', '#f0f0f0')
-                hover_border = button_data.get('border', '#d0d0d0')
-                pressed_bg = button_data.get('pressed', '#e0e0e0')
-                focus_color = button_data.get('focus', '#0078d4')
-                
+                hover_bg = button_data.get("hover", "#f0f0f0")
+                hover_border = button_data.get("border", "#d0d0d0")
+                pressed_bg = button_data.get("pressed", "#e0e0e0")
+                focus_color = button_data.get("focus", "#0078d4")
+
                 # 非選択ボタン用の軽い枠色を計算
                 # テキスト色をベースに、透明度を下げた色を使用
                 light_border = self._get_light_border_color(text_color)
-                
-                self._logger.debug(f"Non-current button colors - text: {text_color}, hover_bg: {hover_bg}, light_border: {light_border}")
-                
+
+                self._logger.debug(
+                    f"Non-current button colors - text: {text_color}, hover_bg: {hover_bg}, light_border: {light_border}"
+                )
+
                 return f"""
                     QPushButton {{
                         background-color: transparent;
@@ -208,7 +214,7 @@ class ThemeManager(QObject):
                         color: {text_color};
                     }}
                 """
-        
+
         # フォールバック: システムパレットを使用
         if is_current:
             return """
@@ -251,34 +257,34 @@ class ThemeManager(QObject):
                     outline: none;
                 }
             """
-    
+
     def get_separator_color(self) -> str:
         """
         Get separator color that adapts to the current theme.
-        
+
         Returns:
             Color string
         """
         if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
             raise RuntimeError("qt-theme-manager is not available")
-            
+
         current_theme = self._theme_controller.get_current_theme_name()
         themes = self._theme_controller.get_available_themes()
-        
+
         if current_theme in themes:
             theme_data = themes[current_theme]
-            return theme_data.get('textColor', '#cccccc')
-        
+            return theme_data.get("textColor", "#cccccc")
+
         return "palette(mid)"
-    
+
     def _get_light_border_color(self, text_color: str) -> str:
         """
         Get a light border color based on the text color.
         First tries to use existing theme colors, then falls back to calculation.
-        
+
         Args:
             text_color: Base text color (hex format)
-            
+
         Returns:
             Light border color (hex format)
         """
@@ -287,44 +293,50 @@ class ThemeManager(QObject):
             if THEME_MANAGER_AVAILABLE and self._theme_controller is not None:
                 current_theme = self._theme_controller.get_current_theme_name()
                 themes = self._theme_controller.get_available_themes()
-                
+
                 if current_theme in themes:
                     theme_data = themes[current_theme]
-                    button_data = theme_data.get('button', {})
-                    
+                    button_data = theme_data.get("button", {})
+
                     # 優先順位1: ボタンのborder色（非選択状態用）
-                    if 'border' in button_data:
-                        border_color = button_data['border']
-                        self._logger.debug(f"テーマのボタンborder色を使用: {border_color}")
+                    if "border" in button_data:
+                        border_color = button_data["border"]
+                        self._logger.debug(
+                            f"テーマのボタンborder色を使用: {border_color}"
+                        )
                         return border_color
-                    
+
                     # 優先順位2: panelのborder色を使用
-                    panel_data = theme_data.get('panel', {})
-                    if 'border' in panel_data:
-                        panel_border_color = panel_data['border']
-                        self._logger.debug(f"panelのborder色を使用: {panel_border_color}")
+                    panel_data = theme_data.get("panel", {})
+                    if "border" in panel_data:
+                        panel_border_color = panel_data["border"]
+                        self._logger.debug(
+                            f"panelのborder色を使用: {panel_border_color}"
+                        )
                         return panel_border_color
-                    
+
                     # 優先順位3: セパレーター色を使用
-                    separator_color = theme_data.get('textColor', '#cccccc')
+                    separator_color = theme_data.get("textColor", "#cccccc")
                     if separator_color != text_color:  # テキスト色と異なる場合
                         self._logger.debug(f"セパレーター色を使用: {separator_color}")
                         return separator_color
-            
+
             # フォールバック: テキスト色に基づく計算
-            if text_color.startswith('#'):
+            if text_color.startswith("#"):
                 hex_color = text_color[1:]  # '#'を除去
                 if len(hex_color) == 6:
                     r = int(hex_color[0:2], 16)
                     g = int(hex_color[2:4], 16)
                     b = int(hex_color[4:6], 16)
-                    
+
                     # 明度を計算（0-255の範囲で）
                     brightness = (r + g + b) / 3
-                    
+
                     # デバッグログを追加
-                    self._logger.debug(f"色計算: RGB({r},{g},{b}) -> 明度: {brightness:.1f}")
-                    
+                    self._logger.debug(
+                        f"色計算: RGB({r},{g},{b}) -> 明度: {brightness:.1f}"
+                    )
+
                     # 明度に基づいて適切な枠色を決定
                     if brightness > 200:  # 明るい色（白に近い）
                         # 暗いグレーを使用
@@ -341,10 +353,10 @@ class ThemeManager(QObject):
                         result = "#cccccc"
                         self._logger.debug(f"暗い色 -> 明るいグレー: {result}")
                         return result
-            
+
             # フォールバック: デフォルトの軽いグレー
             return "#cccccc"
-            
+
         except (ValueError, IndexError):
             # エラーが発生した場合はデフォルトの軽いグレー
             return "#cccccc"
@@ -357,8 +369,8 @@ _theme_manager = ThemeManager()
 def get_theme_manager() -> ThemeManager:
     """
     Get the global theme manager instance.
-    
+
     Returns:
         Theme manager instance
     """
-    return _theme_manager 
+    return _theme_manager
