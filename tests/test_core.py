@@ -3,11 +3,24 @@ Test cases for BreadcrumbAddressBar core functionality.
 """
 
 import pytest
-from PySide6.QtWidgets import QApplication
 
-from breadcrumb_addressbar import BreadcrumbAddressBar
+try:
+    from PySide6.QtWidgets import QApplication
+    PYSIDE6_AVAILABLE = True
+except ImportError:
+    PYSIDE6_AVAILABLE = False
+
+try:
+    from breadcrumb_addressbar import BreadcrumbAddressBar
+    BREADCRUMB_AVAILABLE = True
+except ImportError:
+    BREADCRUMB_AVAILABLE = False
 
 
+@pytest.mark.skipif(
+    not PYSIDE6_AVAILABLE or not BREADCRUMB_AVAILABLE,
+    reason="PySide6 or breadcrumb_addressbar not available"
+)
 class TestBreadcrumbAddressBar:
     """Test cases for BreadcrumbAddressBar class."""
 

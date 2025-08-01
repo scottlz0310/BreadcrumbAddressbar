@@ -274,7 +274,9 @@ class BreadcrumbAddressBar(QWidget):
                             current_path = current_path + part
                         else:
                             current_path = current_path + "\\" + part
-                        display_text = self._get_display_text(part, current_path)
+                        display_text = self._get_display_text(
+                            part, current_path
+                        )
                         parts.append((display_text, current_path))
             else:
                 # Unixパスの場合
@@ -283,10 +285,12 @@ class BreadcrumbAddressBar(QWidget):
 
                 for part in path_parts:
                     if part:
-                        current_path = os.path.join(current_path, part).replace(
-                            "\\", "/"
+                        current_path = os.path.join(
+                            current_path, part
+                        ).replace("\\", "/")
+                        display_text = self._get_display_text(
+                            part, current_path
                         )
-                        display_text = self._get_display_text(part, current_path)
                         parts.append((display_text, current_path))
 
         return parts
