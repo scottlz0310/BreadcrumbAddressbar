@@ -158,22 +158,28 @@ class ThemeManager(QObject):
             self._logger.debug(f"Using text color: {text_color}")
 
             if is_current:
+                bg_color = button_data.get("background", "#0078d4")
+                text_color_btn = button_data.get("text", "#ffffff")
+                border_color = button_data.get("border", "#0078d4")
+                hover_color = button_data.get("hover", "#106ebe")
+                pressed_color = button_data.get("pressed", "#005a9e")
+
                 return f"""
                     QPushButton {{
-                        background-color: {button_data.get('background', '#0078d4')};
-                        color: {button_data.get('text', '#ffffff')};
-                        border: 1px solid {button_data.get('border', '#0078d4')};
+                        background-color: {bg_color};
+                        color: {text_color_btn};
+                        border: 1px solid {border_color};
                         border-radius: 4px;
                         padding: 4px 8px;
                         font-weight: bold;
                     }}
                     QPushButton:hover {{
-                        background-color: {button_data.get('hover', '#106ebe')};
-                        border-color: {button_data.get('hover', '#106ebe')};
+                        background-color: {hover_color};
+                        border-color: {hover_color};
                     }}
                     QPushButton:pressed {{
-                        background-color: {button_data.get('pressed', '#005a9e')};
-                        border-color: {button_data.get('pressed', '#005a9e')};
+                        background-color: {pressed_color};
+                        border-color: {pressed_color};
                     }}
                 """
             else:
@@ -188,7 +194,9 @@ class ThemeManager(QObject):
                 light_border = self._get_light_border_color(text_color)
 
                 self._logger.debug(
-                    f"Non-current button colors - text: {text_color}, hover_bg: {hover_bg}, light_border: {light_border}"
+                    f"Non-current button colors - text: "
+                    f"{text_color}, hover_bg: {hover_bg}, "
+                    f"light_border: {light_border}"
                 )
 
                 return f"""
@@ -282,7 +290,8 @@ class ThemeManager(QObject):
     def _get_light_border_color(self, text_color: str) -> str:
         """
         Get a light border color based on the text color.
-        First tries to use existing theme colors, then falls back to calculation.
+        First tries to use existing theme colors, then falls back to
+        calculation.
 
         Args:
             text_color: Base text color (hex format)
@@ -313,15 +322,16 @@ class ThemeManager(QObject):
                     if "border" in panel_data:
                         panel_border_color = panel_data["border"]
                         self._logger.debug(
-                            f"panelのborder色を使用: {panel_border_color}"
+                            f"panelのborder色を使用: " f"{panel_border_color}"
                         )
                         return panel_border_color
 
                     # 優先順位3: セパレーター色を使用
                     separator_color = theme_data.get("textColor", "#cccccc")
-                    if separator_color != text_color:  # テキスト色と異なる場合
+                    # テキスト色と異なる場合
+                    if separator_color != text_color:
                         self._logger.debug(
-                            f"セパレーター色を使用: {separator_color}"
+                            f"セパレーター色を使用: " f"{separator_color}"
                         )
                         return separator_color
 
