@@ -119,7 +119,7 @@ def main():
     
     # テストを実行
     print("\nテストを実行中...")
-    run_command("python -m pytest tests/ -v")
+    run_command("python -m pytest tests/ -v --tb=short")
     
     # リントを実行
     print("\nリントを実行中...")
