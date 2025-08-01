@@ -9,18 +9,19 @@ Demonstrates the new features added in Phase 2:
 - Enhanced customization
 """
 
-import sys
-import os
 import logging
+import os
+import sys
+
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QApplication,
+    QComboBox,
+    QHBoxLayout,
+    QLabel,
     QMainWindow,
     QVBoxLayout,
-    QHBoxLayout,
     QWidget,
-    QLabel,
-    QComboBox,
 )
 
 from breadcrumb_addressbar import BreadcrumbAddressBar, get_theme_manager

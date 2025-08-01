@@ -28,10 +28,11 @@ jobs:
     
     - name: Run tests
       run: |
-        pytest tests/ -v --tb=short -m "not qt"
+        pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
       env:
         QT_QPA_PLATFORM: offscreen
         DISPLAY: :99
+        PYTEST_DISABLE_PLUGIN_AUTOLOAD: "pytestqt"
     
     - name: Run linting
       run: |

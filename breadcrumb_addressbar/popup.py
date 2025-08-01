@@ -6,10 +6,10 @@ Popup menu for folder selection in the breadcrumb address bar.
 
 import os
 from typing import List, Optional, Tuple
+
+from PySide6.QtCore import QPoint, Signal
+from PySide6.QtGui import QAction, QFont
 from PySide6.QtWidgets import QMenu, QWidget
-from PySide6.QtGui import QAction
-from PySide6.QtCore import Signal, QPoint
-from PySide6.QtGui import QFont
 
 from .logger_setup import get_logger
 

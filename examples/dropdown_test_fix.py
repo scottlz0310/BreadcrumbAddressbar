@@ -5,17 +5,18 @@ Dropdown Test Fix - Test various solutions for QComboBox dropdown issues
 Test different approaches to fix QComboBox dropdown not closing in WSL2.
 """
 
-import sys
 import os
-from PySide6.QtCore import Qt, QTimer, QEvent
+import sys
+
+from PySide6.QtCore import QEvent, Qt, QTimer
 from PySide6.QtWidgets import (
     QApplication,
+    QComboBox,
+    QHBoxLayout,
+    QLabel,
     QMainWindow,
     QVBoxLayout,
-    QHBoxLayout,
     QWidget,
-    QLabel,
-    QComboBox,
 )
 
 

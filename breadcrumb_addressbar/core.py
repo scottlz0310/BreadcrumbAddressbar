@@ -12,9 +12,9 @@ from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QWidget
 
 from .logger_setup import get_logger
-from .widgets import BreadcrumbItem
 from .popup import FolderSelectionPopup
 from .themes import get_theme_manager
+from .widgets import BreadcrumbItem
 
 
 class BreadcrumbAddressBar(QWidget):

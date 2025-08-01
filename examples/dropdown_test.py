@@ -6,15 +6,16 @@ Simple test to isolate QComboBox dropdown issues.
 """
 
 import sys
+
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
     QApplication,
+    QComboBox,
+    QHBoxLayout,
+    QLabel,
     QMainWindow,
     QVBoxLayout,
-    QHBoxLayout,
     QWidget,
-    QLabel,
-    QComboBox,
 )
 
 

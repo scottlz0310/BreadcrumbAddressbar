@@ -5,9 +5,9 @@ A breadcrumb-style address bar for PySide6/PyQt6 file managers.
 """
 
 from .core import BreadcrumbAddressBar
-from .widgets import BreadcrumbItem
 from .popup import FolderSelectionPopup
 from .themes import ThemeManager, get_theme_manager
+from .widgets import BreadcrumbItem
 
 __version__ = "0.1.0"
 __author__ = "Your Name"
