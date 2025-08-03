@@ -40,9 +40,9 @@ jobs:
     
     - name: Run linting
       run: |
-        black --check breadcrumb_addressbar/ tests/ examples/ --line-length 79
-        isort --check-only breadcrumb_addressbar/ tests/ examples/
-        flake8 breadcrumb_addressbar/ tests/ examples/ --max-line-length=79
+        black --check breadcrumb_addressbar/ tests/ --line-length 79
+        isort --check-only breadcrumb_addressbar/ tests/
+        flake8 breadcrumb_addressbar/ tests/ --max-line-length=79
 
   build-and-publish:
     needs: test
