@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2025-08-03
+
+### Added
+- **Comprehensive Demo**: 包括的なデモスクリプトの作成
+  - `comprehensive_demo.py`で全機能を統合
+  - タブ形式のUIで基本機能、テーマ管理、高度な機能を分類
+  - 動的カスタマイズ機能の統合
+  - ログ表示機能の追加
+- **Examples Package**: デモスクリプトのパッケージ化
+  - `examples`ディレクトリを`breadcrumb_addressbar`パッケージ内に移動
+  - pipインストール後でもデモスクリプトが実行可能に
+  - `python -m breadcrumb_addressbar.examples.comprehensive_demo`で実行可能
+- **Package Structure**: パッケージ構造の改善
+  - `breadcrumb_addressbar/examples/__init__.py`を追加
+  - モジュールとして正しく認識されるように設定
+
+### Changed
+- **Demo Consolidation**: デモスクリプトの統合
+  - `basic_example.py`, `qt_theme_demo.py`, `phase2_example.py`を統合
+  - WSL2問題のある`dropdown_test.py`, `dropdown_test_fix.py`を削除
+  - 単一の包括的デモで全機能を紹介
+
+### Fixed
+- **Module Import**: デモスクリプトのモジュールインポート問題を解決
+  - `ModuleNotFoundError: No module named 'breadcrumb_addressbar.examples'`を修正
+  - パッケージ構造の統一化
+
 ## [0.2.1] - 2025-08-01
 
 ### Added

@@ -6,7 +6,7 @@
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/yourusername/BreadcrumbAddressbar.git
+git clone https://github.com/scottlz0310/BreadcrumbAddressbar.git
 cd BreadcrumbAddressbar
 
 # 仮想環境を作成
@@ -17,6 +17,13 @@ venv\Scripts\activate     # Windows
 
 # 依存関係をインストール
 pip install -e .
+```
+
+### デモの実行
+
+```bash
+# 包括的デモ（推奨）
+python -m breadcrumb_addressbar.examples.comprehensive_demo
 ```
 
 ### 基本的な使用方法

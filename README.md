@@ -86,17 +86,18 @@ addressbar.enableBookmarks(True)
 
 ## デモ
 
-プロジェクトには複数のデモが含まれています：
+プロジェクトには包括的なデモが含まれています：
 
-### 基本的なデモ
+### 包括的デモ（推奨）
 ```bash
-python examples/basic_example.py
+python -m breadcrumb_addressbar.examples.comprehensive_demo
 ```
 
-### Phase 2機能のデモ（テーマ統合）
-```bash
-python examples/qt_theme_demo.py
-```
+このデモは以下の機能を統合しています：
+- 📋 **基本機能**: パンくずリストの基本的な使用方法
+- 🎨 **テーマ管理**: qt-theme-managerとの統合
+- 🚀 **高度な機能**: フォルダ選択ポップアップ、キーボードナビゲーション
+- ⚙️ **動的カスタマイズ**: セパレーター、サイズ、カスタムラベルの変更
 
 ## 開発・リリース
 
@@ -164,10 +165,7 @@ WSL2（Windows Subsystem for Linux 2）環境では、PySide6のQComboBoxドロ�
 
 **注意:** この問題はBreadcrumbAddressBarライブラリ自体の問題ではなく、WSL2環境の制限です。ライブラリの機能は正常に動作します。
 
-### Phase 2機能のデモ（オリジナル）
-```bash
-python examples/phase2_demo.py
-```
+
 
 ## 開発
 
