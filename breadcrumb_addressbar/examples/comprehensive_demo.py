@@ -395,7 +395,7 @@ class ComprehensiveDemoWindow(QMainWindow):
         custom_labels = {
             os.path.expanduser("~"): "🏠 ホーム",
             "/": "💻 ルート",
-            "/tmp": "📁 一時ファイル",
+            os.path.join(os.path.sep, "tmp"): "📁 一時ファイル",  # nosec B108
         }
         self.addressbar.setCustomLabels(custom_labels)
         self.log_message("カスタムラベルを設定しました")
@@ -412,7 +412,7 @@ def main():
 
     # アプリケーション情報
     app.setApplicationName("Breadcrumb Address Bar - Comprehensive Demo")
-    app.setApplicationVersion("0.2.2")
+    app.setApplicationVersion("0.2.3")
     app.setOrganizationName("Your Organization")
 
     # ウィンドウを作成して表示

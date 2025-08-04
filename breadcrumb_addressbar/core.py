@@ -5,7 +5,7 @@ Main breadcrumb address bar widget for file manager navigation.
 """
 
 import os
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QFont
@@ -44,6 +44,12 @@ class BreadcrumbAddressBar(QWidget):
         self._font_size = 10
         self._separator = ""
         self._custom_labels: Dict[str, str] = {}
+
+        # 新しい設定オプション
+        self._show_popup_for_all_buttons = (
+            True  # どのボタンでもポップアップを表示
+        )
+        self._popup_position_offset = (0, 2)  # ポップアップの位置オフセット
 
         # ロガー
         self._logger = get_logger("breadcrumb_addressbar.core")
@@ -108,6 +114,49 @@ class BreadcrumbAddressBar(QWidget):
         if height > 0 and height != self._button_height:
             self._button_height = height
             self._update_button_sizes()
+
+    def setShowPopupForAllButtons(self, enabled: bool) -> None:
+        """
+        Set whether to show popup for all buttons or only the current folder
+        button.
+
+        Args:
+            enabled: True to show popup for all buttons, False for current
+                     folder only
+        """
+        if enabled != self._show_popup_for_all_buttons:
+            self._show_popup_for_all_buttons = enabled
+            self._logger.debug(f"Show popup for all buttons: {enabled}")
+
+    def getShowPopupForAllButtons(self) -> bool:
+        """
+        Get whether popup is shown for all buttons.
+
+        Returns:
+            True if popup is shown for all buttons, False if only for current
+            folder
+        """
+        return self._show_popup_for_all_buttons
+
+    def setPopupPositionOffset(self, offset: Tuple[int, int]) -> None:
+        """
+        Set the popup position offset.
+
+        Args:
+            offset: Tuple of (x, y) offset values
+        """
+        if offset != self._popup_position_offset:
+            self._popup_position_offset = offset
+            self._logger.debug(f"Popup position offset set to: {offset}")
+
+    def getPopupPositionOffset(self) -> Tuple[int, int]:
+        """
+        Get the current popup position offset.
+
+        Returns:
+            Tuple of (x, y) offset values
+        """
+        return self._popup_position_offset
 
     def refresh_theme(self) -> None:
         """
@@ -364,32 +413,50 @@ class BreadcrumbAddressBar(QWidget):
         )
 
         if path:
-            # 最下層ボタン（現在のフォルダ）の場合はポップアップを表示
-            if is_current:
-                self._logger.debug("Showing folder popup for current path")
+            # 設定に応じてポップアップを表示
+            if self._show_popup_for_all_buttons:
+                # どのボタンでもポップアップを表示
+                self._logger.debug("Showing folder popup for clicked button")
                 self._show_folder_popup(path)
             else:
-                self._logger.debug(f"Navigating to path: {path}")
-                self.setPath(path)
+                # 従来の動作: 最下層ボタン（現在のフォルダ）の場合はポップアップを表示
+                if is_current:
+                    self._logger.debug("Showing folder popup for current path")
+                    self._show_folder_popup(path)
+                else:
+                    self._logger.debug(f"Navigating to path: {path}")
+                    self.setPath(path)
 
     def _show_folder_popup(self, path: str) -> None:
         """
-        Show folder selection popup for the current path.
+        Show folder selection popup for the specified path.
 
         Args:
-            path: Current folder path
+            path: Folder path to show popup for
         """
         try:
-            # ポップアップの位置を計算（最下層ボタンの下）
-            last_item = (
-                self._breadcrumb_items[-1] if self._breadcrumb_items else None
-            )
-            if last_item:
+            # クリックされたボタンを特定
+            clicked_item = None
+            for item in self._breadcrumb_items:
+                if item.path == path:
+                    clicked_item = item
+                    break
+
+            # ボタンが見つからない場合は最後のボタンを使用
+            if not clicked_item and self._breadcrumb_items:
+                clicked_item = self._breadcrumb_items[-1]
+
+            if clicked_item:
                 popup = FolderSelectionPopup(self)
                 popup.folderSelected.connect(self._on_folder_selected)
 
-                # ボタンの下にポップアップを表示
-                pos = last_item.mapToGlobal(last_item.rect().bottomLeft())
+                # クリックされたボタンの下にポップアップを表示
+                pos = clicked_item.mapToGlobal(
+                    clicked_item.rect().bottomLeft()
+                )
+                # オフセットを適用
+                pos.setX(pos.x() + self._popup_position_offset[0])
+                pos.setY(pos.y() + self._popup_position_offset[1])
                 popup.showForPath(path, (pos.x(), pos.y()))
 
                 self._logger.debug(f"Showing folder popup for path: {path}")

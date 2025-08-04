@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3] - 2025-08-04
+
+### Added
+- **Code Quality Guidelines**: 包括的なコード品質ガイドラインの追加
+  - `docs/CODE_QUALITY.md`の作成
+  - コーディング規約、ベストプラクティス、トラブルシューティングを含む
+- **Security Tools**: セキュリティチェックツールの統合
+  - banditによるセキュリティ脆弱性チェック
+  - safetyによる依存関係の脆弱性チェック
+- **Enhanced CI/CD**: CI/CDパイプラインの強化
+  - セキュリティチェックの追加
+  - カバレッジレポートの生成
+  - 品質ゲートの追加
+
+### Changed
+- **CI/CD Pipeline**: GitHub Actionsワークフローの改善
+  - テスト実行にカバレッジレポートを追加
+  - セキュリティチェック（bandit, safety）を追加
+  - パッケージ検証（twine check）を追加
+  - 品質ゲートジョブの追加
+
+### Fixed
+- **Code Quality**: コード品質の問題を修正
+  - flake8エラー（行長超過）を修正
+  - セキュリティ警告（ハードコーディングされたパス）を修正
+  - 末尾の空白文字を削除
+- **Security**: セキュリティベストプラクティスの適用
+  - `/tmp`ディレクトリのハードコーディング問題を修正
+  - `os.path.join()`を使用した安全なパス構築に変更
+
 ## [0.2.2] - 2025-08-03
 
 ### Added

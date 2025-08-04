@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="breadcrumb-addressbar",
-    version="0.2.2",
+    version="0.2.3",
     author="scottlz0310",
     author_email="scott.lz0310@gmail.com",
     description=(

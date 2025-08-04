@@ -161,7 +161,7 @@
 - Cursor IDE
 - Python仮想環境推奨
 - 型チェック: mypy
-- コードフォーマット: black (line-length=88)
+- コードフォーマット: black (line-length=79)
 - import整理: isort (black profile)
 - リント: flake8
 - テスト: pytest + pytest-qt
