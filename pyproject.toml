@@ -43,6 +43,17 @@ dev = [
     "bandit>=1.7",
 ]
 
+test = [
+    "pytest>=6.0",
+    "pytest-cov>=4.0",
+]
+
+ci = [
+    "pytest>=6.0",
+    "pytest-cov>=4.0",
+    "coverage>=7.0",
+]
+
 [tool.black]
 line-length = 79
 target-version = ['py38']

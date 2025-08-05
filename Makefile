@@ -59,4 +59,10 @@ format-check:
 
 # CI/CD用
 ci-test: format-check lint type-check test
-	@echo "CI/CDテストが完了しました" 
+	@echo "CI/CDテストが完了しました"
+
+ci-test-no-cov:
+	pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
+
+ci-test-with-cov:
+	pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing 
