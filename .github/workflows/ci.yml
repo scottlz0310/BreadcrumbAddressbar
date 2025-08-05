@@ -25,22 +25,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -e ".[ci]"
-        pip install pytest-cov coverage bandit safety
-        # pytest-covが正しくインストールされたか確認
-        python -c "import pytest_cov; print('pytest-cov version:', pytest_cov.__version__)"
+        pip install pytest pytest-cov bandit safety
     
+    - name: Check pytest plugins
+      run: pytest --help
+      
     - name: Run tests with coverage
-      run: |
-        # pytest-covが利用可能かチェック
-        python -c "import pytest_cov" 2>/dev/null && echo "pytest-cov available" || echo "pytest-cov not available"
-        
-        # カバレッジ付きテストを試行
-        if python -c "import pytest_cov" 2>/dev/null; then
-          pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing
-        else
-          echo "pytest-cov not available, running tests without coverage"
-          pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
-        fi
+      run: pytest --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing -m "not qt"
       env:
         QT_QPA_PLATFORM: offscreen
         DISPLAY: :99
