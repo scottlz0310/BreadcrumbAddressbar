@@ -46,6 +46,18 @@ class FolderSelectionPopup(QMenu):
         font.setPointSize(10)
         self.setFont(font)
 
+        # スクロール可能なメニューにするための設定
+        self.setStyleSheet(
+            """
+            QMenu {
+                max-height: 400px;
+            }
+            QMenu::item {
+                padding: 4px 8px;
+            }
+        """
+        )
+
     def showForPath(
         self, path: str, position: Optional[Tuple[int, int]] = None
     ) -> None:

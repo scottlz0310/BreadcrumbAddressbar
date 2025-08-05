@@ -51,12 +51,19 @@ class BreadcrumbAddressBar(QWidget):
         )
         self._popup_position_offset = (0, 2)  # ポップアップの位置オフセット
 
+        # ポップアップ実装の選択（デフォルトはQMenu）
+        self._use_combo_popup = False
+        self._use_list_popup = False
+
         # ロガー
         self._logger = get_logger("breadcrumb_addressbar.core")
 
         # UI要素
         self._layout = QHBoxLayout(self)
         self._breadcrumb_items: List[BreadcrumbItem] = []
+
+        # ポップアップインスタンス（シンプルに戻す）
+        self._popup: Optional[FolderSelectionPopup] = None
 
         # レイアウト設定
         self._setup_layout()
@@ -447,8 +454,12 @@ class BreadcrumbAddressBar(QWidget):
                 clicked_item = self._breadcrumb_items[-1]
 
             if clicked_item:
-                popup = FolderSelectionPopup(self)
-                popup.folderSelected.connect(self._on_folder_selected)
+                # QMenuベースのポップアップを使用
+                if not self._popup:
+                    self._popup = FolderSelectionPopup(self)
+                    self._popup.folderSelected.connect(
+                        self._on_folder_selected
+                    )
 
                 # クリックされたボタンの下にポップアップを表示
                 pos = clicked_item.mapToGlobal(
@@ -457,9 +468,9 @@ class BreadcrumbAddressBar(QWidget):
                 # オフセットを適用
                 pos.setX(pos.x() + self._popup_position_offset[0])
                 pos.setY(pos.y() + self._popup_position_offset[1])
-                popup.showForPath(path, (pos.x(), pos.y()))
+                self._popup.showForPath(path, (pos.x(), pos.y()))
 
-                self._logger.debug(f"Showing folder popup for path: {path}")
+                self._logger.debug(f"Showing menu popup for path: {path}")
         except Exception as e:
             self._logger.error(f"Failed to show folder popup: {e}")
 

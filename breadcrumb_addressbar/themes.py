@@ -287,6 +287,175 @@ class ThemeManager(QObject):
 
         return "palette(mid)"
 
+    def get_combo_box_stylesheet(self) -> str:
+        """
+        Get QComboBox stylesheet that adapts to the current theme.
+
+        Returns:
+            QComboBox stylesheet string
+        """
+        if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
+            raise RuntimeError("qt-theme-manager is not available")
+
+        current_theme = self._theme_controller.get_current_theme_name()
+        themes = self._theme_controller.get_available_themes()
+
+        if current_theme in themes:
+            theme_data = themes[current_theme]
+
+            # テーマから色を取得（フォールバック付き）
+            bg_color = theme_data.get("backgroundColor", "#ffffff")
+            text_color = theme_data.get("textColor", "#000000")
+            border_color = theme_data.get("borderColor", "#cccccc")
+            focus_color = theme_data.get("focusColor", "#3399ff")
+
+            # ホバー色の計算
+            hover_bg = theme_data.get("hoverBackgroundColor", "#f0f0f0")
+            if not hover_bg:
+                # 背景色を少し明るくする
+                hover_bg = self._lighten_color(bg_color, 0.1)
+
+            return f"""
+                QComboBox {{
+                    background-color: {bg_color};
+                    color: {text_color};
+                    border: 1px solid {border_color};
+                    border-radius: 4px;
+                    padding: 4px 8px;
+                    min-width: 300px;
+                }}
+                QComboBox:hover {{
+                    background-color: {hover_bg};
+                    border-color: {focus_color};
+                }}
+                QComboBox:focus {{
+                    border-color: {focus_color};
+                    outline: none;
+                }}
+                QComboBox::drop-down {{
+                    border: none;
+                    width: 20px;
+                }}
+                QComboBox::down-arrow {{
+                    image: none;
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    border-top: 5px solid {text_color};
+                    margin-right: 5px;
+                }}
+                QComboBox QAbstractItemView {{
+                    background-color: {bg_color};
+                    color: {text_color};
+                    border: 1px solid {border_color};
+                    selection-background-color: {focus_color};
+                    selection-color: {bg_color};
+                    outline: none;
+                }}
+            """
+
+        # フォールバック: システムパレットを使用
+        return """
+            QComboBox {
+                background-color: palette(base);
+                color: palette(text);
+                border: 1px solid palette(mid);
+                border-radius: 4px;
+                padding: 4px 8px;
+                min-width: 300px;
+            }
+            QComboBox:hover {
+                background-color: palette(light);
+                border-color: palette(highlight);
+            }
+            QComboBox:focus {
+                border-color: palette(highlight);
+                outline: none;
+            }
+            QComboBox::drop-down {
+                border: none;
+                width: 20px;
+            }
+            QComboBox::down-arrow {
+                image: none;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid palette(text);
+                margin-right: 5px;
+            }
+            QComboBox QAbstractItemView {
+                background-color: palette(base);
+                color: palette(text);
+                border: 1px solid palette(mid);
+                selection-background-color: palette(highlight);
+                selection-color: palette(highlighted-text);
+                outline: none;
+            }
+        """
+
+    def get_combo_item_colors(self) -> dict:
+        """
+        Get QComboBox item colors for delegate rendering.
+
+        Returns:
+            Dictionary with color values
+        """
+        if not THEME_MANAGER_AVAILABLE or self._theme_controller is None:
+            raise RuntimeError("qt-theme-manager is not available")
+
+        current_theme = self._theme_controller.get_current_theme_name()
+        themes = self._theme_controller.get_available_themes()
+
+        if current_theme in themes:
+            theme_data = themes[current_theme]
+
+            return {
+                "combo_item_bg": theme_data.get("backgroundColor", "#ffffff"),
+                "combo_text_color": theme_data.get("textColor", "#000000"),
+                "combo_item_selected_bg": theme_data.get(
+                    "focusColor", "#3399ff"
+                ),
+                "combo_item_selected_text_color": theme_data.get(
+                    "backgroundColor", "#ffffff"
+                ),
+            }
+
+        # フォールバック
+        return {
+            "combo_item_bg": "#ffffff",
+            "combo_text_color": "#000000",
+            "combo_item_selected_bg": "#3399ff",
+            "combo_item_selected_text_color": "#ffffff",
+        }
+
+    def _lighten_color(self, color: str, factor: float) -> str:
+        """
+        Lighten a color by a given factor.
+
+        Args:
+            color: Color in hex format (#RRGGBB)
+            factor: Lightening factor (0.0 to 1.0)
+
+        Returns:
+            Lightened color in hex format
+        """
+        try:
+            # #RRGGBB形式をRGBに変換
+            if color.startswith("#"):
+                color = color[1:]
+
+            r = int(color[0:2], 16)
+            g = int(color[2:4], 16)
+            b = int(color[4:6], 16)
+
+            # 色を明るくする
+            r = min(255, int(r + (255 - r) * factor))
+            g = min(255, int(g + (255 - g) * factor))
+            b = min(255, int(b + (255 - b) * factor))
+
+            return f"#{r:02x}{g:02x}{b:02x}"
+        except (ValueError, IndexError):
+            return color
+
     def _get_light_border_color(self, text_color: str) -> str:
         """
         Get a light border color based on the text color.
