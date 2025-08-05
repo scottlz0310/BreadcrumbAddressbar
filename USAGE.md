@@ -155,8 +155,7 @@ BreadcrumbAddressbar/
 ├── docs/                     # ドキュメント
 ├── demo.py                   # デモスクリプト
 ├── setup.py                  # パッケージ設定
-├── pyproject.toml           # プロジェクト設定
-├── requirements.txt         # 依存関係
+├── pyproject.toml           # プロジェクト設定（依存関係含む）
 └── README.md               # プロジェクト説明
 ```
 

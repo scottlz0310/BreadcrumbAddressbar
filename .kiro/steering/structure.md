@@ -70,9 +70,8 @@ from .widgets import BreadcrumbItem
 ## Configuration Files
 
 ### Package Configuration
-- **pyproject.toml**: Modern Python project metadata and tool configuration
+- **pyproject.toml**: Modern Python project metadata, dependencies, and tool configuration
 - **setup.py**: Legacy compatibility and package building
-- **requirements.txt**: Runtime dependencies only
 
 ### Development Configuration
 - **.cursorrules**: Project-specific development guidelines
