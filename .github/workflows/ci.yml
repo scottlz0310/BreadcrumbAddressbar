@@ -24,7 +24,7 @@ jobs:
     - name: Install Qt dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libegl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0
+        sudo apt-get install -y libegl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 xvfb
     
     - name: Install dependencies
       run: |
@@ -33,6 +33,12 @@ jobs:
         pip install pytest pytest-cov coverage bandit safety
         # pytest-covの確認
         python -c "import pytest_cov; print('pytest-cov version:', pytest_cov.__version__)"
+    
+    - name: Start virtual display
+      run: |
+        # 仮想ディスプレイを起動
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        sleep 2
     
     - name: Check pytest plugins
       run: |
@@ -52,17 +58,12 @@ jobs:
       run: |
         # pytest-qtプラグインを無効化してテスト実行
         echo "=== Testing with pytest-cov ==="
-        PYTEST_DISABLE_PLUGIN_AUTOLOAD=pytestqt pytest --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing -m "not qt" || {
-          echo "pytest-cov failed, trying alternative approach..."
-          # 代替手段: coverageコマンドを直接使用
-          coverage run --source=breadcrumb_addressbar -m pytest tests/ -m "not qt"
-          coverage xml
-          coverage report --show-missing
-        }
+        # pytest-qtプラグインを無効化せずにpytest-covを直接使用
+        pytest --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing -m "not qt" --disable-pytest-warnings
+        echo "=== Coverage report generated successfully ==="
       env:
         QT_QPA_PLATFORM: offscreen
         DISPLAY: :99
-        PYTEST_DISABLE_PLUGIN_AUTOLOAD: "pytestqt"
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
