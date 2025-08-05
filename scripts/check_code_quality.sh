@@ -52,9 +52,10 @@ fi
 # 4. カバレッジチェック
 echo "📊 カバレッジチェック中..."
 if command -v pytest &> /dev/null; then
-    if pytest tests/ --cov=breadcrumb_addressbar --cov-report=html --cov-report=term-missing; then
+    if pytest tests/ --cov=breadcrumb_addressbar --cov-report=html --cov-report=term-missing --cov-report=xml; then
         echo "✅ カバレッジチェック完了"
         echo "📁 カバレッジレポート: htmlcov/index.html"
+        echo "📁 XMLレポート: coverage.xml"
     else
         echo "❌ カバレッジチェックでエラーが見つかりました"
         exit 1
