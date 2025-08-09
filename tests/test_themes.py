@@ -11,6 +11,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 def _import_themes_module():
     import importlib
+
     import breadcrumb_addressbar.themes as themes
 
     return importlib.reload(themes)
