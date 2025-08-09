@@ -1,5 +1,10 @@
 # Breadcrumb Address Bar
 
+[![PyPI](https://img.shields.io/pypi/v/breadcrumb-addressbar.svg)](https://pypi.org/project/breadcrumb-addressbar/)
+![Python Versions](https://img.shields.io/pypi/pyversions/breadcrumb-addressbar.svg)
+![License](https://img.shields.io/pypi/l/breadcrumb-addressbar.svg)
+[![Release](https://github.com/scottlz0310/BreadcrumbAddressbar/actions/workflows/release.yml/badge.svg)](https://github.com/scottlz0310/BreadcrumbAddressbar/actions/workflows/release.yml)
+
 PySide6/PyQt6用のパンくずリスト型アドレスバーライブラリです。ファイルマネージャー向けに階層的なナビゲーションを提供します。
 
 ## 特徴
@@ -98,6 +103,13 @@ python -m breadcrumb_addressbar.examples.comprehensive_demo
 - 🎨 **テーマ管理**: qt-theme-managerとの統合
 - 🚀 **高度な機能**: フォルダ選択ポップアップ、キーボードナビゲーション
 - ⚙️ **動的カスタマイズ**: セパレーター、サイズ、カスタムラベルの変更
+
+## リリース情報
+
+- PyPI: `breadcrumb-addressbar` の最新リリースは v0.2.5 です。
+  - リンク: https://pypi.org/project/breadcrumb-addressbar/
+- 変更履歴は `CHANGELOG.md` を参照してください。
+  - リンク: ./CHANGELOG.md
 
 ## 開発・リリース
 
