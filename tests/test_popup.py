@@ -3,29 +3,12 @@ Test cases for FolderSelectionPopup functionality.
 """
 
 import os
-import tempfile
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
 # Headless 環境でのハング防止（CI向け）
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-
-
-try:
-    from PySide6.QtCore import QPoint
-    from PySide6.QtWidgets import QApplication
-
-    PYSIDE6_AVAILABLE = True
-except ImportError:
-    PYSIDE6_AVAILABLE = False
-
-try:
-    from breadcrumb_addressbar.popup import FolderSelectionPopup
-
-    POPUP_AVAILABLE = True
-except ImportError:
-    POPUP_AVAILABLE = False
 
 
 def _is_pytest_qt_enabled() -> bool:
@@ -39,6 +22,20 @@ def _is_pytest_qt_enabled() -> bool:
 
 
 PYTEST_QT_ENABLED = _is_pytest_qt_enabled()
+
+try:
+    from PySide6.QtCore import QPoint
+
+    PYSIDE6_AVAILABLE = True
+except Exception:  # pragma: no cover - import guard only
+    PYSIDE6_AVAILABLE = False
+
+try:
+    from breadcrumb_addressbar.popup import FolderSelectionPopup
+
+    POPUP_AVAILABLE = True
+except Exception:  # pragma: no cover - import guard only
+    POPUP_AVAILABLE = False
 
 
 @pytest.mark.skipif(
@@ -133,45 +130,27 @@ class TestFolderSelectionPopup:
             assert folders == []
 
     @patch("os.listdir")
-    def test_show_for_path_with_folders(self, mock_listdir, tmp_path):
-        """Test showing popup with folders."""
-        # テスト用のディレクトリを設定
-        test_dir = str(tmp_path / "test_dir")
+    def test_populate_for_path_with_folders(self, mock_listdir, tmp_path):
+        """Populate menu actions when folders exist (no UI)."""
+        test_dir_path = tmp_path / "test_dir"
+        test_dir_path.mkdir()
+        test_dir = str(test_dir_path)
         mock_listdir.return_value = ["folder1", "folder2"]
-
-        # フォルダのstat情報をモック
-        with patch("os.path.isdir") as mock_isdir:
-            mock_isdir.return_value = True
-
-            # ポップアップ表示をモック
-            with patch.object(self.popup, "popup") as mock_popup:
-                self.popup.showForPath(test_dir)
-
-                # 検証
-                assert self.popup._current_path == test_dir
-                assert len(self.popup.actions()) == 2
-                mock_popup.assert_called_once()
+        with patch("os.path.isdir", return_value=True):
+            self.popup.populateForPath(test_dir)
+            assert self.popup._current_path == test_dir
+            assert len(self.popup.actions()) == 2
 
     @patch("os.listdir")
-    def test_show_for_path_no_folders(self, mock_listdir, tmp_path):
-        """Test showing popup with no folders."""
-        # 空のディレクトリを設定
+    def test_populate_for_path_no_folders(self, mock_listdir, tmp_path):
+        """Populate menu actions when no folders (no UI)."""
         test_dir = str(tmp_path / "empty_dir")
         mock_listdir.return_value = []
-
-        # ポップアップ表示をモック
-        with patch.object(self.popup, "popup") as mock_popup:
-            self.popup.showForPath(test_dir)
-
-            # 検証
-            assert self.popup._current_path == test_dir
-            assert (
-                len(self.popup.actions()) == 1
-            )  # "フォルダが見つかりません"アクション
-            # アクションが無効化されているかチェック
-            action = self.popup.actions()[0]
-            assert not action.isEnabled()
-            mock_popup.assert_called_once()
+        self.popup.populateForPath(test_dir)
+        assert self.popup._current_path == test_dir
+        assert len(self.popup.actions()) == 1
+        action = self.popup.actions()[0]
+        assert not action.isEnabled()
 
     def test_show_for_path_with_position(self, tmp_path):
         """Test showing popup with position."""
@@ -207,21 +186,19 @@ class TestFolderSelectionPopup:
 
     def test_on_folder_selected(self):
         """Test folder selection handler."""
-        signal_emitted = False
-        received_path = ""
+        signal_emitted = {"flag": False, "path": ""}
 
         def on_folder_selected(path):
-            nonlocal signal_emitted, received_path
-            signal_emitted = True
-            received_path = path
+            signal_emitted["flag"] = True
+            signal_emitted["path"] = path
 
         self.popup.folderSelected.connect(on_folder_selected)
 
         test_path = "/test/path"
         self.popup._on_folder_selected(test_path)
 
-        assert signal_emitted
-        assert received_path == test_path
+        assert signal_emitted["flag"]
+        assert signal_emitted["path"] == test_path
 
     def test_folder_sorting(self, tmp_path):
         """Test that folders are sorted alphabetically."""
@@ -243,7 +220,9 @@ class TestFolderSelectionPopup:
     def test_clear_actions(self):
         """Test that actions are cleared before adding new ones."""
         # 最初にアクションを追加
-        with patch.object(self.popup, "popup"):
+        with patch.object(self.popup, "popup"), patch.object(
+            self.popup, "exec_"
+        ):
             self.popup.showForPath("/some/path")
             initial_count = len(self.popup.actions())
 
