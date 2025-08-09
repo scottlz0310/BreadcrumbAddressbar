@@ -28,9 +28,24 @@ except ImportError:
     POPUP_AVAILABLE = False
 
 
+def _is_pytest_qt_enabled() -> bool:
+    """Return True if pytest-qt plugin is available/enabled."""
+    try:
+        import pytestqt  # type: ignore  # noqa: F401
+
+        return True
+    except Exception:
+        return False
+
+
+PYTEST_QT_ENABLED = _is_pytest_qt_enabled()
+
+
 @pytest.mark.skipif(
-    not PYSIDE6_AVAILABLE or not POPUP_AVAILABLE,
-    reason="PySide6 or FolderSelectionPopup not available",
+    (not PYSIDE6_AVAILABLE)
+    or (not POPUP_AVAILABLE)
+    or (not PYTEST_QT_ENABLED),
+    reason="PySide6/FolderSelectionPopup/pytest-qt not available",
 )
 class TestFolderSelectionPopup:
     """Test cases for FolderSelectionPopup class."""
@@ -127,7 +142,7 @@ class TestFolderSelectionPopup:
         # フォルダのstat情報をモック
         with patch("os.path.isdir") as mock_isdir:
             mock_isdir.return_value = True
-            
+
             # ポップアップ表示をモック
             with patch.object(self.popup, "popup") as mock_popup:
                 self.popup.showForPath(test_dir)
@@ -150,7 +165,9 @@ class TestFolderSelectionPopup:
 
             # 検証
             assert self.popup._current_path == test_dir
-            assert len(self.popup.actions()) == 1  # "フォルダが見つかりません"アクション
+            assert (
+                len(self.popup.actions()) == 1
+            )  # "フォルダが見つかりません"アクション
             # アクションが無効化されているかチェック
             action = self.popup.actions()[0]
             assert not action.isEnabled()
