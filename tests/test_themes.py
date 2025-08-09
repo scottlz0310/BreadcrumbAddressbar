@@ -131,10 +131,7 @@ def test_get_button_stylesheet_and_separator_and_combo_colors(monkeypatch):
     combo_css = tm.get_combo_box_stylesheet()
     colors = tm.get_combo_item_colors()
 
-    assert (
-        "QPushButton" in css_current
-        and "QPushButton" in css_normal
-    )
+    assert "QPushButton" in css_current and "QPushButton" in css_normal
     assert isinstance(sep, str) and sep.startswith("#")
     assert "QComboBox" in combo_css
     assert {

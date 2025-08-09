@@ -1,6 +1,7 @@
 """
 Tests for `breadcrumb_addressbar.core` (BreadcrumbAddressBar).
 """
+
 import os
 
 import pytest
@@ -46,9 +47,7 @@ class _FakeThemeManager:
 
 
 @pytest.mark.skipif(
-    (not PYSIDE6_AVAILABLE)
-    or (not CORE_AVAILABLE)
-    or (not PYTEST_QT_ENABLED),
+    (not PYSIDE6_AVAILABLE) or (not CORE_AVAILABLE) or (not PYTEST_QT_ENABLED),
     reason="PySide6/core/pytest-qt not available",
 )
 class TestBreadcrumbAddressBar:
