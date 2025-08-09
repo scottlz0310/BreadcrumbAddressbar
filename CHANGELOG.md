@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.4] - 2025-08-09
 
+## [0.2.5] - 2025-08-09
+
+### Added
+- `tests/` に以下を追加しカバレッジを向上（合計 86%）
+  - `test_core.py`, `test_widgets.py`, `test_logger_setup.py`, `test_themes.py`
+
+### Changed
+- Black/flake8/isort/mypy の設定に完全準拠するようテストを調整
+- `logger_setup.py` ラッパーログ関数のテスト追加で 100% カバレッジ達成
+- `widgets.py` のキーイベント分岐・サイズヒントをテストでカバーし 100% カバレッジ達成
+
+### Fixed
+- CI での Black/isort のチェック不一致を解消（line-length=79 に統一、import順修正）
+- isort/flake8 の指摘（E501/W391 など）を解消
+
 ### Changed
 - Popup方式を`QToolButton + QMenu`に更新（WSLg環境での自動消去安定化）
 - `FolderSelectionPopup`に`populateForPath`と`exec_`エイリアスを追加
