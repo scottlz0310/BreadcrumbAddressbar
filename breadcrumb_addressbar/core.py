@@ -454,21 +454,27 @@ class BreadcrumbAddressBar(QWidget):
                 clicked_item = self._breadcrumb_items[-1]
 
             if clicked_item:
-                # QMenuベースのポップアップを使用
+                # QMenuベースのポップアップを使用（QToolButtonにアタッチ）
                 if not self._popup:
                     self._popup = FolderSelectionPopup(self)
                     self._popup.folderSelected.connect(
                         self._on_folder_selected
                     )
 
-                # クリックされたボタンの下にポップアップを表示
-                pos = clicked_item.mapToGlobal(
-                    clicked_item.rect().bottomLeft()
-                )
-                # オフセットを適用
-                pos.setX(pos.x() + self._popup_position_offset[0])
-                pos.setY(pos.y() + self._popup_position_offset[1])
-                self._popup.showForPath(path, (pos.x(), pos.y()))
+                # メニュー内容を準備してからボタンにアタッチ
+                self._popup.populateForPath(path)
+                clicked_item.setMenu(self._popup)
+
+                # QToolButtonのメニュー表示（グローバル座標の補正が必要な場合は手動表示）
+                if self._popup_position_offset == (0, 0):
+                    clicked_item.showMenu()
+                else:
+                    pos = clicked_item.mapToGlobal(
+                        clicked_item.rect().bottomLeft()
+                    )
+                    pos.setX(pos.x() + self._popup_position_offset[0])
+                    pos.setY(pos.y() + self._popup_position_offset[1])
+                    self._popup.popup(pos)
 
                 self._logger.debug(f"Showing menu popup for path: {path}")
         except Exception as e:

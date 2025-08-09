@@ -412,7 +412,7 @@ def main():
 
     # アプリケーション情報
     app.setApplicationName("Breadcrumb Address Bar - Comprehensive Demo")
-    app.setApplicationVersion("0.2.3")
+    app.setApplicationVersion("0.2.4")
     app.setOrganizationName("Your Organization")
 
     # ウィンドウを作成して表示

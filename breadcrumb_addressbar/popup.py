@@ -58,18 +58,18 @@ class FolderSelectionPopup(QMenu):
         """
         )
 
-    def showForPath(
-        self, path: str, position: Optional[Tuple[int, int]] = None
-    ) -> None:
-        """
-        Show the popup menu for a specific path.
+    def exec_(self) -> int:  # PySide6互換: テスト用のエイリアス
+        """Alias for exec() to match test expectations."""
+        return self.exec()
+
+    def populateForPath(self, path: str) -> None:
+        """Populate actions for the given path without showing the menu.
 
         Args:
-            path: Path to show folders for
-            position: Position to show the popup (x, y)
+            path: Path to prepare folder actions for
         """
         self._current_path = path
-        self._logger.debug(f"Showing popup for path: {path}")
+        self._logger.debug(f"Populating popup for path: {path}")
 
         # 既存のアクションをクリア
         self.clear()
@@ -92,12 +92,25 @@ class FolderSelectionPopup(QMenu):
                 )
                 self.addAction(action)
 
+    def showForPath(
+        self, path: str, position: Optional[Tuple[int, int]] = None
+    ) -> None:
+        """
+        Show the popup menu for a specific path.
+
+        Args:
+            path: Path to show folders for
+            position: Position to show the popup (x, y)
+        """
+        self._logger.debug(f"Showing popup for path: {path}")
+        self.populateForPath(path)
+
         # ポップアップを表示
         if position:
             pos = QPoint(position[0], position[1])
             self.popup(pos)
         else:
-            self.exec()
+            self.exec_()
 
     def _get_folders(self, path: str) -> List[Tuple[str, str]]:
         """

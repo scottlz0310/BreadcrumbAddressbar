@@ -1,11 +1,11 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages  # type: ignore
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name="breadcrumb-addressbar",
-    version="0.2.3",
+    version="0.2.4",
     author="scottlz0310",
     author_email="scott.lz0310@gmail.com",
     description=(

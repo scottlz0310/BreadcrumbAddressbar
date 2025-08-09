@@ -8,12 +8,12 @@ from typing import Optional
 
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QPushButton, QWidget
+from PySide6.QtWidgets import QToolButton, QWidget
 
 from .logger_setup import get_logger
 
 
-class BreadcrumbItem(QPushButton):
+class BreadcrumbItem(QToolButton):
     """
     Individual breadcrumb button widget.
 
@@ -42,7 +42,8 @@ class BreadcrumbItem(QPushButton):
             is_current: Whether this is the current folder
             parent: Parent widget
         """
-        super().__init__(text, parent)
+        super().__init__(parent)
+        self.setText(text)
         self._path = path
         self._is_current = is_current
         self._logger = get_logger("breadcrumb_addressbar.widgets")
@@ -53,8 +54,9 @@ class BreadcrumbItem(QPushButton):
     def _setup_ui(self) -> None:
         """Setup the UI appearance."""
         # 基本設定
-        self.setFlat(True)
+        self.setAutoRaise(True)
         self.setFocusPolicy(Qt.StrongFocus)
+        self.setToolButtonStyle(Qt.ToolButtonTextOnly)
 
         # フォント設定
         font = QFont()

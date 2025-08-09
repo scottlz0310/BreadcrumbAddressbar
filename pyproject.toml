@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "breadcrumb-addressbar"
-version = "0.2.3"
+version = "0.2.4"
 description = "A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support"
 readme = "README.md"
 license = {text = "MIT"}

@@ -9,7 +9,7 @@ from .popup import FolderSelectionPopup
 from .themes import ThemeManager, get_theme_manager
 from .widgets import BreadcrumbItem
 
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __author__ = "Your Name"
 __email__ = "your.email@example.com"
 
