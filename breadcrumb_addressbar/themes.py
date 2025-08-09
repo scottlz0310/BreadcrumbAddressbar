@@ -6,15 +6,29 @@ Integrates with qt-theme-manager for consistent theming.
 
 from typing import Optional
 
-from PySide6.QtCore import QObject
-from PySide6.QtWidgets import QWidget
+# PySide6 の読み込みはCI等の環境で失敗することがあるため、例外時はスタブで代替
+try:  # pragma: no cover - import guard
+    from PySide6.QtCore import QObject
+    from PySide6.QtWidgets import QWidget
+
+    PYSIDE6_AVAILABLE = True
+except Exception:  # pragma: no cover - import guard only
+    PYSIDE6_AVAILABLE = False
+
+    class QObject:  # type: ignore
+        def __init__(self, *args, **kwargs) -> None:
+            pass
+
+    class QWidget:  # type: ignore
+        def __init__(self, *args, **kwargs) -> None:
+            pass
 
 # qt-theme-managerのインポート（オプショナル）
-try:
+try:  # pragma: no cover - import guard
     from theme_manager import ThemeController, apply_theme_to_widget
 
     THEME_MANAGER_AVAILABLE = True
-except ImportError:
+except ImportError:  # pragma: no cover - import guard only
     THEME_MANAGER_AVAILABLE = False
     ThemeController = None
     apply_theme_to_widget = None
