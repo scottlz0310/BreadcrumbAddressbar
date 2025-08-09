@@ -55,7 +55,7 @@ class TestFolderSelectionPopup:
         # UI設定が正しく適用されているかチェック
         assert self.popup.minimumWidth() == 300
         assert self.popup.maximumHeight() == 400
-        
+
         # フォント設定をチェック
         font = self.popup.font()
         assert font.pointSize() == 10
@@ -65,18 +65,18 @@ class TestFolderSelectionPopup:
         # テスト用のディレクトリ構造を作成
         test_dir = tmp_path / "test_dir"
         test_dir.mkdir()
-        
+
         # サブディレクトリを作成
         (test_dir / "folder1").mkdir()
         (test_dir / "folder2").mkdir()
         (test_dir / "file1.txt").touch()  # ファイルは除外される
-        (test_dir / ".hidden").mkdir()    # 隠しフォルダは除外される
-        
+        (test_dir / ".hidden").mkdir()  # 隠しフォルダは除外される
+
         folders = self.popup._get_folders(str(test_dir))
-        
+
         # フォルダ名を抽出
         folder_names = [folder[0] for folder in folders]
-        
+
         assert len(folders) == 2
         assert "folder1" in folder_names
         assert "folder2" in folder_names
@@ -93,25 +93,27 @@ class TestFolderSelectionPopup:
         # テスト用のファイルを作成
         test_file = tmp_path / "test_file.txt"
         test_file.touch()
-        
+
         folders = self.popup._get_folders(str(test_file))
         assert folders == []
 
     def test_get_folders_permission_error(self):
         """Test getting folders with permission error."""
-        with patch('os.listdir', side_effect=PermissionError("Permission denied")):
+        with patch(
+            "os.listdir", side_effect=PermissionError("Permission denied")
+        ):
             folders = self.popup._get_folders("/some/path")
             assert folders == []
 
     def test_get_folders_os_error(self):
         """Test getting folders with OS error."""
-        with patch('os.listdir', side_effect=OSError("OS error")):
+        with patch("os.listdir", side_effect=OSError("OS error")):
             folders = self.popup._get_folders("/some/path")
             assert folders == []
 
     def test_get_folders_general_exception(self):
         """Test getting folders with general exception."""
-        with patch('os.listdir', side_effect=Exception("General error")):
+        with patch("os.listdir", side_effect=Exception("General error")):
             folders = self.popup._get_folders("/some/path")
             assert folders == []
 
@@ -122,22 +124,22 @@ class TestFolderSelectionPopup:
         test_dir.mkdir()
         (test_dir / "folder1").mkdir()
         (test_dir / "folder2").mkdir()
-        
+
         # シグナルが発信されるかチェック
         signal_emitted = False
         received_path = ""
-        
+
         def on_folder_selected(path):
             nonlocal signal_emitted, received_path
             signal_emitted = True
             received_path = path
-        
+
         self.popup.folderSelected.connect(on_folder_selected)
-        
+
         # ポップアップを表示（実際の表示は行わない）
-        with patch.object(self.popup, 'popup'):
+        with patch.object(self.popup, "popup"):
             self.popup.showForPath(str(test_dir))
-        
+
         assert self.popup._current_path == str(test_dir)
         assert len(self.popup.actions()) == 2  # 2つのフォルダアクション
 
@@ -146,14 +148,16 @@ class TestFolderSelectionPopup:
         # 空のディレクトリを作成
         test_dir = tmp_path / "empty_dir"
         test_dir.mkdir()
-        
+
         # ポップアップを表示（実際の表示は行わない）
-        with patch.object(self.popup, 'popup'):
+        with patch.object(self.popup, "popup"):
             self.popup.showForPath(str(test_dir))
-        
+
         assert self.popup._current_path == str(test_dir)
-        assert len(self.popup.actions()) == 1  # "フォルダが見つかりません"アクション
-        
+        assert (
+            len(self.popup.actions()) == 1
+        )  # "フォルダが見つかりません"アクション
+
         # アクションが無効化されているかチェック
         action = self.popup.actions()[0]
         assert not action.isEnabled()
@@ -163,13 +167,13 @@ class TestFolderSelectionPopup:
         test_dir = tmp_path / "test_dir"
         test_dir.mkdir()
         (test_dir / "folder1").mkdir()
-        
+
         position = (100, 200)
-        
+
         # ポップアップを表示（実際の表示は行わない）
-        with patch.object(self.popup, 'popup') as mock_popup:
+        with patch.object(self.popup, "popup") as mock_popup:
             self.popup.showForPath(str(test_dir), position)
-            
+
             # popupメソッドが正しい位置で呼ばれるかチェック
             mock_popup.assert_called_once()
             call_args = mock_popup.call_args[0][0]
@@ -182,11 +186,11 @@ class TestFolderSelectionPopup:
         test_dir = tmp_path / "test_dir"
         test_dir.mkdir()
         (test_dir / "folder1").mkdir()
-        
+
         # ポップアップを表示（実際の表示は行わない）
-        with patch.object(self.popup, 'exec_'):
+        with patch.object(self.popup, "exec_"):
             self.popup.showForPath(str(test_dir))
-            
+
             # exec_メソッドが呼ばれるかチェック
             self.popup.exec_.assert_called_once()
 
@@ -194,17 +198,17 @@ class TestFolderSelectionPopup:
         """Test folder selection handler."""
         signal_emitted = False
         received_path = ""
-        
+
         def on_folder_selected(path):
             nonlocal signal_emitted, received_path
             signal_emitted = True
             received_path = path
-        
+
         self.popup.folderSelected.connect(on_folder_selected)
-        
+
         test_path = "/test/path"
         self.popup._on_folder_selected(test_path)
-        
+
         assert signal_emitted
         assert received_path == test_path
 
@@ -212,15 +216,15 @@ class TestFolderSelectionPopup:
         """Test that folders are sorted alphabetically."""
         test_dir = tmp_path / "test_dir"
         test_dir.mkdir()
-        
+
         # 順序を意図的に逆にして作成
         (test_dir / "zebra").mkdir()
         (test_dir / "alpha").mkdir()
         (test_dir / "beta").mkdir()
-        
+
         folders = self.popup._get_folders(str(test_dir))
         folder_names = [folder[0] for folder in folders]
-        
+
         # アルファベット順にソートされているかチェック
         expected_order = ["alpha", "beta", "zebra"]
         assert folder_names == expected_order
@@ -228,13 +232,13 @@ class TestFolderSelectionPopup:
     def test_clear_actions(self):
         """Test that actions are cleared before adding new ones."""
         # 最初にアクションを追加
-        with patch.object(self.popup, 'popup'):
+        with patch.object(self.popup, "popup"):
             self.popup.showForPath("/some/path")
             initial_count = len(self.popup.actions())
-            
+
             # 再度アクションを追加
             self.popup.showForPath("/another/path")
             final_count = len(self.popup.actions())
-            
+
             # アクションがクリアされているかチェック
-            assert final_count <= initial_count + 1  # 新しいアクションのみ 
+            assert final_count <= initial_count + 1  # 新しいアクションのみ
