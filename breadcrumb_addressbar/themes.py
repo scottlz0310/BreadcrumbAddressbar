@@ -23,6 +23,7 @@ except Exception:  # pragma: no cover - import guard only
         def __init__(self, *args, **kwargs) -> None:
             pass
 
+
 # qt-theme-managerのインポート（オプショナル）
 try:  # pragma: no cover - import guard
     from theme_manager import ThemeController, apply_theme_to_widget
