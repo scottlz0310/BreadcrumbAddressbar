@@ -4,12 +4,16 @@ Test cases for FolderSelectionPopup functionality.
 
 import os
 import tempfile
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
+# Headless 環境でのハング防止（CI向け）
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
 
 try:
-    from PySide6.QtWidgets import QApplication
     from PySide6.QtCore import QPoint
+    from PySide6.QtWidgets import QApplication
 
     PYSIDE6_AVAILABLE = True
 except ImportError:
