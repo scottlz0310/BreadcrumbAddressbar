@@ -7,6 +7,7 @@ import tempfile
 from unittest.mock import MagicMock, patch
 
 import pytest
+
 # Headless 環境でのハング防止（CI向け）
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
