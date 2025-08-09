@@ -30,7 +30,11 @@ def test_setup_logger_with_file(tmp_path):
     name = "breadcrumb_addressbar.test.logger2"
     log_file = tmp_path / "test.log"
 
-    logger = setup_logger(name=name, level=logging.INFO, log_file=str(log_file))
+    logger = setup_logger(
+        name=name,
+        level=logging.INFO,
+        log_file=str(log_file),
+    )
     logger.info("hello file")
 
     assert Path(log_file).exists()
@@ -59,5 +63,3 @@ def test_wrapper_functions_and_handler_clearing(tmp_path):
     warning("w")
     error("e")
     critical("c")
-
-

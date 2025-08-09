@@ -3,7 +3,6 @@ Tests for `breadcrumb_addressbar.themes` ThemeManager.
 """
 
 import os
-import types
 
 import pytest
 
@@ -86,7 +85,12 @@ def test_apply_theme_to_widget_success_path(monkeypatch):
     monkeypatch.setattr(themes, "THEME_MANAGER_AVAILABLE", True, raising=True)
     tm = themes.get_theme_manager()
     tm._theme_controller = FakeController()
-    monkeypatch.setattr(themes, "apply_theme_to_widget", fake_apply, raising=True)
+    monkeypatch.setattr(
+        themes,
+        "apply_theme_to_widget",
+        fake_apply,
+        raising=True,
+    )
 
     assert tm.apply_theme_to_widget(object(), None) is True
 
@@ -127,9 +131,15 @@ def test_get_button_stylesheet_and_separator_and_combo_colors(monkeypatch):
     combo_css = tm.get_combo_box_stylesheet()
     colors = tm.get_combo_item_colors()
 
-    assert "QPushButton" in css_current and "QPushButton" in css_normal
+    assert (
+        "QPushButton" in css_current
+        and "QPushButton" in css_normal
+    )
     assert isinstance(sep, str) and sep.startswith("#")
     assert "QComboBox" in combo_css
-    assert {"combo_item_bg", "combo_text_color", "combo_item_selected_bg", "combo_item_selected_text_color"}.issubset(colors.keys())
-
-
+    assert {
+        "combo_item_bg",
+        "combo_text_color",
+        "combo_item_selected_bg",
+        "combo_item_selected_text_color",
+    }.issubset(colors.keys())

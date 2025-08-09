@@ -38,12 +38,14 @@ except Exception:  # pragma: no cover - import guard only
 
 
 class _FakeThemeManager:
-    def get_button_stylesheet(self, is_current: bool = False) -> str:  # noqa: D401
+    def get_button_stylesheet(self, is_current: bool = False) -> str:
         return "QPushButton { /* fake */ }"
 
 
 @pytest.mark.skipif(
-    (not PYSIDE6_AVAILABLE) or (not WIDGETS_AVAILABLE) or (not PYTEST_QT_ENABLED),
+    (not PYSIDE6_AVAILABLE)
+    or (not WIDGETS_AVAILABLE)
+    or (not PYTEST_QT_ENABLED),
     reason="PySide6/widgets/pytest-qt not available",
 )
 class TestBreadcrumbItem:
@@ -53,7 +55,10 @@ class TestBreadcrumbItem:
         from breadcrumb_addressbar import themes as themes_mod
 
         monkeypatch.setattr(
-            themes_mod, "get_theme_manager", lambda: _FakeThemeManager(), raising=True
+            themes_mod,
+            "get_theme_manager",
+            lambda: _FakeThemeManager(),
+            raising=True,
         )
 
         # 最小親ウィジェット
@@ -65,7 +70,12 @@ class TestBreadcrumbItem:
         self.parent.deleteLater()
 
     def test_click_signals_emitted(self, qtbot):
-        item = BreadcrumbItem("home", "/home", is_current=False, parent=self.parent)
+        item = BreadcrumbItem(
+            "home",
+            "/home",
+            is_current=False,
+            parent=self.parent,
+        )
         qtbot.addWidget(item)
 
         received = {"path": None, "info": None}
@@ -85,7 +95,12 @@ class TestBreadcrumbItem:
         assert received["info"] == ("/home", False)
 
     def test_is_current_updates_style(self, qtbot):
-        item = BreadcrumbItem("a", "/a", is_current=False, parent=self.parent)
+        item = BreadcrumbItem(
+            "a",
+            "/a",
+            is_current=False,
+            parent=self.parent,
+        )
         qtbot.addWidget(item)
 
         item.is_current = True
@@ -116,9 +131,7 @@ class TestBreadcrumbItem:
 
         item.clicked_with_path.connect(on_click)
         qtbot.keyClick(item, "\r")  # Return
-        qtbot.keyClick(item, " ")    # Space
+        qtbot.keyClick(item, " ")  # Space
         # その他のキーで else 分岐（super 呼び出し）
         qtbot.keyClick(item, "A")
         assert received["count"] >= 2
-
-

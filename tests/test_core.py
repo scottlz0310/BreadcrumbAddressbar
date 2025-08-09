@@ -1,7 +1,6 @@
 """
 Tests for `breadcrumb_addressbar.core` (BreadcrumbAddressBar).
 """
-
 import os
 
 import pytest
@@ -37,17 +36,19 @@ except Exception:  # pragma: no cover - import guard only
 
 
 class _FakeThemeManager:
-    def get_button_stylesheet(self, is_current: bool = False) -> str:  # noqa: D401
+    def get_button_stylesheet(self, is_current: bool = False) -> str:
         if is_current:
             return "QPushButton { background-color: #000; }"
         return "QPushButton { background-color: #fff; }"
 
-    def get_separator_color(self) -> str:  # noqa: D401
+    def get_separator_color(self) -> str:
         return "#123456"
 
 
 @pytest.mark.skipif(
-    (not PYSIDE6_AVAILABLE) or (not CORE_AVAILABLE) or (not PYTEST_QT_ENABLED),
+    (not PYSIDE6_AVAILABLE)
+    or (not CORE_AVAILABLE)
+    or (not PYTEST_QT_ENABLED),
     reason="PySide6/core/pytest-qt not available",
 )
 class TestBreadcrumbAddressBar:
@@ -57,7 +58,10 @@ class TestBreadcrumbAddressBar:
         from breadcrumb_addressbar import themes as themes_mod
 
         monkeypatch.setattr(
-            themes_mod, "get_theme_manager", lambda: _FakeThemeManager(), raising=True
+            themes_mod,
+            "get_theme_manager",
+            lambda: _FakeThemeManager(),
+            raising=True,
         )
 
         self.parent = QWidget()
@@ -90,7 +94,9 @@ class TestBreadcrumbAddressBar:
         # ボタン群が生成される
         assert len(self.widget._breadcrumb_items) >= 2
         # 各ボタンに高さが反映される
-        assert all(btn.minimumHeight() == 28 for btn in self.widget._breadcrumb_items)
+        assert all(
+            btn.minimumHeight() == 28 for btn in self.widget._breadcrumb_items
+        )
 
     def test_max_items_and_ellipsis_logic(self):
         parts = [(str(i), f"/{i}") for i in range(6)]
@@ -122,8 +128,14 @@ class TestBreadcrumbAddressBar:
     def test_on_item_clicked_behavior(self, monkeypatch):
         called = {"show": None, "set": None}
 
-        monkeypatch.setattr(self.widget, "_show_folder_popup", lambda p: called.__setitem__("show", p))
-        monkeypatch.setattr(self.widget, "setPath", lambda p: called.__setitem__("set", p))
+        monkeypatch.setattr(
+            self.widget,
+            "_show_folder_popup",
+            lambda p: called.__setitem__("show", p),
+        )
+        monkeypatch.setattr(
+            self.widget, "setPath", lambda p: called.__setitem__("set", p)
+        )
 
         # どのボタンでもポップアップ
         self.widget.setShowPopupForAllButtons(True)
@@ -146,12 +158,13 @@ class TestBreadcrumbAddressBar:
         self.widget.setSeparator(" > ")
         self.widget.setPath("/root/child")
         self.widget.setCustomLabels({"/root": "ROOT"})
-        assert any(btn.text() in ("ROOT", "child") for btn in self.widget._breadcrumb_items)
+        assert any(
+            btn.text() in ("ROOT", "child")
+            for btn in self.widget._breadcrumb_items
+        )
 
         # アイテムクリアが動く（内部関数呼出し）
         prev_count = self.widget._layout.count()
         self.widget._clear_items()
         assert self.widget._layout.count() == 0
         assert prev_count >= 0
-
-
