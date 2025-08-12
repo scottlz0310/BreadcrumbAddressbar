@@ -3,7 +3,7 @@
 ## Core Technologies
 - **Python**: 3.8+ (supports 3.8, 3.9, 3.10, 3.11, 3.12)
 - **PySide6**: Primary Qt binding (6.0.0+)
-- **qt-theme-manager**: Theme integration (1.0.0+)
+- **qt-theme-manager**: Theme integration (0.2.0+ or 1.0.0+)
 
 ## Build System
 - **setuptools**: Package building and distribution

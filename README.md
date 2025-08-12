@@ -72,7 +72,13 @@ addressbar.setSeparator(" > ")
 
 # テーマ統合（qt-theme-manager使用）
 from breadcrumb_addressbar import get_theme_manager
-from qt_theme_manager import ThemeController
+
+try:
+    # 新しいバージョン (1.0.0+)
+    from qt_theme_manager import ThemeController
+except ImportError:
+    # 古いバージョン (0.2.x)
+    from theme_manager import ThemeController
 
 theme_manager = get_theme_manager()
 theme_controller = ThemeController()

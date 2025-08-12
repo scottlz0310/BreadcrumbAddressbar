@@ -278,7 +278,12 @@ class ComprehensiveDemoWindow(QMainWindow):
     def setup_theme_manager(self) -> None:
         """テーママネージャーをセットアップ"""
         try:
-            from qt_theme_manager import ThemeController
+            try:
+                # 新しいバージョン (1.0.0+) を試す
+                from qt_theme_manager import ThemeController
+            except ImportError:
+                # 古いバージョン (0.2.x) を試す
+                from theme_manager import ThemeController
 
             # ThemeControllerを直接使用
             self.theme_controller = ThemeController()

@@ -26,13 +26,20 @@ except Exception:  # pragma: no cover - import guard only
 
 # qt-theme-managerのインポート（オプショナル）
 try:  # pragma: no cover - import guard
+    # 新しいバージョン (1.0.0+) を試す
     from qt_theme_manager import ThemeController, apply_theme_to_widget
 
     THEME_MANAGER_AVAILABLE = True
 except ImportError:  # pragma: no cover - import guard only
-    THEME_MANAGER_AVAILABLE = False
-    ThemeController = None
-    apply_theme_to_widget = None
+    try:  # pragma: no cover - import guard
+        # 古いバージョン (0.2.x) を試す
+        from theme_manager import ThemeController, apply_theme_to_widget
+
+        THEME_MANAGER_AVAILABLE = True
+    except ImportError:  # pragma: no cover - import guard only
+        THEME_MANAGER_AVAILABLE = False
+        ThemeController = None
+        apply_theme_to_widget = None
 
 from .logger_setup import get_logger
 
