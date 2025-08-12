@@ -5,18 +5,16 @@
 例: python scripts/release.py 1.0.0
 """
 
-import sys
 import re
 import subprocess
+import sys
 from datetime import datetime
 
 
 def run_command(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
     """コマンドを実行する"""
     print(f"実行中: {cmd}")
-    result = subprocess.run(
-        cmd, shell=True, capture_output=True, text=True
-    )
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     if check and result.returncode != 0:
         print(f"エラー: {result.stderr}")
         sys.exit(1)
@@ -90,11 +88,11 @@ def main():
         sys.exit(1)
     new_version = sys.argv[1]
     # バージョン形式をチェック
-    if not re.match(r'^\d+\.\d+\.\d+$', new_version):
+    if not re.match(r"^\d+\.\d+\.\d+$", new_version):
         print("エラー: バージョンは x.y.z 形式である必要があります")
         sys.exit(1)
     # 現在のバージョンを取得
-    with open("pyproject.toml", 'r', encoding='utf-8') as f:
+    with open("pyproject.toml", "r", encoding="utf-8") as f:
         content = f.read()
         match = re.search(r'version = "([^"]+)"', content)
         if not match:
