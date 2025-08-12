@@ -10,7 +10,7 @@ A breadcrumb-style address bar for PySide6/PyQt6 file managers.
 from importlib import import_module
 from typing import Any, List
 
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __author__ = "Your Name"
 __email__ = "your.email@example.com"
 

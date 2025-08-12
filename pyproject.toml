@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "breadcrumb-addressbar"
-version = "0.2.5"
+version = "0.2.6"
 description = "A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support"
 readme = "README.md"
 license = {text = "MIT"}
@@ -26,7 +26,7 @@ classifiers = [
 requires-python = ">=3.8"
 dependencies = [
     "PySide6>=6.0.0",
-    "qt-theme-manager>=0.2.0",
+    "qt-theme-manager>=1.0.0",
 ]
 
 [project.optional-dependencies]
@@ -146,7 +146,7 @@ show_error_codes = false
 [[tool.mypy.overrides]]
 module = [
     "PySide6.*",
-    "theme_manager.*",
+    "qt_theme_manager.*",
     "breadcrumb_addressbar.*",
 ]
 ignore_missing_imports = true

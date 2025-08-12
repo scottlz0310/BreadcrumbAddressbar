@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="breadcrumb-addressbar",
-    version="0.2.4",
+    version="0.2.6",
     author="scottlz0310",
     author_email="scott.lz0310@gmail.com",
     description=(
@@ -31,7 +31,7 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "PySide6>=6.0.0",
-        "qt-theme-manager>=0.2.0",
+        "qt-theme-manager>=1.0.0",
     ],
     extras_require={
         "dev": [

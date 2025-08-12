@@ -26,7 +26,7 @@ except Exception:  # pragma: no cover - import guard only
 
 # qt-theme-managerのインポート（オプショナル）
 try:  # pragma: no cover - import guard
-    from theme_manager import ThemeController, apply_theme_to_widget
+    from qt_theme_manager import ThemeController, apply_theme_to_widget
 
     THEME_MANAGER_AVAILABLE = True
 except ImportError:  # pragma: no cover - import guard only
