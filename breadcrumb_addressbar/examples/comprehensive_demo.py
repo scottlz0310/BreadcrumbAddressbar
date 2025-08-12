@@ -278,7 +278,7 @@ class ComprehensiveDemoWindow(QMainWindow):
     def setup_theme_manager(self) -> None:
         """テーママネージャーをセットアップ"""
         try:
-            from theme_manager import ThemeController
+            from qt_theme_manager import ThemeController
 
             # ThemeControllerを直接使用
             self.theme_controller = ThemeController()

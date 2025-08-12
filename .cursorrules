@@ -112,12 +112,13 @@
 - カスタムテーマの定義は `themes.py` に集約すること
 - 使用例:
   ```python
-  from qt_theme_manager import ThemeManager
+  from qt_theme_manager import ThemeController
   
-  class ThemeManager:
+  class MyWidget:
       def __init__(self):
-          self._theme_manager = ThemeManager()
-          self._theme_manager.theme_changed.connect(self._on_theme_changed)
+          self._theme_controller = ThemeController()
+          # テーマを適用
+          self._theme_controller.apply_theme_to_widget(self)
   ```
 
 ## テスト規約
