@@ -1,27 +1,27 @@
-# Technology Stack
+# 技術スタック
 
-## Core Technologies
-- **Python**: 3.8+ (supports 3.8, 3.9, 3.10, 3.11, 3.12)
-- **PySide6**: Primary Qt binding (6.0.0+)
-- **qt-theme-manager**: Theme integration (0.2.0+ or 1.0.0+)
+## コア技術
+- **Python**: 3.8以上（3.8、3.9、3.10、3.11、3.12をサポート）
+- **PySide6**: 主要なQtバインディング（6.0.0以上）
+- **qt-theme-manager**: テーマ統合（0.2.0以上または1.0.0以上）
 
-## Build System
-- **setuptools**: Package building and distribution
-- **pyproject.toml**: Modern Python project configuration
-- **setup.py**: Legacy compatibility for package metadata
+## ビルドシステム
+- **setuptools**: パッケージビルドと配布
+- **pyproject.toml**: モダンなPythonプロジェクト設定
+- **setup.py**: パッケージメタデータの従来互換性
 
-## Development Dependencies
-- **pytest**: Testing framework (6.0+)
-- **pytest-qt**: Qt-specific testing utilities (4.0+)
-- **black**: Code formatting (22.0+)
-- **flake8**: Linting (4.0+)
-- **isort**: Import sorting
+## 開発依存関係
+- **pytest**: テストフレームワーク（6.0以上）
+- **pytest-qt**: Qt固有のテストユーティリティ（4.0以上）
+- **black**: コードフォーマット（22.0以上）
+- **flake8**: リンティング（4.0以上）
+- **isort**: インポート整理
 
-## Common Commands
+## 共通コマンド
 
-### Development Setup
+### 開発環境セットアップ
 ```bash
-# Clone and setup development environment
+# リポジトリをクローンして開発環境をセットアップ
 git clone <repo-url>
 cd BreadcrumbAddressbar
 python -m venv venv
@@ -29,56 +29,56 @@ venv\Scripts\activate  # Windows
 pip install -e ".[dev]"
 ```
 
-### Testing
+### テスト
 ```bash
-# Run all tests
+# 全テストを実行
 pytest
 
-# Run with verbose output
+# 詳細出力でテストを実行
 pytest -v
 
-# Run specific test file
+# 特定のテストファイルを実行
 pytest tests/test_core.py
 ```
 
-### Code Quality
+### コード品質
 ```bash
-# Format code
+# コードをフォーマット
 black .
 isort .
 
-# Lint code
+# コードをリント
 flake8 breadcrumb_addressbar/ tests/ examples/
 ```
 
-### Package Building
+### パッケージビルド
 ```bash
-# Build package
+# パッケージをビルド
 python -m build
 
-# Install in development mode
+# 開発モードでインストール
 pip install -e .
 ```
 
-### Running Examples
+### サンプル実行
 ```bash
-# Basic example
+# 基本サンプル
 python examples/basic_example.py
 
-# Theme demo
+# テーマデモ
 python examples/qt_theme_demo.py
 
-# Phase 2 features demo
+# フェーズ2機能デモ
 python examples/phase2_example.py
 ```
 
-## Architecture Patterns
-- **Qt Signal/Slot**: Primary communication mechanism
-- **Widget Composition**: BreadcrumbAddressBar contains BreadcrumbItem widgets
-- **Theme Manager Integration**: Pluggable theme system via qt-theme-manager
-- **Logging**: Structured logging via Python logging module (no print statements)
+## アーキテクチャパターン
+- **Qt Signal/Slot**: 主要な通信メカニズム
+- **ウィジェット構成**: BreadcrumbAddressBarがBreadcrumbItemウィジェットを含む
+- **テーママネージャー統合**: qt-theme-manager経由のプラガブルテーマシステム
+- **ログ**: Pythonログモジュール経由の構造化ログ（print文は使用しない）
 
-## Platform Considerations
-- **Path Handling**: Cross-platform path normalization (/ vs \\)
-- **Qt Compatibility**: PySide6 primary, designed for future PyQt6 compatibility
-- **WSL2 Limitations**: Known QComboBox dropdown issues in WSL2 environment
+## プラットフォーム考慮事項
+- **パス処理**: クロスプラットフォームパス正規化（/ vs \\）
+- **Qt互換性**: PySide6が主要、将来のPyQt6互換性を考慮した設計
+- **WSL2制限**: WSL2環境でのQComboBoxドロップダウンの既知の問題

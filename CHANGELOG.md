@@ -5,6 +5,58 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.6] - 2025-08-12
+
+### Added
+- 
+
+### Changed
+- 
+
+### Fixed
+- 
+
+### Removed
+-
+## [0.2.6] - 2025-08-12
+
+### Added
+- **AI Assistant Integration**: Kiro AI assistant steering documents
+  - Added `.kiro/steering/product.md` for product overview
+  - Added `.kiro/steering/tech.md` for technology stack information
+  - Added `.kiro/steering/structure.md` for project organization
+- **Backward Compatibility**: Support for multiple qt-theme-manager versions
+  - Automatic fallback from qt-theme-manager 1.0.0+ to 0.2.x
+  - Maintains full functionality across different environments
+  - CI/CD compatibility with various Python versions
+
+### Changed
+- **qt-theme-manager Integration**: Updated to support both old and new APIs
+  - Primary support for qt-theme-manager 1.0.0+ (`qt_theme_manager` import)
+  - Fallback support for qt-theme-manager 0.2.x (`theme_manager` import)
+  - Automatic version detection and appropriate API usage
+- **Code Quality**: Comprehensive code quality improvements
+  - Applied Black formatting across all files
+  - Fixed import ordering with isort
+  - All quality checks passing (Black, isort, flake8, mypy, bandit)
+  - Maintained 86% test coverage with 36 passing tests
+
+### Fixed
+- **CI/CD Pipeline**: Resolved GitHub Actions build failures
+  - Fixed qt-theme-manager version compatibility issues
+  - Ensured Python 3.8+ compatibility across all environments
+  - Resolved dependency resolution problems in CI
+- **Development Environment**: Improved development setup
+  - Fixed package installation issues with editable installs
+  - Resolved import conflicts between installed and development versions
+  - Enhanced debugging and logging capabilities
+
+### Security
+- **Dependency Management**: Improved security posture
+  - Updated dependency requirements for better compatibility
+  - Maintained security best practices with bandit checks
+  - No security vulnerabilities detected
+
 ## [0.2.5] - 2025-08-09
 
 ### Added

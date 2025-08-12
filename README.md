@@ -1,9 +1,9 @@
-# Breadcrumb Address Bar
+# パンくずリスト型アドレスバー
 
 [![PyPI](https://img.shields.io/pypi/v/breadcrumb-addressbar.svg)](https://pypi.org/project/breadcrumb-addressbar/)
-![Python Versions](https://img.shields.io/pypi/pyversions/breadcrumb-addressbar.svg)
-![License](https://img.shields.io/pypi/l/breadcrumb-addressbar.svg)
-[![Release](https://github.com/scottlz0310/BreadcrumbAddressbar/actions/workflows/release.yml/badge.svg)](https://github.com/scottlz0310/BreadcrumbAddressbar/actions/workflows/release.yml)
+![Python バージョン](https://img.shields.io/pypi/pyversions/breadcrumb-addressbar.svg)
+![ライセンス](https://img.shields.io/pypi/l/breadcrumb-addressbar.svg)
+[![リリース](https://github.com/scottlz0310/BreadcrumbAddressbar/actions/workflows/release.yml/badge.svg)](https://github.com/scottlz0310/BreadcrumbAddressbar/actions/workflows/release.yml)
 
 PySide6/PyQt6用のパンくずリスト型アドレスバーライブラリです。ファイルマネージャー向けに階層的なナビゲーションを提供します。
 
@@ -14,7 +14,7 @@ PySide6/PyQt6用のパンくずリスト型アドレスバーライブラリで�
 - ⌨️ **キーボード対応**: Tab移動、矢印キー、Enter確定
 - 📁 **フォルダ選択**: 最下層ボタンクリックでフォルダ選択ポップアップ
 - ⏪ **履歴機能**: 戻る/進むボタン（オプション）
-- 🎯 **マルチプラットフォーム**: Windows, macOS, Linux対応
+- 🎯 **マルチプラットフォーム**: Windows、macOS、Linux対応
 
 ## インストール
 
@@ -28,6 +28,8 @@ pip install breadcrumb-addressbar
 pip install qt-theme-manager
 ```
 
+**互換性**: qt-theme-manager 0.2.0以上および1.0.0以上の両方をサポートしています。
+
 ## 基本的な使用方法
 
 ```python
@@ -37,7 +39,7 @@ from breadcrumb_addressbar import BreadcrumbAddressBar
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Breadcrumb Address Bar Demo")
+        self.setWindowTitle("パンくずリスト型アドレスバー デモ")
         
         # メインウィジェット
         central_widget = QWidget()
@@ -112,7 +114,7 @@ python -m breadcrumb_addressbar.examples.comprehensive_demo
 
 ## リリース情報
 
-- PyPI: `breadcrumb-addressbar` の最新リリースは v0.2.5 です。
+- PyPI: `breadcrumb-addressbar` の最新リリースは v0.2.6 です。
   - リンク: https://pypi.org/project/breadcrumb-addressbar/
 - 変更履歴は `CHANGELOG.md` を参照してください。
   - リンク: ./CHANGELOG.md
@@ -165,7 +167,7 @@ GitHub Actionsが自動的に以下を実行します：
 - 全Pythonバージョンでのテスト
 - リントチェック
 - PyPIへの自動公開
-- GitHub Releaseの作成
+- GitHubリリースの作成
 
 ## 既知の問題
 
@@ -181,32 +183,7 @@ WSL2（Windows Subsystem for Linux 2）環境では、PySide6のQComboBoxドロ�
 - Windowsネイティブ環境での実行を推奨
 - または、Ubuntu等のネイティブLinux環境での実行を推奨
 
-**注意:** この問題はBreadcrumbAddressBarライブラリ自体の問題ではなく、WSL2環境の制限です。ライブラリの機能は正常に動作します。
-
-
-
-## 開発
-
-### セットアップ
-
-```bash
-git clone https://github.com/scottlz0310/BreadcrumbAddressbar.git
-cd BreadcrumbAddressbar
-pip install -e ".[dev]"
-```
-
-### テスト実行
-
-```bash
-pytest
-```
-
-### コードフォーマット
-
-```bash
-black .
-isort .
-```
+**注意:** この問題はパンくずリスト型アドレスバーライブラリ自体の問題ではなく、WSL2環境の制限です。ライブラリの機能は正常に動作します。
 
 ## 機能一覧
 

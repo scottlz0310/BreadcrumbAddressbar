@@ -1,98 +1,98 @@
-# Project Structure
+# プロジェクト構造
 
-## Directory Organization
+## ディレクトリ構成
 
 ```
-BreadcrumbAddressbar/
-├── breadcrumb_addressbar/          # Main library package
-│   ├── __init__.py                # Package exports and version info
-│   ├── core.py                    # BreadcrumbAddressBar main widget
-│   ├── widgets.py                 # BreadcrumbItem and helper widgets
-│   ├── popup.py                   # FolderSelectionPopup implementation
-│   ├── themes.py                  # ThemeManager and theme integration
-│   └── logger_setup.py            # Logging configuration utilities
-├── tests/                         # Test suite
+パンくずリスト型アドレスバー/
+├── breadcrumb_addressbar/          # メインライブラリパッケージ
+│   ├── __init__.py                # パッケージエクスポートとバージョン情報
+│   ├── core.py                    # BreadcrumbAddressBarメインウィジェット
+│   ├── widgets.py                 # BreadcrumbItemとヘルパーウィジェット
+│   ├── popup.py                   # FolderSelectionPopup実装
+│   ├── themes.py                  # ThemeManagerとテーマ統合
+│   └── logger_setup.py            # ログ設定ユーティリティ
+├── tests/                         # テストスイート
 │   ├── __init__.py
-│   └── test_core.py              # Core functionality tests
-├── examples/                      # Usage examples and demos
-│   ├── basic_example.py          # Simple integration example
-│   ├── qt_theme_demo.py          # Theme integration demo
-│   ├── phase2_example.py         # Advanced features demo
-│   └── dropdown_test*.py         # WSL2 compatibility tests
-├── docs/                         # Documentation
-│   └── BreadcrumbAddressBar.md   # Detailed specification
-├── .kiro/                        # Kiro AI assistant configuration
-│   └── steering/                 # AI guidance documents
-└── venv*/                        # Virtual environments (gitignored)
+│   └── test_core.py              # コア機能テスト
+├── examples/                      # 使用例とデモ
+│   ├── basic_example.py          # シンプルな統合例
+│   ├── qt_theme_demo.py          # テーマ統合デモ
+│   ├── phase2_example.py         # 高度な機能デモ
+│   └── dropdown_test*.py         # WSL2互換性テスト
+├── docs/                         # ドキュメント
+│   └── BreadcrumbAddressBar.md   # 詳細仕様
+├── .kiro/                        # Kiro AIアシスタント設定
+│   └── steering/                 # AIガイダンス文書
+└── venv*/                        # 仮想環境（gitignore対象）
 ```
 
-## Code Organization Principles
+## コード構成原則
 
-### Module Responsibilities
-- **core.py**: Main BreadcrumbAddressBar widget, path handling, display logic
-- **widgets.py**: Individual breadcrumb button components (BreadcrumbItem)
-- **popup.py**: Folder selection popup functionality
-- **themes.py**: Theme management and qt-theme-manager integration
-- **logger_setup.py**: Centralized logging configuration
+### モジュール責務
+- **core.py**: メインBreadcrumbAddressBarウィジェット、パス処理、表示ロジック
+- **widgets.py**: 個別パンくずボタンコンポーネント（BreadcrumbItem）
+- **popup.py**: フォルダ選択ポップアップ機能
+- **themes.py**: テーマ管理とqt-theme-manager統合
+- **logger_setup.py**: 集約ログ設定
 
-### Import Structure
+### インポート構造
 ```python
-# Standard library imports first
+# 標準ライブラリインポートを最初に
 import os
 from typing import Any, Dict, List, Optional
 
-# Third-party imports second
+# サードパーティインポートを次に
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QWidget
 
-# Local imports last
+# ローカルインポートを最後に
 from .logger_setup import get_logger
 from .widgets import BreadcrumbItem
 ```
 
-## Naming Conventions
+## 命名規則
 
-### Files and Directories
-- **snake_case**: All file and directory names
-- **Descriptive names**: Clear purpose indication (e.g., `logger_setup.py`)
+### ファイルとディレクトリ
+- **snake_case**: 全てのファイルとディレクトリ名
+- **説明的な名前**: 明確な目的を示す（例：`logger_setup.py`）
 
-### Code Elements
-- **Classes**: PascalCase (e.g., `BreadcrumbAddressBar`, `FolderSelectionPopup`)
-- **Methods/Functions**: camelCase for public API, snake_case for internal
-- **Variables**: camelCase for local, snake_case with underscore prefix for private
-- **Constants**: UPPER_SNAKE_CASE
+### コード要素
+- **クラス**: PascalCase（例：`BreadcrumbAddressBar`、`FolderSelectionPopup`）
+- **メソッド/関数**: パブリックAPIはcamelCase、内部はsnake_case
+- **変数**: ローカルはcamelCase、プライベートはアンダースコア接頭辞付きsnake_case
+- **定数**: UPPER_SNAKE_CASE
 
-### Temporary/Debug Code
-- **Debug functions**: `_debug_` prefix (must be removed before PR)
-- **Temporary variables**: `_temp_` prefix with clear cleanup plan
+### 一時/デバッグコード
+- **デバッグ関数**: `_debug_`接頭辞（PR前に削除必須）
+- **一時変数**: `_temp_`接頭辞と明確なクリーンアップ計画
 
-## Configuration Files
+## 設定ファイル
 
-### Package Configuration
-- **pyproject.toml**: Modern Python project metadata, dependencies, and tool configuration
-- **setup.py**: Legacy compatibility and package building
+### パッケージ設定
+- **pyproject.toml**: モダンなPythonプロジェクトメタデータ、依存関係、ツール設定
+- **setup.py**: 従来互換性とパッケージビルド
 
-### Development Configuration
-- **.cursorrules**: Project-specific development guidelines
-- **.gitignore**: Version control exclusions
-- **pytest configuration**: In pyproject.toml under `[tool.pytest.ini_options]`
+### 開発設定
+- **.cursorrules**: プロジェクト固有の開発ガイドライン
+- **.gitignore**: バージョン管理除外
+- **pytest設定**: pyproject.tomlの`[tool.pytest.ini_options]`内
 
-## Testing Structure
-- **Unit tests**: `tests/test_*.py` pattern
-- **Test classes**: Mirror main class structure (`TestBreadcrumbAddressBar`)
-- **Fixtures**: Qt application setup in `setup()` method
-- **Test naming**: Descriptive test method names (`test_path_changed_signal`)
+## テスト構造
+- **ユニットテスト**: `tests/test_*.py`パターン
+- **テストクラス**: メインクラス構造をミラー（`TestBreadcrumbAddressBar`）
+- **フィクスチャ**: `setup()`メソッドでのQtアプリケーションセットアップ
+- **テスト命名**: 説明的なテストメソッド名（`test_path_changed_signal`）
 
-## Documentation Structure
-- **README.md**: User-facing documentation with examples
-- **USAGE.md**: Detailed usage instructions and troubleshooting
-- **docs/**: Technical specifications and design documents
-- **CHANGELOG.md**: Version history and changes
+## ドキュメント構造
+- **README.md**: 例付きユーザー向けドキュメント
+- **USAGE.md**: 詳細な使用方法とトラブルシューティング
+- **docs/**: 技術仕様と設計文書
+- **CHANGELOG.md**: バージョン履歴と変更点
 
-## Build Artifacts (Gitignored)
-- **venv/**, **venv_windows/**: Virtual environments
-- **__pycache__/**: Python bytecode cache
-- **.mypy_cache/**: Type checking cache
-- **breadcrumb_addressbar.egg-info/**: Package metadata
-- **build/**, **dist/**: Package build outputs
+## ビルド成果物（gitignore対象）
+- **venv/**, **venv_windows/**: 仮想環境
+- **__pycache__/**: Pythonバイトコードキャッシュ
+- **.mypy_cache/**: 型チェックキャッシュ
+- **breadcrumb_addressbar.egg-info/**: パッケージメタデータ
+- **build/**, **dist/**: パッケージビルド出力

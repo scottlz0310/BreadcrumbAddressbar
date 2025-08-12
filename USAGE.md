@@ -1,4 +1,4 @@
-# Breadcrumb Address Bar 使用方法
+# パンくずリスト型アドレスバー 使用方法
 
 ## インストール
 
@@ -35,7 +35,7 @@ from breadcrumb_addressbar import BreadcrumbAddressBar
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Breadcrumb Address Bar Demo")
+        self.setWindowTitle("パンくずリスト型アドレスバー デモ")
         
         # メインウィジェット
         central_widget = QWidget()
@@ -142,7 +142,7 @@ pytest tests/test_core.py
 ## プロジェクト構造
 
 ```
-BreadcrumbAddressbar/
+パンくずリスト型アドレスバー/
 ├── breadcrumb_addressbar/     # メインライブラリ
 │   ├── __init__.py           # パッケージ初期化
 │   ├── core.py               # メインクラス

@@ -1,28 +1,28 @@
-# Product Overview
+# 製品概要
 
-## Breadcrumb Address Bar Library
+## パンくずリスト型アドレスバーライブラリ
 
-A PySide6/PyQt6 breadcrumb-style address bar widget for file manager applications. Provides hierarchical navigation through folder structures with clickable breadcrumb buttons.
+ファイルマネージャーアプリケーション向けのPySide6/PyQt6パンくずリスト型アドレスバーウィジェットです。クリック可能なパンくずボタンを通じてフォルダ構造の階層ナビゲーションを提供します。
 
-### Key Features
-- **Easy Integration**: Drop-in widget for existing Qt applications
-- **Hierarchical Navigation**: Click breadcrumb buttons to navigate folder hierarchy
-- **Folder Selection Popup**: Click current folder button to show subfolder selection
-- **Customizable Appearance**: Configurable button height, font size, separators, and themes
-- **Keyboard Support**: Tab navigation, arrow keys, Enter confirmation
-- **Theme Integration**: Works with qt-theme-manager for dark/light themes
-- **Cross-Platform**: Windows, macOS, Linux support
+### 主要機能
+- **簡単な統合**: 既存のQtアプリケーションにドロップイン可能なウィジェット
+- **階層ナビゲーション**: パンくずボタンをクリックしてフォルダ階層をナビゲート
+- **フォルダ選択ポップアップ**: 現在のフォルダボタンをクリックしてサブフォルダ選択を表示
+- **カスタマイズ可能な外観**: ボタンの高さ、フォントサイズ、セパレーター、テーマを設定可能
+- **キーボードサポート**: Tabナビゲーション、矢印キー、Enter確定
+- **テーマ統合**: qt-theme-managerと連携してダーク/ライトテーマに対応
+- **クロスプラットフォーム**: Windows、macOS、Linuxサポート
 
-### Target Users
-- File manager application developers
-- Qt/PySide6 developers needing navigation components
-- Applications requiring hierarchical path navigation
+### 対象ユーザー
+- ファイルマネージャーアプリケーション開発者
+- ナビゲーションコンポーネントが必要なQt/PySide6開発者
+- 階層パスナビゲーションが必要なアプリケーション
 
-### Current Status
-- **Phase 1**: ✅ Basic breadcrumb display and navigation
-- **Phase 2**: ✅ Folder popup, keyboard navigation, theme support
-- **Phase 3**: 🔄 History functionality, right-click menus, drag & drop
-- **Phase 4**: 🔄 Bookmarks, async processing, performance optimization
+### 現在のステータス
+- **フェーズ1**: ✅ 基本的なパンくずリスト表示とナビゲーション
+- **フェーズ2**: ✅ フォルダポップアップ、キーボードナビゲーション、テーマサポート
+- **フェーズ3**: 🔄 履歴機能、右クリックメニュー、ドラッグ&ドロップ
+- **フェーズ4**: 🔄 ブックマーク、非同期処理、パフォーマンス最適化
 
-### Core Value Proposition
-Reduces development time for file manager UIs by providing a ready-to-use, customizable breadcrumb navigation component that integrates seamlessly with existing Qt applications.
+### 核となる価値提案
+既存のQtアプリケーションにシームレスに統合できる、すぐに使用可能でカスタマイズ可能なパンくずナビゲーションコンポーネントを提供することで、ファイルマネージャーUIの開発時間を短縮します。
