@@ -132,3 +132,17 @@ dmypy.json
 # OS
 .DS_Store
 Thumbs.db .pypirc
+
+# Added by add-autogen-gitignore.ps1 on 2025-09-03T15:56:24.0288152+09:00
+.venv/
+*.pyo
+*.pyd
+*.whl
+.env.*
+.vscode.bak.*
+uv.lock
+Thumbs.db
+*.sqlite3
+*.db
+node_modules/
+requirements.txt
