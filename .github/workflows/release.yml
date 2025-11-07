@@ -59,23 +59,48 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Set up Python
+      - name: Set up Python 3.14
+        id: setup-python-314
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"  # TODO: Switch to 3.14 when PySide6 adds support
+          python-version: "3.14"
+        continue-on-error: true
 
-      - name: Install uv
+      - name: Install uv (Python 3.14)
+        if: steps.setup-python-314.outcome == 'success'
         uses: astral-sh/setup-uv@v7
 
-      - name: Install build dependencies
+      - name: Try installing dependencies with Python 3.14
+        id: install-deps-314
+        if: steps.setup-python-314.outcome == 'success'
+        run: |
+          uv pip install --system build twine
+          python -m build
+          pip install dist/*.whl --force-reinstall
+        continue-on-error: true
+
+      - name: Fallback to Python 3.13
+        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install uv (Python 3.13)
+        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install build dependencies (Python 3.13)
+        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
         run: |
           uv pip install --system build twine
 
-      - name: Build package
+      - name: Build package (Python 3.13)
+        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
         run: |
           python -m build
 
-      - name: Test package installation
+      - name: Test package installation (Python 3.13)
+        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
         run: |
           pip install dist/*.whl --force-reinstall
 
