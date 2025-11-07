@@ -5,7 +5,7 @@ with open("README.md", encoding="utf-8") as fh:
 
 setup(
     name="breadcrumb-addressbar",
-    version="1.0.0",
+    version="1.0.1",
     author="scottlz0310",
     author_email="scott.lz0310@gmail.com",
     description=("A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support"),
