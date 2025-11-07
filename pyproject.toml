@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "breadcrumb-addressbar"
-version = "0.2.6"
+version = "1.0.0"
 description = "A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support"
 readme = "README.md"
 license = { text = "MIT" }

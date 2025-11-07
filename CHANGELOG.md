@@ -5,6 +5,57 @@
 フォーマットは [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) に基づいており、
 このプロジェクトは [セマンティックバージョニング](https://semver.org/spec/v2.0.0.html) に準拠しています。
 
+## [1.0.0] - 2025-11-07
+
+### 破壊的変更
+- **Python要件**: 最小Pythonバージョンを3.8から3.12に引き上げ
+  - Python 3.12、3.13、3.14のみをサポート
+  - 古いPythonバージョンは非対応
+- **ビルドシステム**: setuptoolsからhatchlingに移行
+  - モダンなビルドバックエンドを採用
+  - より高速で信頼性の高いビルドプロセス
+- **依存関係管理**: optional-dependenciesからdependency-groupsに移行（PEP 735）
+  - `pip install -e ".[dev]"` → `uv pip install -e . --group dev`
+  - より明確な依存関係グループ管理
+
+### 追加
+- **モダンツールチェーン**: 最新の開発ツールを統合
+  - ruff: 超高速リンター＆フォーマッター（black+isort+flake8+autopep8+banditを統合）
+  - uv: Rust製の超高速パッケージマネージャー
+  - 最新のGitHub Actions（v5/v6/v7）
+- **pre-commit統合**: 全ファイルチェック機能
+  - ruffによる自動フォーマット＆リント
+  - mypyによる型チェック
+  - pytestによる自動テスト実行
+  - CI/CDとの完全な一貫性
+
+### 変更
+- **リンター統合**: 複数ツールからruffへの統一
+  - black → ruff format
+  - isort → ruff (I)
+  - flake8 → ruff (E, W, F)
+  - autopep8 → ruff format
+  - bandit → ruff (S)
+- **依存関係更新**: 全依存関係を最新版に更新
+  - pytest: 6.0 → 8.0
+  - pytest-qt: 4.0 → 4.4
+  - pytest-cov: 4.0 → 6.0
+  - mypy: 1.0 → 1.13
+  - coverage: 7.0 → 7.6
+- **CI/CD最適化**: ワークフローの高速化と最新化
+  - uvによる依存関係インストールの高速化
+  - ruffによるリント処理の高速化
+  - 全GitHub Actionsを最新版に更新
+
+### 修正
+- **コードスタイル**: ruffルールに準拠
+  - Qt命名規則（mixedCase）を許可
+  - 文字列リテラルの統一
+  - 全ファイルの一貫したフォーマット
+- **CI/CD一貫性**: pre-commitとCIの完全な同期
+  - 全ファイルチェックの統一
+  - フォーマット不一致の防止
+
 ## [0.2.6] - 2025-08-12
 
 ### 追加
