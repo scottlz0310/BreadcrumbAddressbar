@@ -90,11 +90,11 @@ jobs:
 
       - name: Run ruff format check
         run: |
-          ruff format --check breadcrumb_addressbar/ tests/ breadcrumb_addressbar/examples/
+          ruff format --check .
 
       - name: Run ruff lint
         run: |
-          ruff check breadcrumb_addressbar/ tests/ breadcrumb_addressbar/examples/
+          ruff check .
 
       - name: Run mypy
         run: |

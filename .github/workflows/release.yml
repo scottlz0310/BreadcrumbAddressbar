@@ -48,8 +48,8 @@ jobs:
 
       - name: Run linting
         run: |
-          ruff format --check breadcrumb_addressbar/ tests/
-          ruff check breadcrumb_addressbar/ tests/
+          ruff format --check .
+          ruff check .
 
   build-and-publish:
     needs: test
