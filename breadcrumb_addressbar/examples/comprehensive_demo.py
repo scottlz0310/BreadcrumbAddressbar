@@ -140,7 +140,7 @@ class ComprehensiveDemoWindow(QMainWindow):
         # フォルダ選択ボタン
         self.browse_button = QPushButton("📁 フォルダ選択")
         self.browse_button.clicked.connect(self.browse_folder)
-        button_style = "QPushButton { padding: 10px 20px; font-weight: bold; " "font-size: 12px; }"
+        button_style = "QPushButton { padding: 10px 20px; font-weight: bold; font-size: 12px; }"
         self.browse_button.setStyleSheet(button_style)
         row1_layout.addWidget(self.browse_button)
 
@@ -242,7 +242,7 @@ class ComprehensiveDemoWindow(QMainWindow):
 
         # ログ表示
         self.log_label = QLabel("ログ: 操作ログがここに表示されます")
-        log_style = "padding: 10px; border-radius: 5px; font-size: 11px; " "margin-top: 10px;"
+        log_style = "padding: 10px; border-radius: 5px; font-size: 11px; margin-top: 10px;"
         self.log_label.setStyleSheet(log_style)
         self.log_label.setWordWrap(True)
         layout.addWidget(self.log_label)

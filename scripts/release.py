@@ -45,13 +45,7 @@ def update_changelog(version: str) -> None:
     today = datetime.now().strftime("%Y-%m-%d")
 
     # 新しいバージョンエントリを作成
-    new_entry = (
-        f"## [{version}] - {today}\n\n"
-        "### Added\n- \n\n"
-        "### Changed\n- \n\n"
-        "### Fixed\n- \n\n"
-        "### Removed\n- \n\n"
-    )
+    new_entry = f"## [{version}] - {today}\n\n### Added\n- \n\n### Changed\n- \n\n### Fixed\n- \n\n### Removed\n- \n\n"
 
     # CHANGELOG.mdの内容を読み込み
     with open(changelog_path, encoding="utf-8") as f:

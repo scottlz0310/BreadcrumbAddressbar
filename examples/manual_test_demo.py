@@ -109,7 +109,7 @@ class ManualTestDemo(QMainWindow):
 
         self.event_log = QLabel("")
         self.event_log.setStyleSheet(
-            "background-color: #f8f8f8; padding: 5px; " "border: 1px solid #ddd; font-family: monospace;"
+            "background-color: #f8f8f8; padding: 5px; border: 1px solid #ddd; font-family: monospace;"
         )
         self.event_log.setWordWrap(True)
         layout.addWidget(self.event_log)

@@ -160,7 +160,7 @@ class ThemeManager(QObject):
             button_data = theme_data.get("button", {})
 
             # デバッグログ
-            self._logger.debug(f"Generating stylesheet for theme: {current_theme}, " f"is_current: {is_current}")
+            self._logger.debug(f"Generating stylesheet for theme: {current_theme}, is_current: {is_current}")
             self._logger.debug(f"Theme data keys: {list(theme_data.keys())}")
             self._logger.debug(f"Button data: {button_data}")
 
@@ -499,14 +499,14 @@ class ThemeManager(QObject):
                     panel_data = theme_data.get("panel", {})
                     if "border" in panel_data:
                         panel_border_color = panel_data["border"]
-                        self._logger.debug(f"panelのborder色を使用: " f"{panel_border_color}")
+                        self._logger.debug(f"panelのborder色を使用: {panel_border_color}")
                         return panel_border_color
 
                     # 優先順位3: セパレーター色を使用
                     separator_color = theme_data.get("textColor", "#cccccc")
                     # テキスト色と異なる場合
                     if separator_color != text_color:
-                        self._logger.debug(f"セパレーター色を使用: " f"{separator_color}")
+                        self._logger.debug(f"セパレーター色を使用: {separator_color}")
                         return separator_color
 
             # フォールバック: テキスト色に基づく計算

@@ -402,9 +402,7 @@ class BreadcrumbAddressBar(QWidget):
             path: Clicked path
             is_current: Whether this is the current folder button
         """
-        self._logger.debug(
-            f"Item clicked: path='{path}', is_current={is_current}, " f"current_path='{self._current_path}'"
-        )
+        self._logger.debug(f"Item clicked: path='{path}', is_current={is_current}, current_path='{self._current_path}'")
 
         if path:
             # 設定に応じてポップアップを表示

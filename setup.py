@@ -8,7 +8,7 @@ setup(
     version="0.2.6",
     author="scottlz0310",
     author_email="scott.lz0310@gmail.com",
-    description=("A breadcrumb-style address bar for PySide6/PyQt6 file managers " "with theme support"),
+    description=("A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support"),
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/scottlz0310/BreadcrumbAddressbar",

@@ -89,7 +89,7 @@ class BreadcrumbItem(QToolButton):
         """Handle button click."""
         self.clicked_with_path.emit(self._path)
         self.clicked_with_info.emit(self._path, self._is_current)
-        self._logger.debug(f"Button clicked: path='{self._path}', " f"is_current={self._is_current}")
+        self._logger.debug(f"Button clicked: path='{self._path}', is_current={self._is_current}")
 
     def _update_style(self) -> None:
         """Update the button style based on current state."""
@@ -116,7 +116,7 @@ class BreadcrumbItem(QToolButton):
         from .logger_setup import get_logger
 
         logger = get_logger("breadcrumb_addressbar.widgets")
-        logger.debug(f"Refreshing theme for button: {self.text()} " f"(is_current: {self._is_current})")
+        logger.debug(f"Refreshing theme for button: {self.text()} (is_current: {self._is_current})")
         self._update_style()
 
     @property
