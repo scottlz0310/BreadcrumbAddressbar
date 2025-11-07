@@ -3,7 +3,7 @@ name: Release to PyPI
 on:
   push:
     tags:
-      - 'v*'  # v1.0.0, v1.2.3 などのタグでトリガー
+      - "v*" # v1.0.0, v1.2.3 などのタグでトリガー
 
 permissions:
   contents: write
@@ -14,75 +14,75 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.12", "3.13", "3.14"]
 
     steps:
-    - uses: actions/checkout@v5
-    
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev]"
-        pip install pytest-cov coverage
-    
-    - name: Run tests
-      run: |
-        pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
-      env:
-        QT_QPA_PLATFORM: offscreen
-        DISPLAY: :99
-        PYTEST_DISABLE_PLUGIN_AUTOLOAD: "pytestqt"
-    
-    - name: Run linting
-      run: |
-        black --check breadcrumb_addressbar/ tests/ --line-length 79
-        isort --check-only breadcrumb_addressbar/ tests/
-        flake8 breadcrumb_addressbar/ tests/ --max-line-length=79
+      - uses: actions/checkout@v5
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          pip install pytest-cov coverage
+
+      - name: Run tests
+        run: |
+          pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
+        env:
+          QT_QPA_PLATFORM: offscreen
+          DISPLAY: :99
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "pytestqt"
+
+      - name: Run linting
+        run: |
+          black --check breadcrumb_addressbar/ tests/ --line-length 79
+          isort --check-only breadcrumb_addressbar/ tests/
+          flake8 breadcrumb_addressbar/ tests/ --max-line-length=79
 
   build-and-publish:
     needs: test
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    
+
     steps:
-    - uses: actions/checkout@v5
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.14"
-    
-    - name: Install build dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install build twine wheel
-    
-    - name: Build package
-      run: |
-        python -m build
-    
-    - name: Test package installation
-      run: |
-        pip install dist/*.whl --force-reinstall
-    
-    - name: Publish to PyPI
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      run: |
-        twine upload dist/*
-    
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: dist/*
-        generate_release_notes: true
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.14"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine wheel
+
+      - name: Build package
+        run: |
+          python -m build
+
+      - name: Test package installation
+        run: |
+          pip install dist/*.whl --force-reinstall
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload dist/*
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

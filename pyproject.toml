@@ -3,33 +3,27 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "breadcrumb-addressbar"
+3.12
+[project.optional-dependencies]name = "breadcrumb-addressbar"
 version = "0.2.6"
 description = "A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support"
 readme = "README.md"
-license = {text = "MIT"}
-authors = [
-    {name = "scottlz0310", email = "scott.lz0310@gmail.com"}
-]
+license = { text = "MIT" }
+authors = [{ name = "scottlz0310", email = "scott.lz0310@gmail.com" }]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.120",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
 requires-python = ">=3.8"
-dependencies = [
-    "PySide6>=6.0.0",
-    "qt-theme-manager>=0.2.0",
-]
-
-[project.optional-dependencies]
+dependencies = ["PySide6>=6.0.0", "qt-theme-manager>=0.2.0"]
 dev = [
     "pytest>=6.0",
     "pytest-qt>=4.0",
@@ -44,17 +38,9 @@ dev = [
     "safety>=3.6.1",
 ]
 
-test = [
-    "pytest>=6.0",
-    "pytest-cov>=4.0",
-]
+test = ["pytest>=6.0", "pytest-cov>=4.0"]
 
-ci = [
-    "pytest>=6.0",
-    "pytest-cov>=4.0",
-    "coverage>=7.0",
-    "pytest-qt>=4.0",
-]
+ci = ["pytest>=6.0", "pytest-cov>=4.0", "coverage>=7.0", "pytest-qt>=4.0"]
 
 [tool.black]
 line-length = 79
@@ -101,18 +87,11 @@ exclude = [
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-v --tb=short"
-markers = [
-    "qt: marks tests as requiring Qt (deselect with '-m \"not qt\"')",
-]
+markers = ["qt: marks tests as requiring Qt (deselect with '-m \"not qt\"')"]
 
 [tool.coverage.run]
 source = ["breadcrumb_addressbar"]
-omit = [
-    "*/tests/*",
-    "*/examples/*",
-    "*/venv/*",
-    "*/__pycache__/*",
-]
+omit = ["*/tests/*", "*/examples/*", "*/venv/*", "*/__pycache__/*"]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -145,20 +124,12 @@ strict_equality = false
 show_error_codes = false
 
 [[tool.mypy.overrides]]
-module = [
-    "PySide6.*",
-    "qt_theme_manager.*",
-    "breadcrumb_addressbar.*",
-]
+module = ["PySide6.*", "qt_theme_manager.*", "breadcrumb_addressbar.*"]
 ignore_missing_imports = true
 ignore_errors = true
 
 [[tool.mypy.overrides]]
-module = [
-    "PySide6.QtGui",
-    "PySide6.QtCore", 
-    "PySide6.QtWidgets",
-]
+module = ["PySide6.QtGui", "PySide6.QtCore", "PySide6.QtWidgets"]
 ignore_errors = true
 
 [tool.autopep8]
@@ -169,4 +140,4 @@ recursive = true
 
 [tool.bandit]
 exclude_dirs = ["tests", "examples"]
-skips = ["B101", "B601"] 
+skips = ["B101", "B601"]

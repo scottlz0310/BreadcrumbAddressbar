@@ -153,7 +153,7 @@
   - pytest: テスト実行
 
 ## 技術スタック
-- Python 3.8+
+- Python 3.12+
 - PySide6 (Qt for Python) >= 6.0.0
 - qt-theme-manager >= 0.2.0 (テーマ管理)
 - logging (ログ管理)
