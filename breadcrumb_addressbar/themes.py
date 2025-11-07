@@ -4,8 +4,6 @@ Theme System for Breadcrumb Address Bar
 Integrates with qt-theme-manager for consistent theming.
 """
 
-from typing import Optional
-
 # PySide6 の読み込みはCI等の環境で失敗することがあるため、例外時はスタブで代替
 try:  # pragma: no cover - import guard
     from PySide6.QtCore import QObject
@@ -62,9 +60,7 @@ class ThemeManager(QObject):
             self._theme_controller = None
             self._logger.warning("qt-theme-manager is not available")
 
-    def apply_theme_to_widget(
-        self, widget: QWidget, theme_name: Optional[str] = None
-    ) -> bool:
+    def apply_theme_to_widget(self, widget: QWidget, theme_name: str | None = None) -> bool:
         """
         Apply theme to a widget using qt-theme-manager.
 
@@ -164,10 +160,7 @@ class ThemeManager(QObject):
             button_data = theme_data.get("button", {})
 
             # デバッグログ
-            self._logger.debug(
-                f"Generating stylesheet for theme: {current_theme}, "
-                f"is_current: {is_current}"
-            )
+            self._logger.debug(f"Generating stylesheet for theme: {current_theme}, " f"is_current: {is_current}")
             self._logger.debug(f"Theme data keys: {list(theme_data.keys())}")
             self._logger.debug(f"Button data: {button_data}")
 
@@ -433,12 +426,8 @@ class ThemeManager(QObject):
             return {
                 "combo_item_bg": theme_data.get("backgroundColor", "#ffffff"),
                 "combo_text_color": theme_data.get("textColor", "#000000"),
-                "combo_item_selected_bg": theme_data.get(
-                    "focusColor", "#3399ff"
-                ),
-                "combo_item_selected_text_color": theme_data.get(
-                    "backgroundColor", "#ffffff"
-                ),
+                "combo_item_selected_bg": theme_data.get("focusColor", "#3399ff"),
+                "combo_item_selected_text_color": theme_data.get("backgroundColor", "#ffffff"),
             }
 
         # フォールバック
@@ -503,27 +492,21 @@ class ThemeManager(QObject):
                     # 優先順位1: ボタンのborder色（非選択状態用）
                     if "border" in button_data:
                         border_color = button_data["border"]
-                        self._logger.debug(
-                            f"テーマのボタンborder色を使用: {border_color}"
-                        )
+                        self._logger.debug(f"テーマのボタンborder色を使用: {border_color}")
                         return border_color
 
                     # 優先順位2: panelのborder色を使用
                     panel_data = theme_data.get("panel", {})
                     if "border" in panel_data:
                         panel_border_color = panel_data["border"]
-                        self._logger.debug(
-                            f"panelのborder色を使用: " f"{panel_border_color}"
-                        )
+                        self._logger.debug(f"panelのborder色を使用: " f"{panel_border_color}")
                         return panel_border_color
 
                     # 優先順位3: セパレーター色を使用
                     separator_color = theme_data.get("textColor", "#cccccc")
                     # テキスト色と異なる場合
                     if separator_color != text_color:
-                        self._logger.debug(
-                            f"セパレーター色を使用: " f"{separator_color}"
-                        )
+                        self._logger.debug(f"セパレーター色を使用: " f"{separator_color}")
                         return separator_color
 
             # フォールバック: テキスト色に基づく計算
@@ -538,9 +521,7 @@ class ThemeManager(QObject):
                     brightness = (r + g + b) / 3
 
                     # デバッグログを追加
-                    self._logger.debug(
-                        f"色計算: RGB({r},{g},{b}) -> 明度: {brightness:.1f}"
-                    )
+                    self._logger.debug(f"色計算: RGB({r},{g},{b}) -> 明度: {brightness:.1f}")
 
                     # 明度に基づいて適切な枠色を決定
                     if brightness > 200:  # 明るい色（白に近い）
@@ -551,9 +532,7 @@ class ThemeManager(QObject):
                     elif brightness > 100:  # 中間の明度
                         # 中程度のグレーを使用
                         result = "#999999"
-                        self._logger.debug(
-                            f"中間の明度 -> 中程度のグレー: {result}"
-                        )
+                        self._logger.debug(f"中間の明度 -> 中程度のグレー: {result}")
                         return result
                     else:  # 暗い色（黒に近い）
                         # 明るいグレーを使用

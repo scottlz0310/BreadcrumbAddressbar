@@ -140,7 +140,6 @@ Thumbs.db .pypirc
 *.whl
 .env.*
 .vscode.bak.*
-uv.lock
 Thumbs.db
 *.sqlite3
 *.db

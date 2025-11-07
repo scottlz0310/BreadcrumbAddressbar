@@ -77,4 +77,4 @@ else
     echo "   インストール: pip install bandit"
 fi
 
-echo "✅ コード品質チェックが完了しました！" 
+echo "✅ コード品質チェックが完了しました！"

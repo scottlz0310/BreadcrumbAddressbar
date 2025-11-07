@@ -47,10 +47,10 @@
   import os
   import sys
   from typing import List, Optional
-  
+
   from PySide6.QtCore import Qt, Signal
   from PySide6.QtWidgets import QWidget
-  
+
   from .themes import ThemeManager
   from .logger_setup import get_logger
   ```
@@ -62,7 +62,7 @@
 - 使用例:
   ```python
   from .logger_setup import get_logger
-  
+
   logger = get_logger(__name__)
   logger.debug("Path updated: %s", new_path)
   logger.warning("Invalid path format: %s", path)
@@ -96,10 +96,10 @@
   ```python
   from PySide6.QtCore import Signal, Slot
   from PySide6.QtWidgets import QWidget
-  
+
   class BreadcrumbAddressBar(QWidget):
       path_changed = Signal(str)  # 型ヒント付きシグナル
-      
+
       @Slot(str)
       def update_path(self, new_path: str) -> None:
           # 実装
@@ -113,7 +113,7 @@
 - 使用例:
   ```python
   from qt_theme_manager import ThemeController
-  
+
   class MyWidget:
       def __init__(self):
           self._theme_controller = ThemeController()
@@ -130,11 +130,11 @@
   import pytest
   from PySide6.QtWidgets import QApplication
   from breadcrumb_addressbar import BreadcrumbAddressBar
-  
+
   @pytest.fixture
   def app():
       return QApplication([])
-  
+
   def test_path_update(app):
       widget = BreadcrumbAddressBar()
       widget.update_path("/test/path")

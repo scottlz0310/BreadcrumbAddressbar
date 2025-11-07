@@ -154,7 +154,7 @@ class FolderSelectionComboBox(QComboBox):
         super().__init__()
         self.setMaxVisibleItems(20)  # スクロール可能
         self.setMinimumWidth(300)
-        
+
         # テーママネージャとの連携
         self.setStyleSheet("""
             QComboBox {
@@ -181,4 +181,4 @@ class FolderSelectionComboBox(QComboBox):
 
 **作成日**: 2025年8月5日
 **作成者**: AI Assistant
-**バージョン**: 1.0 
+**バージョン**: 1.0

@@ -65,4 +65,4 @@ ci-test-no-cov:
 	pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
 
 ci-test-with-cov:
-	pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing 
+	pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing

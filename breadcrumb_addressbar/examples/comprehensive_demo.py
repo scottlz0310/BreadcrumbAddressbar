@@ -70,9 +70,7 @@ class ComprehensiveDemoWindow(QMainWindow):
         # タイトル
         self.title_label = QLabel("Breadcrumb Address Bar - 包括的デモ")
         self.title_label.setAlignment(Qt.AlignCenter)
-        self.title_label.setStyleSheet(
-            "font-size: 20px; font-weight: bold; margin: 10px;"
-        )
+        self.title_label.setStyleSheet("font-size: 20px; font-weight: bold; margin: 10px;")
         layout.addWidget(self.title_label)
 
         # 詳細説明（スクロール可能なテキストボックス）
@@ -128,9 +126,7 @@ class ComprehensiveDemoWindow(QMainWindow):
         </div>
         """
         self.description_text.setHtml(html_content)
-        self.description_text.setStyleSheet(
-            "QTextEdit { border-radius: 8px; margin: 5px; }"
-        )
+        self.description_text.setStyleSheet("QTextEdit { border-radius: 8px; margin: 5px; }")
         layout.addWidget(self.description_text)
 
     def setup_control_section(self, layout) -> None:
@@ -144,10 +140,7 @@ class ComprehensiveDemoWindow(QMainWindow):
         # フォルダ選択ボタン
         self.browse_button = QPushButton("📁 フォルダ選択")
         self.browse_button.clicked.connect(self.browse_folder)
-        button_style = (
-            "QPushButton { padding: 10px 20px; font-weight: bold; "
-            "font-size: 12px; }"
-        )
+        button_style = "QPushButton { padding: 10px 20px; font-weight: bold; " "font-size: 12px; }"
         self.browse_button.setStyleSheet(button_style)
         row1_layout.addWidget(self.browse_button)
 
@@ -168,16 +161,12 @@ class ComprehensiveDemoWindow(QMainWindow):
 
         self.theme_combo = QComboBox()
         self.theme_combo.activated.connect(self.on_theme_activated)
-        self.theme_combo.setStyleSheet(
-            "QComboBox { padding: 5px; font-size: 12px; }"
-        )
+        self.theme_combo.setStyleSheet("QComboBox { padding: 5px; font-size: 12px; }")
         row2_layout.addWidget(self.theme_combo)
 
         # テーマ情報表示
         self.themes_label = QLabel("利用可能なテーマ: 読み込み中...")
-        self.themes_label.setStyleSheet(
-            "padding: 8px; border-radius: 5px; font-size: 11px;"
-        )
+        self.themes_label.setStyleSheet("padding: 8px; border-radius: 5px; font-size: 11px;")
         self.themes_label.setWordWrap(True)
         row2_layout.addWidget(self.themes_label)
 
@@ -188,17 +177,13 @@ class ComprehensiveDemoWindow(QMainWindow):
         row3_layout = QHBoxLayout()
 
         self.separator_label = QLabel("セパレーター:")
-        self.separator_label.setStyleSheet(
-            "font-weight: bold; font-size: 12px;"
-        )
+        self.separator_label.setStyleSheet("font-weight: bold; font-size: 12px;")
         row3_layout.addWidget(self.separator_label)
 
         self.separator_combo = QComboBox()
         self.separator_combo.addItems(["なし", " > ", " / ", " \\ "])
         self.separator_combo.activated.connect(self.on_separator_activated)
-        self.separator_combo.setStyleSheet(
-            "QComboBox { padding: 5px; font-size: 12px; }"
-        )
+        self.separator_combo.setStyleSheet("QComboBox { padding: 5px; font-size: 12px; }")
         row3_layout.addWidget(self.separator_combo)
 
         self.size_label = QLabel("ボタンサイズ:")
@@ -209,9 +194,7 @@ class ComprehensiveDemoWindow(QMainWindow):
         self.size_combo.addItems(["28px", "32px", "36px", "40px"])
         self.size_combo.setCurrentText("32px")
         self.size_combo.activated.connect(self.on_size_activated)
-        self.size_combo.setStyleSheet(
-            "QComboBox { padding: 5px; font-size: 12px; }"
-        )
+        self.size_combo.setStyleSheet("QComboBox { padding: 5px; font-size: 12px; }")
         row3_layout.addWidget(self.size_combo)
 
         row3_layout.addStretch()
@@ -223,32 +206,24 @@ class ComprehensiveDemoWindow(QMainWindow):
         # カスタムラベル設定
         self.custom_button = QPushButton("🏠 カスタムラベル設定")
         self.custom_button.clicked.connect(self.set_custom_labels)
-        self.custom_button.setStyleSheet(
-            "QPushButton { padding: 8px 16px; font-size: 12px; }"
-        )
+        self.custom_button.setStyleSheet("QPushButton { padding: 8px 16px; font-size: 12px; }")
         row4_layout.addWidget(self.custom_button)
 
         # 最大表示項目数
         self.max_items_label = QLabel("最大表示項目:")
-        self.max_items_label.setStyleSheet(
-            "font-weight: bold; font-size: 12px;"
-        )
+        self.max_items_label.setStyleSheet("font-weight: bold; font-size: 12px;")
         row4_layout.addWidget(self.max_items_label)
 
         self.max_items_combo = QComboBox()
         self.max_items_combo.addItems(["3", "5", "7", "10"])
         self.max_items_combo.setCurrentText("5")
         self.max_items_combo.activated.connect(self.on_max_items_activated)
-        self.max_items_combo.setStyleSheet(
-            "QComboBox { padding: 5px; font-size: 12px; }"
-        )
+        self.max_items_combo.setStyleSheet("QComboBox { padding: 5px; font-size: 12px; }")
         row4_layout.addWidget(self.max_items_combo)
 
         # 現在のテーマ情報
         self.current_theme_label = QLabel("現在のテーマ: 読み込み中...")
-        self.current_theme_label.setStyleSheet(
-            "padding: 8px; border-radius: 5px; font-size: 11px;"
-        )
+        self.current_theme_label.setStyleSheet("padding: 8px; border-radius: 5px; font-size: 11px;")
         self.current_theme_label.setWordWrap(True)
         row4_layout.addWidget(self.current_theme_label)
 
@@ -267,10 +242,7 @@ class ComprehensiveDemoWindow(QMainWindow):
 
         # ログ表示
         self.log_label = QLabel("ログ: 操作ログがここに表示されます")
-        log_style = (
-            "padding: 10px; border-radius: 5px; font-size: 11px; "
-            "margin-top: 10px;"
-        )
+        log_style = "padding: 10px; border-radius: 5px; font-size: 11px; " "margin-top: 10px;"
         self.log_label.setStyleSheet(log_style)
         self.log_label.setWordWrap(True)
         layout.addWidget(self.log_label)
@@ -313,9 +285,7 @@ class ComprehensiveDemoWindow(QMainWindow):
             available_themes = self.theme_controller.get_available_themes()
             current_theme = self.theme_controller.get_current_theme_name()
 
-            themes_text = (
-                f"利用可能なテーマ: {', '.join(available_themes.keys())}"
-            )
+            themes_text = f"利用可能なテーマ: {', '.join(available_themes.keys())}"
             self.themes_label.setText(themes_text)
             self.current_theme_label.setText(f"現在のテーマ: {current_theme}")
 
@@ -339,9 +309,7 @@ class ComprehensiveDemoWindow(QMainWindow):
 
     def browse_folder(self) -> None:
         """フォルダ選択ダイアログを表示"""
-        folder = QFileDialog.getExistingDirectory(
-            self, "フォルダを選択", self.addressbar.getPath()
-        )
+        folder = QFileDialog.getExistingDirectory(self, "フォルダを選択", self.addressbar.getPath())
         if folder:
             self.addressbar.setPath(folder)
             self.log_message(f"フォルダを選択: {folder}")

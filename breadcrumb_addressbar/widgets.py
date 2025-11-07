@@ -4,8 +4,6 @@ Breadcrumb Item Widget
 Individual breadcrumb button widget for the address bar.
 """
 
-from typing import Optional
-
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QToolButton, QWidget
@@ -22,16 +20,14 @@ class BreadcrumbItem(QToolButton):
 
     # シグナル
     clicked_with_path = Signal(str)  # パス付きクリックシグナル
-    clicked_with_info = Signal(
-        str, bool
-    )  # パスと最下層フラグ付きクリックシグナル
+    clicked_with_info = Signal(str, bool)  # パスと最下層フラグ付きクリックシグナル
 
     def __init__(
         self,
         text: str,
         path: str,
         is_current: bool = False,
-        parent: Optional[QWidget] = None,
+        parent: QWidget | None = None,
     ):
         """
         Initialize the breadcrumb item.
@@ -93,10 +89,7 @@ class BreadcrumbItem(QToolButton):
         """Handle button click."""
         self.clicked_with_path.emit(self._path)
         self.clicked_with_info.emit(self._path, self._is_current)
-        self._logger.debug(
-            f"Button clicked: path='{self._path}', "
-            f"is_current={self._is_current}"
-        )
+        self._logger.debug(f"Button clicked: path='{self._path}', " f"is_current={self._is_current}")
 
     def _update_style(self) -> None:
         """Update the button style based on current state."""
@@ -116,19 +109,14 @@ class BreadcrumbItem(QToolButton):
         from .logger_setup import get_logger
 
         logger = get_logger("breadcrumb_addressbar.widgets")
-        logger.debug(
-            f"Applied stylesheet for '{self.text()}': {stylesheet[:100]}..."
-        )
+        logger.debug(f"Applied stylesheet for '{self.text()}': {stylesheet[:100]}...")
 
     def refresh_theme(self) -> None:
         """Refresh the button style when theme changes."""
         from .logger_setup import get_logger
 
         logger = get_logger("breadcrumb_addressbar.widgets")
-        logger.debug(
-            f"Refreshing theme for button: {self.text()} "
-            f"(is_current: {self._is_current})"
-        )
+        logger.debug(f"Refreshing theme for button: {self.text()} " f"(is_current: {self._is_current})")
         self._update_style()
 
     @property

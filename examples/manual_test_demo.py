@@ -51,9 +51,7 @@ class ManualTestDemo(QMainWindow):
         # Title
         title = QLabel("BreadcrumbAddressBar Manual Test Demo")
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet(
-            "font-size: 18px; font-weight: bold; margin: 10px;"
-        )
+        title.setStyleSheet("font-size: 18px; font-weight: bold; margin: 10px;")
         layout.addWidget(title)
 
         # Instructions
@@ -64,9 +62,7 @@ class ManualTestDemo(QMainWindow):
             "3. 現在フォルダボタン: ポップアップメニューの表示\n"
             "4. キーボードナビゲーション: Tab移動、矢印キー、Enter確定"
         )
-        instructions.setStyleSheet(
-            "background-color: #f0f0f0; padding: 10px; border-radius: 5px;"
-        )
+        instructions.setStyleSheet("background-color: #f0f0f0; padding: 10px; border-radius: 5px;")
         layout.addWidget(instructions)
 
         # Breadcrumb widget
@@ -103,9 +99,7 @@ class ManualTestDemo(QMainWindow):
 
         # Status display
         self.status_label = QLabel("現在のパス: " + self.breadcrumb.getPath())
-        self.status_label.setStyleSheet(
-            "background-color: #e8f4f8; padding: 5px; border: 1px solid #ccc;"
-        )
+        self.status_label.setStyleSheet("background-color: #e8f4f8; padding: 5px; border: 1px solid #ccc;")
         layout.addWidget(self.status_label)
 
         # Event log
@@ -115,8 +109,7 @@ class ManualTestDemo(QMainWindow):
 
         self.event_log = QLabel("")
         self.event_log.setStyleSheet(
-            "background-color: #f8f8f8; padding: 5px; "
-            "border: 1px solid #ddd; font-family: monospace;"
+            "background-color: #f8f8f8; padding: 5px; " "border: 1px solid #ddd; font-family: monospace;"
         )
         self.event_log.setWordWrap(True)
         layout.addWidget(self.event_log)
@@ -149,16 +142,12 @@ class ManualTestDemo(QMainWindow):
         new_setting = not current_setting
         self.breadcrumb.setShowPopupForAllButtons(new_setting)
         self.update_popup_setting_display()
-        self.log_event(
-            f"ポップアップ設定変更: {'ON' if new_setting else 'OFF'}"
-        )
+        self.log_event(f"ポップアップ設定変更: {'ON' if new_setting else 'OFF'}")
 
     def update_popup_setting_display(self):
         """Update the popup setting button display."""
         setting = self.breadcrumb.getShowPopupForAllButtons()
-        self.popup_toggle_btn.setText(
-            f"全ボタンポップアップ: {'ON' if setting else 'OFF'}"
-        )
+        self.popup_toggle_btn.setText(f"全ボタンポップアップ: {'ON' if setting else 'OFF'}")
 
     def on_path_changed(self, new_path):
         """Handle path change events."""

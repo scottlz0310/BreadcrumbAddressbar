@@ -170,4 +170,4 @@ bandit -r breadcrumb_addressbar/
 - [PEP 8](https://www.python.org/dev/peps/pep-0008/) - Pythonコーディング規約
 - [Black Documentation](https://black.readthedocs.io/) - コードフォーマッター
 - [MyPy Documentation](https://mypy.readthedocs.io/) - 型チェッカー
-- [Bandit Documentation](https://bandit.readthedocs.io/) - セキュリティチェッカー 
+- [Bandit Documentation](https://bandit.readthedocs.io/) - セキュリティチェッカー

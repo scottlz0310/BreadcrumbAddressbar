@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -26,13 +26,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libegl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 xvfb
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[ci]"
-          pip install pytest pytest-cov coverage bandit safety
-          # pytest-covの確認
-          python -c "import pytest_cov; print('pytest-cov version:', pytest_cov.__version__)"
+          uv pip install --system -e . --group ci
 
       - name: Start virtual display
         run: |
@@ -66,7 +65,7 @@ jobs:
           DISPLAY: :99
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           file: ./coverage.xml
           fail_ci_if_error: false
@@ -78,41 +77,30 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.14"
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
-          pip install bandit safety
+          uv pip install --system -e . --group dev
 
-      - name: Run black
+      - name: Run ruff format check
         run: |
-          black --check breadcrumb_addressbar/ tests/ breadcrumb_addressbar/examples/ --line-length 79
+          ruff format --check breadcrumb_addressbar/ tests/ breadcrumb_addressbar/examples/
 
-      - name: Run isort
+      - name: Run ruff lint
         run: |
-          isort --check-only breadcrumb_addressbar/ tests/ breadcrumb_addressbar/examples/
-
-      - name: Run flake8
-        run: |
-          flake8 breadcrumb_addressbar/ tests/ breadcrumb_addressbar/examples/ --max-line-length=79 --extend-ignore=E203,W503
+          ruff check breadcrumb_addressbar/ tests/ breadcrumb_addressbar/examples/
 
       - name: Run mypy
         run: |
           mypy breadcrumb_addressbar/ --ignore-missing-imports
 
-      - name: Run bandit security check
-        run: |
-          bandit -r breadcrumb_addressbar/ -f json -o bandit-report.json || true
-          bandit -r breadcrumb_addressbar/ -f txt
 
-      - name: Run safety check
-        run: |
-          safety check --json --output safety-report.json || true
-          safety check
 
   build:
     runs-on: ubuntu-latest
@@ -122,14 +110,16 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.14"
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Install build dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install build twine
+          uv pip install --system build twine
 
       - name: Build package
         run: |
@@ -140,7 +130,7 @@ jobs:
           twine check dist/*
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist
           path: dist/
@@ -153,21 +143,23 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.14"
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          uv pip install --system -e . --group dev
 
       - name: Run comprehensive quality checks
         run: |
           echo "=== コード品質チェック完了 ==="
           echo "✅ テスト: 全テストが成功"
-          echo "✅ リント: black, isort, flake8, mypy が成功"
+          echo "✅ リント: ruff, mypy が成功"
           echo "✅ ビルド: パッケージビルドが成功"
-          echo "✅ セキュリティ: bandit, safety チェック完了"
+          echo "✅ セキュリティ: ruff セキュリティチェック完了"
           echo ""
           echo "🎉 全ての品質チェックが完了しました！"

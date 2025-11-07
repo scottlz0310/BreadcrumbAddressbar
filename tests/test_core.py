@@ -93,9 +93,7 @@ class TestBreadcrumbAddressBar:
         # ボタン群が生成される
         assert len(self.widget._breadcrumb_items) >= 2
         # 各ボタンに高さが反映される
-        assert all(
-            btn.minimumHeight() == 28 for btn in self.widget._breadcrumb_items
-        )
+        assert all(btn.minimumHeight() == 28 for btn in self.widget._breadcrumb_items)
 
     def test_max_items_and_ellipsis_logic(self):
         parts = [(str(i), f"/{i}") for i in range(6)]
@@ -132,9 +130,7 @@ class TestBreadcrumbAddressBar:
             "_show_folder_popup",
             lambda p: called.__setitem__("show", p),
         )
-        monkeypatch.setattr(
-            self.widget, "setPath", lambda p: called.__setitem__("set", p)
-        )
+        monkeypatch.setattr(self.widget, "setPath", lambda p: called.__setitem__("set", p))
 
         # どのボタンでもポップアップ
         self.widget.setShowPopupForAllButtons(True)
@@ -157,10 +153,7 @@ class TestBreadcrumbAddressBar:
         self.widget.setSeparator(" > ")
         self.widget.setPath("/root/child")
         self.widget.setCustomLabels({"/root": "ROOT"})
-        assert any(
-            btn.text() in ("ROOT", "child")
-            for btn in self.widget._breadcrumb_items
-        )
+        assert any(btn.text() in ("ROOT", "child") for btn in self.widget._breadcrumb_items)
 
         # アイテムクリアが動く（内部関数呼出し）
         prev_count = self.widget._layout.count()

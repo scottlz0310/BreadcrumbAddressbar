@@ -5,7 +5,6 @@ Popup menu for folder selection in the breadcrumb address bar.
 """
 
 import os
-from typing import List, Optional, Tuple
 
 from PySide6.QtCore import QPoint, Signal
 from PySide6.QtGui import QAction, QFont
@@ -24,7 +23,7 @@ class FolderSelectionPopup(QMenu):
     # シグナル
     folderSelected = Signal(str)  # フォルダ選択通知
 
-    def __init__(self, parent: Optional[QWidget] = None):
+    def __init__(self, parent: QWidget | None = None):
         """
         Initialize the folder selection popup.
 
@@ -75,7 +74,7 @@ class FolderSelectionPopup(QMenu):
         self.clear()
 
         # フォルダ一覧を取得
-        folders: List[Tuple[str, str]] = self._get_folders(path)
+        folders: list[tuple[str, str]] = self._get_folders(path)
 
         if not folders:
             # フォルダが見つからない場合
@@ -87,14 +86,10 @@ class FolderSelectionPopup(QMenu):
             for folder_name, folder_path in folders:
                 action = QAction(folder_name, self)
                 action.setData(folder_path)
-                action.triggered.connect(
-                    lambda checked, p=folder_path: self._on_folder_selected(p)
-                )
+                action.triggered.connect(lambda checked, p=folder_path: self._on_folder_selected(p))
                 self.addAction(action)
 
-    def showForPath(
-        self, path: str, position: Optional[Tuple[int, int]] = None
-    ) -> None:
+    def showForPath(self, path: str, position: tuple[int, int] | None = None) -> None:
         """
         Show the popup menu for a specific path.
 
@@ -112,7 +107,7 @@ class FolderSelectionPopup(QMenu):
         else:
             self.exec_()
 
-    def _get_folders(self, path: str) -> List[Tuple[str, str]]:
+    def _get_folders(self, path: str) -> list[tuple[str, str]]:
         """
         Get list of folders in the specified path.
 
@@ -139,11 +134,9 @@ class FolderSelectionPopup(QMenu):
             for item in items:
                 item_path = os.path.join(path, item)
 
-                # ディレクトリのみを対象とする
-                if os.path.isdir(item_path):
-                    # 隠しフォルダを除外（オプション）
-                    if not item.startswith("."):
-                        folders.append((item, item_path))
+                # ディレクトリのみを対象とする（隠しフォルダを除外）
+                if os.path.isdir(item_path) and not item.startswith("."):
+                    folders.append((item, item_path))
 
             # 名前順にソート
             folders.sort(key=lambda x: x[0].lower())

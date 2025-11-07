@@ -50,4 +50,4 @@ else
     echo "⚠️  flake8が見つかりません。インストールしてください: pip install flake8"
 fi
 
-echo "✅ コードフォーマットが完了しました！" 
+echo "✅ コードフォーマットが完了しました！"

@@ -43,9 +43,7 @@ class _FakeThemeManager:
 
 
 @pytest.mark.skipif(
-    (not PYSIDE6_AVAILABLE)
-    or (not WIDGETS_AVAILABLE)
-    or (not PYTEST_QT_ENABLED),
+    (not PYSIDE6_AVAILABLE) or (not WIDGETS_AVAILABLE) or (not PYTEST_QT_ENABLED),
     reason="PySide6/widgets/pytest-qt not available",
 )
 class TestBreadcrumbItem:

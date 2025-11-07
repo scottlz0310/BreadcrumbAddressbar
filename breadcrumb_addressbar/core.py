@@ -5,7 +5,6 @@ Main breadcrumb address bar widget for file manager navigation.
 """
 
 import os
-from typing import Dict, List, Optional, Tuple
 
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QFont
@@ -28,7 +27,7 @@ class BreadcrumbAddressBar(QWidget):
     pathChanged = Signal(str)  # パス変更通知
     folderSelected = Signal(str)  # フォルダ選択通知
 
-    def __init__(self, parent: Optional[QWidget] = None):
+    def __init__(self, parent: QWidget | None = None):
         """
         Initialize the breadcrumb address bar.
 
@@ -43,12 +42,10 @@ class BreadcrumbAddressBar(QWidget):
         self._button_height = 32
         self._font_size = 10
         self._separator = ""
-        self._custom_labels: Dict[str, str] = {}
+        self._custom_labels: dict[str, str] = {}
 
         # 新しい設定オプション
-        self._show_popup_for_all_buttons = (
-            True  # どのボタンでもポップアップを表示
-        )
+        self._show_popup_for_all_buttons = True  # どのボタンでもポップアップを表示
         self._popup_position_offset = (0, 2)  # ポップアップの位置オフセット
 
         # ポップアップ実装の選択（デフォルトはQMenu）
@@ -60,10 +57,10 @@ class BreadcrumbAddressBar(QWidget):
 
         # UI要素
         self._layout = QHBoxLayout(self)
-        self._breadcrumb_items: List[BreadcrumbItem] = []
+        self._breadcrumb_items: list[BreadcrumbItem] = []
 
         # ポップアップインスタンス（シンプルに戻す）
-        self._popup: Optional[FolderSelectionPopup] = None
+        self._popup: FolderSelectionPopup | None = None
 
         # レイアウト設定
         self._setup_layout()
@@ -145,7 +142,7 @@ class BreadcrumbAddressBar(QWidget):
         """
         return self._show_popup_for_all_buttons
 
-    def setPopupPositionOffset(self, offset: Tuple[int, int]) -> None:
+    def setPopupPositionOffset(self, offset: tuple[int, int]) -> None:
         """
         Set the popup position offset.
 
@@ -156,7 +153,7 @@ class BreadcrumbAddressBar(QWidget):
             self._popup_position_offset = offset
             self._logger.debug(f"Popup position offset set to: {offset}")
 
-    def getPopupPositionOffset(self) -> Tuple[int, int]:
+    def getPopupPositionOffset(self) -> tuple[int, int]:
         """
         Get the current popup position offset.
 
@@ -223,7 +220,7 @@ class BreadcrumbAddressBar(QWidget):
             self._separator = separator
             self._update_display()
 
-    def setCustomLabels(self, labels: Dict[str, str]) -> None:
+    def setCustomLabels(self, labels: dict[str, str]) -> None:
         """
         Set custom display labels for specific paths.
 
@@ -297,7 +294,7 @@ class BreadcrumbAddressBar(QWidget):
             if child.widget():
                 child.widget().deleteLater()
 
-    def _split_path(self, path: str) -> List[tuple]:
+    def _split_path(self, path: str) -> list[tuple]:
         """
         Split path into parts with display text and full path.
 
@@ -330,9 +327,7 @@ class BreadcrumbAddressBar(QWidget):
                             current_path = current_path + part
                         else:
                             current_path = current_path + "\\" + part
-                        display_text = self._get_display_text(
-                            part, current_path
-                        )
+                        display_text = self._get_display_text(part, current_path)
                         parts.append((display_text, current_path))
             else:
                 # Unixパスの場合
@@ -341,12 +336,8 @@ class BreadcrumbAddressBar(QWidget):
 
                 for part in path_parts:
                     if part:
-                        current_path = os.path.join(
-                            current_path, part
-                        ).replace("\\", "/")
-                        display_text = self._get_display_text(
-                            part, current_path
-                        )
+                        current_path = os.path.join(current_path, part).replace("\\", "/")
+                        display_text = self._get_display_text(part, current_path)
                         parts.append((display_text, current_path))
 
         return parts
@@ -372,7 +363,7 @@ class BreadcrumbAddressBar(QWidget):
 
         return part
 
-    def _get_display_items(self, path_parts: List[tuple]) -> List[tuple]:
+    def _get_display_items(self, path_parts: list[tuple]) -> list[tuple]:
         """
         Get items to display with ellipsis handling.
 
@@ -384,10 +375,7 @@ class BreadcrumbAddressBar(QWidget):
         """
         if len(path_parts) <= self._max_items:
             # 全アイテムを表示
-            return [
-                (text, path, i == len(path_parts) - 1)
-                for i, (text, path) in enumerate(path_parts)
-            ]
+            return [(text, path, i == len(path_parts) - 1) for i, (text, path) in enumerate(path_parts)]
 
         # 省略表示: 最初 + ... + 最後の2つ
         items = []
@@ -415,8 +403,7 @@ class BreadcrumbAddressBar(QWidget):
             is_current: Whether this is the current folder button
         """
         self._logger.debug(
-            f"Item clicked: path='{path}', is_current={is_current}, "
-            f"current_path='{self._current_path}'"
+            f"Item clicked: path='{path}', is_current={is_current}, " f"current_path='{self._current_path}'"
         )
 
         if path:
@@ -457,9 +444,7 @@ class BreadcrumbAddressBar(QWidget):
                 # QMenuベースのポップアップを使用（QToolButtonにアタッチ）
                 if not self._popup:
                     self._popup = FolderSelectionPopup(self)
-                    self._popup.folderSelected.connect(
-                        self._on_folder_selected
-                    )
+                    self._popup.folderSelected.connect(self._on_folder_selected)
 
                 # メニュー内容を準備してからボタンにアタッチ
                 self._popup.populateForPath(path)
@@ -469,9 +454,7 @@ class BreadcrumbAddressBar(QWidget):
                 if self._popup_position_offset == (0, 0):
                     clicked_item.showMenu()
                 else:
-                    pos = clicked_item.mapToGlobal(
-                        clicked_item.rect().bottomLeft()
-                    )
+                    pos = clicked_item.mapToGlobal(clicked_item.rect().bottomLeft())
                     pos.setX(pos.x() + self._popup_position_offset[0])
                     pos.setY(pos.y() + self._popup_position_offset[1])
                     self._popup.popup(pos)

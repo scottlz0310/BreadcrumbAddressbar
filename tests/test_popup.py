@@ -39,9 +39,7 @@ except Exception:  # pragma: no cover - import guard only
 
 
 @pytest.mark.skipif(
-    (not PYSIDE6_AVAILABLE)
-    or (not POPUP_AVAILABLE)
-    or (not PYTEST_QT_ENABLED),
+    (not PYSIDE6_AVAILABLE) or (not POPUP_AVAILABLE) or (not PYTEST_QT_ENABLED),
     reason="PySide6/FolderSelectionPopup/pytest-qt not available",
 )
 class TestFolderSelectionPopup:
@@ -111,9 +109,7 @@ class TestFolderSelectionPopup:
 
     def test_get_folders_permission_error(self):
         """Test getting folders with permission error."""
-        with patch(
-            "os.listdir", side_effect=PermissionError("Permission denied")
-        ):
+        with patch("os.listdir", side_effect=PermissionError("Permission denied")):
             folders = self.popup._get_folders("/some/path")
             assert folders == []
 
@@ -220,8 +216,9 @@ class TestFolderSelectionPopup:
     def test_clear_actions(self):
         """Test that actions are cleared before adding new ones."""
         # 最初にアクションを追加
-        with patch.object(self.popup, "popup"), patch.object(
-            self.popup, "exec_"
+        with (
+            patch.object(self.popup, "popup"),
+            patch.object(self.popup, "exec_"),
         ):
             self.popup.showForPath("/some/path")
             initial_count = len(self.popup.actions())

@@ -8,13 +8,13 @@ A breadcrumb-style address bar for PySide6/PyQt6 file managers.
 """
 
 from importlib import import_module
-from typing import Any, List
+from typing import Any
 
 __version__ = "0.2.6"
 __author__ = "Your Name"
 __email__ = "your.email@example.com"
 
-__all__: List[str] = [
+__all__: list[str] = [
     "BreadcrumbAddressBar",
     "BreadcrumbItem",
     "FolderSelectionPopup",
@@ -35,5 +35,5 @@ def __getattr__(name: str) -> Any:  # PEP 562 lazy export
     raise AttributeError(f"module {__name__} has no attribute {name}")
 
 
-def __dir__() -> List[str]:
+def __dir__() -> list[str]:
     return sorted(list(globals().keys()) + __all__)

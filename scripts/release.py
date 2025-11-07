@@ -21,23 +21,15 @@ def run_command(cmd: str, check: bool = True) -> subprocess.CompletedProcess:
     return result
 
 
-def update_version_in_file(
-    file_path: str, old_version: str, new_version: str
-) -> None:
+def update_version_in_file(file_path: str, old_version: str, new_version: str) -> None:
     """ファイル内のバージョンを更新する"""
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(file_path, encoding="utf-8") as f:
         content = f.read()
 
     # バージョン文字列を置換
-    content = content.replace(
-        f'version = "{old_version}"', f'version = "{new_version}"'
-    )
-    content = content.replace(
-        f'version="{old_version}"', f'version="{new_version}"'
-    )
-    content = content.replace(
-        f'__version__ = "{old_version}"', f'__version__ = "{new_version}"'
-    )
+    content = content.replace(f'version = "{old_version}"', f'version = "{new_version}"')
+    content = content.replace(f'version="{old_version}"', f'version="{new_version}"')
+    content = content.replace(f'__version__ = "{old_version}"', f'__version__ = "{new_version}"')
 
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(content)
@@ -62,7 +54,7 @@ def update_changelog(version: str) -> None:
     )
 
     # CHANGELOG.mdの内容を読み込み
-    with open(changelog_path, "r", encoding="utf-8") as f:
+    with open(changelog_path, encoding="utf-8") as f:
         content = f.read()
 
     # 新しいエントリを追加（最初の##の前に挿入）
@@ -92,7 +84,7 @@ def main():
         print("エラー: バージョンは x.y.z 形式である必要があります")
         sys.exit(1)
     # 現在のバージョンを取得
-    with open("pyproject.toml", "r", encoding="utf-8") as f:
+    with open("pyproject.toml", encoding="utf-8") as f:
         content = f.read()
         match = re.search(r'version = "([^"]+)"', content)
         if not match:
@@ -103,9 +95,7 @@ def main():
     # ファイルを更新
     update_version_in_file("pyproject.toml", old_version, new_version)
     update_version_in_file("setup.py", old_version, new_version)
-    update_version_in_file(
-        "breadcrumb_addressbar/__init__.py", old_version, new_version
-    )
+    update_version_in_file("breadcrumb_addressbar/__init__.py", old_version, new_version)
     update_changelog(new_version)
     # テストを実行
     print("\nテストを実行中...")

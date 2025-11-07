@@ -40,20 +40,20 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("パンくずリスト型アドレスバー デモ")
-        
+
         # メインウィジェット
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         layout = QVBoxLayout(central_widget)
-        
+
         # パンくずリスト型アドレスバーを追加
         self.addressbar = BreadcrumbAddressBar()
         self.addressbar.pathChanged.connect(self.on_path_changed)
         layout.addWidget(self.addressbar)
-        
+
         # 初期パスを設定
         self.addressbar.setPath("/home/user/documents")
-    
+
     def on_path_changed(self, path):
         print(f"パスが変更されました: {path}")
 
@@ -222,4 +222,4 @@ MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照してくださ�
 ### 開発ガイドライン
 - コードは `.cursorrules` に従ってください
 - 新機能追加時は段階的実装を心がけてください
-- テストの追加をお願いします 
+- テストの追加をお願いします

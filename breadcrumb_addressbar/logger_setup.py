@@ -6,14 +6,13 @@ Provides centralized logging configuration for the project.
 
 import logging
 import sys
-from typing import Optional
 
 
 def setup_logger(
     name: str = "breadcrumb_addressbar",
     level: int = logging.INFO,
-    log_format: Optional[str] = None,
-    log_file: Optional[str] = None,
+    log_format: str | None = None,
+    log_file: str | None = None,
 ) -> logging.Logger:
     """
     Setup and configure logger for the project.
