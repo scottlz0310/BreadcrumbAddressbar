@@ -3,8 +3,7 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-3.12
-[project.optional-dependencies]name = "breadcrumb-addressbar"
+name = "breadcrumb-addressbar"
 version = "0.2.6"
 description = "A breadcrumb-style address bar for PySide6/PyQt6 file managers with theme support"
 readme = "README.md"
@@ -16,14 +15,14 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.14",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.120",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 dependencies = ["PySide6>=6.0.0", "qt-theme-manager>=0.2.0"]
+
+[project.optional-dependencies]
 dev = [
     "pytest>=6.0",
     "pytest-qt>=4.0",
@@ -37,14 +36,12 @@ dev = [
     "bandit>=1.7",
     "safety>=3.6.1",
 ]
-
 test = ["pytest>=6.0", "pytest-cov>=4.0"]
-
 ci = ["pytest>=6.0", "pytest-cov>=4.0", "coverage>=7.0", "pytest-qt>=4.0"]
 
 [tool.black]
 line-length = 79
-target-version = ['py38']
+target-version = ['py312']
 include = '\.pyi?$'
 extend-exclude = '''
 /(
@@ -108,7 +105,7 @@ exclude_lines = [
 ]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.12"
 warn_return_any = false
 warn_unused_configs = true
 disallow_untyped_defs = false
