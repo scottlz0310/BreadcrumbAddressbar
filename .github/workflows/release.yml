@@ -83,7 +83,7 @@ jobs:
         if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "3.14"
 
       - name: Install uv (Python 3.13)
         if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
