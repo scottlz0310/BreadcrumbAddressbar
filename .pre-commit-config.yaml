@@ -20,6 +20,11 @@ repos:
         pass_filenames: false
         args: [.]
 
+  - repo: https://github.com/DetachHead/basedpyright
+    rev: v1.21.0
+    hooks:
+      - id: basedpyright
+
   - repo: local
     hooks:
       - id: pytest
