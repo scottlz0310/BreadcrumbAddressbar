@@ -20,13 +20,16 @@ repos:
         pass_filenames: false
         args: [.]
 
-  - repo: https://github.com/DetachHead/basedpyright
-    rev: v1.21.0
-    hooks:
-      - id: basedpyright
-
   - repo: local
     hooks:
+      - id: basedpyright
+        name: basedpyright
+        entry: basedpyright
+        language: system
+        types: [python]
+        pass_filenames: false
+        args: [breadcrumb_addressbar/]
+
       - id: pytest
         name: pytest
         entry: bash -c 'uv run pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings'
