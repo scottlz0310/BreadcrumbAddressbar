@@ -57,7 +57,7 @@ class FolderSelectionPopup(QMenu):
         """
         )
 
-    def exec_(self) -> int:  # PySide6互換: テスト用のエイリアス
+    def exec_(self) -> QAction | None:  # PySide6互換: テスト用のエイリアス  # type: ignore[override]
         """Alias for exec() to match test expectations."""
         return self.exec()
 

@@ -73,7 +73,7 @@ class BreadcrumbAddressBar(QWidget):
         """Setup the widget layout."""
         self._layout.setContentsMargins(4, 4, 4, 4)
         self._layout.setSpacing(2)
-        self._layout.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        self._layout.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
     def setPath(self, path: str) -> None:
         """
@@ -266,7 +266,7 @@ class BreadcrumbAddressBar(QWidget):
             # セパレーターを追加（最後のアイテム以外）
             if i < len(display_items) - 1 and self._separator:
                 separator_label = QLabel(self._separator)
-                separator_label.setAlignment(Qt.AlignCenter)
+                separator_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 font = QFont()
                 font.setPointSize(self._font_size)
                 separator_label.setFont(font)
@@ -292,9 +292,9 @@ class BreadcrumbAddressBar(QWidget):
         while self._layout.count() > 0:
             child = self._layout.takeAt(0)
             if child.widget():
-                child.widget().deleteLater()
+                child.widget().deleteLater()  # type: ignore[union-attr]
 
-    def _split_path(self, path: str) -> list[tuple]:
+    def _split_path(self, path: str) -> list[tuple[str, str]]:
         """
         Split path into parts with display text and full path.
 
@@ -363,7 +363,7 @@ class BreadcrumbAddressBar(QWidget):
 
         return part
 
-    def _get_display_items(self, path_parts: list[tuple]) -> list[tuple]:
+    def _get_display_items(self, path_parts: list[tuple[str, str]]) -> list[tuple[str, str, bool]]:
         """
         Get items to display with ellipsis handling.
 

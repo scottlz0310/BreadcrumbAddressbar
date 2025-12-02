@@ -65,11 +65,11 @@ class ComprehensiveDemoWindow(QMainWindow):
         # 初期テーマを適用
         self.apply_initial_theme()
 
-    def setup_description_section(self, layout) -> None:
+    def setup_description_section(self, layout: QVBoxLayout) -> None:
         """上段: 説明セクションをセットアップ"""
         # タイトル
         self.title_label = QLabel("Breadcrumb Address Bar - 包括的デモ")
-        self.title_label.setAlignment(Qt.AlignCenter)
+        self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.title_label.setStyleSheet("font-size: 20px; font-weight: bold; margin: 10px;")
         layout.addWidget(self.title_label)
 
@@ -129,7 +129,7 @@ class ComprehensiveDemoWindow(QMainWindow):
         self.description_text.setStyleSheet("QTextEdit { border-radius: 8px; margin: 5px; }")
         layout.addWidget(self.description_text)
 
-    def setup_control_section(self, layout) -> None:
+    def setup_control_section(self, layout: QVBoxLayout) -> None:
         """中段: コントロールセクションをセットアップ"""
         # メインコントロールレイアウト
         controls_layout = QVBoxLayout()
@@ -232,7 +232,7 @@ class ComprehensiveDemoWindow(QMainWindow):
 
         layout.addLayout(controls_layout)
 
-    def setup_addressbar_section(self, layout) -> None:
+    def setup_addressbar_section(self, layout: QVBoxLayout) -> None:
         """下段: アドレスバーセクションをセットアップ"""
         # アドレスバー
         self.addressbar = BreadcrumbAddressBar()
@@ -255,7 +255,7 @@ class ComprehensiveDemoWindow(QMainWindow):
                 from qt_theme_manager import ThemeController
             except ImportError:
                 # 古いバージョン (0.2.x) を試す
-                from theme_manager import ThemeController
+                from theme_manager import ThemeController  # type: ignore[import-not-found]
 
             # ThemeControllerを直接使用
             self.theme_controller = ThemeController()

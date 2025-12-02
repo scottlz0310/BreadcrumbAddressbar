@@ -102,6 +102,7 @@ reportUnknownArgumentType = false
 reportUnknownVariableType = false
 reportUnknownLambdaType = false
 reportImportCycles = false
+reportUnsupportedDunderAll = false # PEP 562 lazy loading support
 
 [[tool.basedpyright.executionEnvironments]]
 root = "breadcrumb_addressbar"

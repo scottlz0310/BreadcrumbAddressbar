@@ -5,41 +5,50 @@ Integrates with qt-theme-manager for consistent theming.
 """
 
 # PySide6 の読み込みはCI等の環境で失敗することがあるため、例外時はスタブで代替
+from typing import Any
+
+from .logger_setup import get_logger
+
 try:  # pragma: no cover - import guard
-    from PySide6.QtCore import QObject
-    from PySide6.QtWidgets import QWidget
+    from PySide6.QtCore import QObject  # type: ignore[assignment]
+    from PySide6.QtWidgets import QWidget  # type: ignore[assignment]
 
-    PYSIDE6_AVAILABLE = True
+    pyside6_available = True
 except Exception:  # pragma: no cover - import guard only
-    PYSIDE6_AVAILABLE = False
+    pyside6_available = False
 
-    class QObject:  # type: ignore
-        def __init__(self, *args, **kwargs) -> None:
+    class QObject:  # type: ignore[no-redef]
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
 
-    class QWidget:  # type: ignore
-        def __init__(self, *args, **kwargs) -> None:
+    class QWidget:  # type: ignore[no-redef]
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
             pass
+
+
+PYSIDE6_AVAILABLE = pyside6_available  # Export as constant for backward compatibility
 
 
 # qt-theme-managerのインポート（オプショナル）
+theme_manager_available = False
+ThemeController: Any = None
+apply_theme_to_widget: Any = None
+
 try:  # pragma: no cover - import guard
     # 新しいバージョン (1.0.0+) を試す
-    from qt_theme_manager import ThemeController, apply_theme_to_widget
+    from qt_theme_manager import ThemeController, apply_theme_to_widget  # type: ignore[assignment]
 
-    THEME_MANAGER_AVAILABLE = True
+    theme_manager_available = True
 except ImportError:  # pragma: no cover - import guard only
     try:  # pragma: no cover - import guard
         # 古いバージョン (0.2.x) を試す
-        from theme_manager import ThemeController, apply_theme_to_widget
+        from theme_manager import ThemeController, apply_theme_to_widget  # type: ignore[assignment,no-redef]
 
-        THEME_MANAGER_AVAILABLE = True
+        theme_manager_available = True
     except ImportError:  # pragma: no cover - import guard only
-        THEME_MANAGER_AVAILABLE = False
-        ThemeController = None
-        apply_theme_to_widget = None
+        pass
 
-from .logger_setup import get_logger
+THEME_MANAGER_AVAILABLE = theme_manager_available  # Export as constant for backward compatibility
 
 
 class ThemeManager(QObject):
@@ -92,7 +101,7 @@ class ThemeManager(QObject):
             raise RuntimeError("qt-theme-manager is not available")
         return self._theme_controller.get_current_theme_name()
 
-    def get_available_themes(self) -> dict:
+    def get_available_themes(self) -> dict[str, Any]:
         """
         Get available themes.
 
@@ -124,7 +133,7 @@ class ThemeManager(QObject):
             self._logger.error(f"Failed to set theme: {e}")
             return False
 
-    def refresh_widget_styles(self, widget) -> None:
+    def refresh_widget_styles(self, widget: QWidget) -> None:
         """
         Refresh styles for a widget after theme change.
 
@@ -407,7 +416,7 @@ class ThemeManager(QObject):
             }
         """
 
-    def get_combo_item_colors(self) -> dict:
+    def get_combo_item_colors(self) -> dict[str, str]:
         """
         Get QComboBox item colors for delegate rendering.
 

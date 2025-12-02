@@ -5,7 +5,7 @@ Individual breadcrumb button widget for the address bar.
 """
 
 from PySide6.QtCore import QSize, Qt, Signal
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QFont, QKeyEvent
 from PySide6.QtWidgets import QToolButton, QWidget
 
 from .logger_setup import get_logger
@@ -51,8 +51,8 @@ class BreadcrumbItem(QToolButton):
         """Setup the UI appearance."""
         # 基本設定
         self.setAutoRaise(True)
-        self.setFocusPolicy(Qt.StrongFocus)
-        self.setToolButtonStyle(Qt.ToolButtonTextOnly)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.setToolButtonStyle(Qt.ToolButtonStyle.ToolButtonTextOnly)
 
         # フォント設定
         font = QFont()
@@ -70,15 +70,15 @@ class BreadcrumbItem(QToolButton):
         """Setup signal connections."""
         self.clicked.connect(self._on_clicked)
 
-    def keyPressEvent(self, event) -> None:
+    def keyPressEvent(self, event: QKeyEvent) -> None:
         """Handle key press events."""
         key = event.key()
 
-        if key == Qt.Key_Return or key == Qt.Key_Enter:
+        if key == Qt.Key.Key_Return or key == Qt.Key.Key_Enter:
             # Enterキーでクリックと同じ動作
             self._on_clicked()
             event.accept()
-        elif key == Qt.Key_Space:
+        elif key == Qt.Key.Key_Space:
             # スペースキーでクリックと同じ動作
             self._on_clicked()
             event.accept()
