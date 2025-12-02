@@ -25,7 +25,6 @@ dependencies = ["PySide6>=6.0.0", "qt-theme-manager>=0.2.0"]
 [dependency-groups]
 dev = [
     "ruff>=0.8.0",
-    "mypy>=1.13",
     "pytest>=8.0",
     "pytest-qt>=4.4",
     "pytest-cov>=6.0",
@@ -38,7 +37,6 @@ ci = [
     "pytest-cov>=6.0",
     "coverage>=7.6",
     "ruff>=0.8.0",
-    "mypy>=1.13",
 ]
 
 [tool.ruff]
@@ -92,28 +90,3 @@ exclude_lines = [
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
 ]
-
-[tool.mypy]
-python_version = "3.12"
-warn_return_any = false
-warn_unused_configs = true
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
-check_untyped_defs = false
-disallow_untyped_decorators = false
-no_implicit_optional = false
-warn_redundant_casts = false
-warn_unused_ignores = false
-warn_no_return = false
-warn_unreachable = false
-strict_equality = false
-show_error_codes = false
-
-[[tool.mypy.overrides]]
-module = ["PySide6.*", "qt_theme_manager.*", "breadcrumb_addressbar.*"]
-ignore_missing_imports = true
-ignore_errors = true
-
-[[tool.mypy.overrides]]
-module = ["PySide6.QtGui", "PySide6.QtCore", "PySide6.QtWidgets"]
-ignore_errors = true
