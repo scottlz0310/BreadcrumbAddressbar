@@ -24,25 +24,15 @@ repos:
     hooks:
       - id: basedpyright
         name: basedpyright
-        entry: basedpyright
-        language: python
+        entry: uv run basedpyright
+        language: system
         types: [python]
         pass_filenames: false
         args: [breadcrumb_addressbar/]
-        additional_dependencies:
-          - basedpyright
-          - PySide6>=6.0.0
-          - qt-theme-manager>=0.2.0
 
       - id: pytest
         name: pytest
-        entry: pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
-        language: python
+        entry: uv run pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
+        language: system
         pass_filenames: false
         always_run: true
-        additional_dependencies:
-          - pytest
-          - pytest-qt
-          - pytest-cov
-          - PySide6>=6.0.0
-          - qt-theme-manager>=0.2.0
