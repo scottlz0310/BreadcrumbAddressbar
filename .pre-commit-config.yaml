@@ -10,32 +10,39 @@ repos:
       - id: check-json
       - id: check-toml
 
-  - repo: local
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
     hooks:
       - id: ruff
-        name: ruff
-        entry: bash -c 'if ! command -v uv >/dev/null; then curl -LsSf https://astral.sh/uv/install.sh | sh >/dev/null 2>&1; export PATH="$HOME/.local/bin:$PATH"; fi; uv run ruff check --fix .'
-        language: system
         pass_filenames: false
-        types: [python]
-
+        args: [--fix, .]
       - id: ruff-format
-        name: ruff-format
-        entry: bash -c 'if ! command -v uv >/dev/null; then curl -LsSf https://astral.sh/uv/install.sh | sh >/dev/null 2>&1; export PATH="$HOME/.local/bin:$PATH"; fi; uv run ruff format .'
-        language: system
         pass_filenames: false
-        types: [python]
+        args: [.]
 
+  - repo: local
+    hooks:
       - id: basedpyright
         name: basedpyright
-        entry: bash -c 'if ! command -v uv >/dev/null; then curl -LsSf https://astral.sh/uv/install.sh | sh >/dev/null 2>&1; export PATH="$HOME/.local/bin:$PATH"; fi; uv run basedpyright breadcrumb_addressbar/'
-        language: system
+        entry: basedpyright
+        language: python
         types: [python]
         pass_filenames: false
+        args: [breadcrumb_addressbar/]
+        additional_dependencies:
+          - basedpyright
+          - PySide6>=6.0.0
+          - qt-theme-manager>=0.2.0
 
       - id: pytest
         name: pytest
-        entry: bash -c 'if ! command -v uv >/dev/null; then curl -LsSf https://astral.sh/uv/install.sh | sh >/dev/null 2>&1; export PATH="$HOME/.local/bin:$PATH"; fi; uv run pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings'
-        language: system
+        entry: pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
+        language: python
         pass_filenames: false
         always_run: true
+        additional_dependencies:
+          - pytest
+          - pytest-qt
+          - pytest-cov
+          - PySide6>=6.0.0
+          - qt-theme-manager>=0.2.0
