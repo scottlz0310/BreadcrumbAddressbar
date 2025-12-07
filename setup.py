@@ -28,7 +28,7 @@ setup(
     python_requires=">=3.12",
     install_requires=[
         "PySide6>=6.10.1",
-        "qt-theme-manager>=0.2.0",
+        "qt-theme-manager>=0.2.4",
     ],
     extras_require={
         "dev": [
@@ -37,7 +37,7 @@ setup(
             "pytest-cov>=4.1.0",
             "black>=22.12.0",
             "isort>=5.13.2",
-            "flake8>=4.0",
+            "flake8>=4.0.1",
         ],
     },
 )
