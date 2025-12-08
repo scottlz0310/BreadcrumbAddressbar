@@ -26,14 +26,14 @@ dependencies = ["PySide6>=6.0.0", "qt-theme-manager>=0.2.0"]
 dev = [
     "ruff>=0.8.0",
     "basedpyright>=1.21.0",
-    "pytest>=8.0",
+    "pytest>=9.0.2",
     "pytest-qt>=4.4",
     "pytest-cov>=6.0",
     "pre-commit>=4.0",
 ]
-test = ["pytest>=8.0", "pytest-qt>=4.4", "pytest-cov>=6.0"]
+test = ["pytest>=9.0.2", "pytest-qt>=4.4", "pytest-cov>=6.0"]
 ci = [
-    "pytest>=8.0",
+    "pytest>=9.0.2",
     "pytest-qt>=4.4",
     "pytest-cov>=6.0",
     "coverage>=7.6",
