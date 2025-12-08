@@ -20,25 +20,25 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 requires-python = ">=3.12.12"
-dependencies = ["PySide6>=6.0.4", "qt-theme-manager>=1.1.0"]
+dependencies = ["PySide6>=6.10.1", "qt-theme-manager>=1.1.0"]
 
 [dependency-groups]
 dev = [
-    "ruff>=0.8.6",
-    "basedpyright>=1.21.1",
-    "pytest>=8.0.2",
+    "ruff>=0.14.8",
+    "basedpyright>=1.35.0",
+    "pytest>=9.0.2",
     "pytest-qt>=4.5.0",
     "pytest-cov>=7.0.0",
-    "pre-commit>=4.0.1",
+    "pre-commit>=4.5.0",
 ]
-test = ["pytest>=8.0.2", "pytest-qt>=4.5.0", "pytest-cov>=7.0.0"]
+test = ["pytest>=9.0.2", "pytest-qt>=4.5.0", "pytest-cov>=7.0.0"]
 ci = [
-    "pytest>=8.0.2",
+    "pytest>=9.0.2",
     "pytest-qt>=4.5.0",
     "pytest-cov>=7.0.0",
-    "coverage>=7.6.12",
-    "ruff>=0.8.6",
-    "basedpyright>=1.21.1",
+    "coverage>=7.12.0",
+    "ruff>=0.14.8",
+    "basedpyright>=1.35.0",
 ]
 
 [tool.ruff]
