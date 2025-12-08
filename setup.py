@@ -28,16 +28,16 @@ setup(
     python_requires=">=3.12",
     install_requires=[
         "PySide6>=6.10.1",
-        "qt-theme-manager>=0.2.0",
+        "qt-theme-manager>=1.1.0",
     ],
     extras_require={
         "dev": [
-            "pytest>=6.2.5",
+            "pytest>=9.0.2",
             "pytest-qt>=4.5.0",
-            "pytest-cov>=4.1.0",
-            "black>=22.12.0",
-            "isort>=5.13.2",
-            "flake8>=4.0",
+            "pytest-cov>=7.0.0",
+            "black>=25.12.0",
+            "isort>=7.0.0",
+            "flake8>=7.3.0",
         ],
     },
 )
