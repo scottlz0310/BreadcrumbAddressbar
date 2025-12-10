@@ -60,47 +60,30 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Set up Python 3.14
-        id: setup-python-314
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.14.2"
-        continue-on-error: true
-
-      - name: Install uv (Python 3.14)
-        if: steps.setup-python-314.outcome == 'success'
-        uses: astral-sh/setup-uv@v7
-
-      - name: Try installing dependencies with Python 3.14
-        id: install-deps-314
-        if: steps.setup-python-314.outcome == 'success'
-        run: |
-          uv pip install --system build twine
-          python -m build
-          pip install dist/*.whl --force-reinstall
-        continue-on-error: true
-
-      - name: Fallback to Python 3.13
-        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
         uses: actions/setup-python@v6
         with:
           python-version: "3.14.2"
 
-      - name: Install uv (Python 3.13)
-        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-3.14.2-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-3.14.2-
+
+      - name: Install uv
         uses: astral-sh/setup-uv@v7
 
-      - name: Install build dependencies (Python 3.13)
-        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
+      - name: Install build dependencies
         run: |
           uv pip install --system build twine
 
-      - name: Build package (Python 3.13)
-        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
+      - name: Build package
         run: |
           python -m build
 
-      - name: Test package installation (Python 3.13)
-        if: steps.setup-python-314.outcome == 'failure' || steps.install-deps-314.outcome == 'failure'
+      - name: Test package installation
         run: |
           pip install dist/*.whl --force-reinstall
 
