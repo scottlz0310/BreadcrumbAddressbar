@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv -p ${{ matrix.python-version }} pip install --system -e . --group ci
+          uv pip install --python ${{ matrix.python-version }} --system -e ".[ci]"
 
       - name: Start virtual display
         run: |
@@ -104,11 +104,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv -p ${{ matrix.python-version }} pip install --system -e . --group dev
+          uv pip install --python ${{ matrix.python-version }} --system -e ".[dev]"
 
       - name: Install/Pin ruff for CI
         run: |
-          uv -p ${{ matrix.python-version }} pip install --system ruff==0.14.8
+          uv pip install --python ${{ matrix.python-version }} --system ruff==0.14.8
 
       - name: Run ruff format check
         run: |
@@ -120,7 +120,7 @@ jobs:
 
       - name: Run basedpyright
         run: |
-          uv -p ${{ matrix.python-version }} run basedpyright breadcrumb_addressbar/
+          uv --python ${{ matrix.python-version }} run basedpyright breadcrumb_addressbar/
 
   build:
     runs-on: ubuntu-latest
@@ -147,7 +147,7 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          uv -p 3.14.2 pip install --system build twine
+          uv pip install --python 3.14.2 --system build twine
 
       - name: Build package
         run: |
@@ -188,7 +188,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv -p 3.14.2 pip install --system -e . --group dev
+          uv pip install --python 3.14.2 --system -e ".[dev]"
 
       - name: Run comprehensive quality checks
         run: |
