@@ -146,11 +146,10 @@
 - GitHub Actions導入時は、事前にworkflowシミュレータを設けて構文ミスや依存漏れを検知すること
 - CI環境では logger の出力が冗長にならないよう、適切なフィルター設定を行うこと
 - 必須チェック:
-  - black: コードフォーマット
-  - isort: import整理
-  - flake8: リント
-  - mypy: 型チェック
-  - pytest: テスト実行
+  - uv run ruff format . : コードフォーマット
+  - uv run ruff check . : リント
+  - uv run basedpyright : 型チェック
+  - uv run pytest: テスト実行
 
 ## 技術スタック
 - Python 3.12+
@@ -161,10 +160,10 @@
 ## 開発環境
 - Cursor IDE
 - Python仮想環境推奨
-- 型チェック: mypy
-- コードフォーマット: black (line-length=79)
-- import整理: isort (black profile)
-- リント: flake8
+- 型チェック: basedpyright
+- コードフォーマット: ruff format (line-length=120)
+- import整理: ruff format
+- リント: ruff check
 - テスト: pytest + pytest-qt
 
 ## パッケージング規約

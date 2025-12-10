@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.14"]
+        python-version: ["3.14.2"]
 
     steps:
       - uses: actions/checkout@v6
@@ -29,9 +29,18 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+
       - name: Install dependencies
         run: |
-          uv pip install --system -e . --group ci
+          uv pip install --python ${{ matrix.python-version }} --system -e .
+          uv pip install --python ${{ matrix.python-version }} --system pytest pytest-qt pytest-cov coverage ruff basedpyright
 
       - name: Start virtual display
         run: |
@@ -72,21 +81,36 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        python-version: ["3.14.2"]
     steps:
       - uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14.2" # TODO: Switch to 3.14 when PySide6 adds support
+          python-version: ${{ matrix.python-version }} # Use matrix to control version
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+
       - name: Install dependencies
         run: |
-          uv pip install --system -e . --group dev
+          uv pip install --python ${{ matrix.python-version }} --system -e .
+          uv pip install --python ${{ matrix.python-version }} --system ruff basedpyright
+
+      - name: Install/Pin ruff for CI
+        run: |
+          uv pip install --python ${{ matrix.python-version }} --system ruff==0.14.8
 
       - name: Run ruff format check
         run: |
@@ -110,14 +134,22 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14.2" # TODO: Switch to 3.14 when PySide6 adds support
+          python-version: "3.14.2" # Keep Python 3.14.2 to ensure build reproducibility
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-build-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-build-
+
       - name: Install build dependencies
         run: |
-          uv pip install --system build twine
+          uv pip install --python 3.14.2 --system build twine
 
       - name: Build package
         run: |
@@ -143,14 +175,23 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14.2" # TODO: Switch to 3.14 when PySide6 adds support
+          python-version: "3.14.2"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
-          uv pip install --system -e . --group dev
+          uv pip install --python 3.14.2 --system -e .
+          uv pip install --python 3.14.2 --system ruff basedpyright
 
       - name: Run comprehensive quality checks
         run: |
