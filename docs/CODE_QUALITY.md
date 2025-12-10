@@ -8,19 +8,18 @@
 
 ### 必須ツール
 
-1. **black** - コードフォーマッター
-   - 行長: 79文字
+1. **ruff format** - コードフォーマッター
+   - 行長: 120文字
    - 設定: `pyproject.toml`で管理
 
-2. **isort** - import整理
-   - blackプロファイル使用
+2. **ruff format** - import整理
    - 設定: `pyproject.toml`で管理
 
-3. **flake8** - リント
-   - 行長: 79文字
+3. **ruff check** - リント
+   - 行長: 120文字
    - 無視ルール: E203, W503
 
-4. **mypy** - 型チェック
+4. **basedpyright** - 型チェック
    - 設定: `pyproject.toml`で管理
    - PySide6モジュールは無視
 
@@ -66,6 +65,7 @@
 
 ### 型ヒント
 
+- mode: all(most strict)
 - 関数の引数・戻り値は必須
 - クラスメソッドは必須
 - 変数宣言時は推奨（複雑な型の場合）
@@ -90,7 +90,7 @@ from .logger_setup import get_logger
 ### ログ管理
 
 - `print`関数は禁止
-- `logging`モジュールまたは専用ロガーを使用
+- `loguru`モジュールまたは専用ロガーを使用
 - ログレベルは適切に使い分け
 
 ## テスト戦略
@@ -150,16 +150,16 @@ from .logger_setup import get_logger
 
 ```bash
 # フォーマット修正
-black breadcrumb_addressbar/
+uv ruff format breadcrumb_addressbar/
 
 # import整理
-isort breadcrumb_addressbar/
+uv ruff format breadcrumb_addressbar/
 
 # リントチェック
-flake8 breadcrumb_addressbar/
+ruff check breadcrumb_addressbar/
 
 # 型チェック
-mypy breadcrumb_addressbar/
+basedpyright breadcrumb_addressbar/
 
 # セキュリティチェック
 bandit -r breadcrumb_addressbar/
@@ -168,6 +168,6 @@ bandit -r breadcrumb_addressbar/
 ## 参考資料
 
 - [PEP 8](https://www.python.org/dev/peps/pep-0008/) - Pythonコーディング規約
-- [Black Documentation](https://black.readthedocs.io/) - コードフォーマッター
-- [MyPy Documentation](https://mypy.readthedocs.io/) - 型チェッカー
+- [Ruff Documentation](https://beta.ruff.rs/) - コードフォーマッター兼リントツール
+- [BasedPyright Documentation](https://github.com/microsoft/pyright) - 型チェッカー
 - [Bandit Documentation](https://bandit.readthedocs.io/) - セキュリティチェッカー
