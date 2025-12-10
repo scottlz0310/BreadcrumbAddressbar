@@ -29,7 +29,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --python ${{ matrix.python-version }} --system -e ".[test]"
+          uv pip install --python ${{ matrix.python-version }} --system -e .
+          uv pip install --python ${{ matrix.python-version }} --system pytest pytest-qt pytest-cov
 
       - name: Run tests
         run: |
@@ -82,7 +83,7 @@ jobs:
 
       - name: Build package
         run: |
-          uv --python 3.14.2 run python -m build
+          python -m build
 
       - name: Test package installation
         run: |
