@@ -27,7 +27,7 @@ setup(
     ],
     python_requires=">=3.12",
     install_requires=[
-        "PySide6>=6.10.1",
+        "PySide6>=6.10.2",
         "qt-theme-manager>=1.1.0",
     ],
     extras_require={
