@@ -291,8 +291,10 @@ class BreadcrumbAddressBar(QWidget):
         # セパレーターも削除
         while self._layout.count() > 0:
             child = self._layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()  # type: ignore[union-attr]
+            if child is not None:
+                widget = child.widget()
+                if widget is not None:
+                    widget.deleteLater()
 
     def _split_path(self, path: str) -> list[tuple[str, str]]:
         """
