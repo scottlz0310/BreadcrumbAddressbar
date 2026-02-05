@@ -14,44 +14,41 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12", "3.13", "3.14.2"]
+        python-version: ["3.12", "3.13", "3.14.3"]
 
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
-
       - name: Install uv
         uses: astral-sh/setup-uv@v7
 
+      - name: Set up Python ${{ matrix.python-version }}
+        run: |
+          uv python install ${{ matrix.python-version }}
+          uv venv --python ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
-          uv pip install --python ${{ matrix.python-version }} --system -e .
-          uv pip install --python ${{ matrix.python-version }} --system pytest pytest-qt pytest-cov
+          uv pip install -e .
+          uv pip install pytest pytest-qt pytest-cov
 
       - name: Run tests
         run: |
-          pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
+          uv run pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
         env:
           QT_QPA_PLATFORM: offscreen
           DISPLAY: :99
           PYTEST_DISABLE_PLUGIN_AUTOLOAD: "pytestqt"
 
-      - name: Install uv for linting
-        uses: astral-sh/setup-uv@v7
-
       - name: Install lint dependencies
         run: |
           # pin ruff for linting to avoid mismatch between lock and runtime
-          uv pip install --python ${{ matrix.python-version }} --system ruff==0.18.0 mypy
+          uv pip install ruff==0.18.0 mypy
 
       - name: Run linting
         run: |
-          ruff format --check .
-          ruff check .
+          uv run ruff format --check .
+          uv run ruff check .
 
   build-and-publish:
     needs: test
@@ -61,40 +58,40 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up Python 3.14
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.14.3"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python 3.14.3
+        run: |
+          uv python install 3.14.3
+          uv venv --python 3.14.3
 
       - name: Cache pip
         uses: actions/cache@v5
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-3.14.2-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-3.14.3-${{ hashFiles('**/pyproject.toml', '**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-3.14.2-
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
+            ${{ runner.os }}-pip-3.14.3-
 
       - name: Install build dependencies
         run: |
-          uv pip install --python 3.14.2 --system build twine
+          uv pip install build twine
 
       - name: Build package
         run: |
-          python -m build
+          uv run python -m build
 
       - name: Test package installation
         run: |
-          uv pip install --python 3.14.2 dist/*.whl --force-reinstall
+          uv pip install dist/*.whl --force-reinstall
 
       - name: Publish to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload dist/*
+          uv run twine upload dist/*
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
