@@ -28,8 +28,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --system -e .
-          uv pip install --system pytest pytest-qt pytest-cov
+          uv pip install -e .
+          uv pip install pytest pytest-qt pytest-cov
 
       - name: Run tests
         run: |
@@ -42,7 +42,7 @@ jobs:
       - name: Install lint dependencies
         run: |
           # pin ruff for linting to avoid mismatch between lock and runtime
-          uv pip install --system ruff==0.18.0 mypy
+          uv pip install ruff==0.18.0 mypy
 
       - name: Run linting
         run: |
@@ -74,7 +74,7 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          uv pip install --system build twine
+          uv pip install build twine
 
       - name: Build package
         run: |
@@ -82,7 +82,7 @@ jobs:
 
       - name: Test package installation
         run: |
-          uv pip install --system dist/*.whl --force-reinstall
+          uv pip install dist/*.whl --force-reinstall
 
       - name: Publish to PyPI
         env:
