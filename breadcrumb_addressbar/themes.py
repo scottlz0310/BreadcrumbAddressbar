@@ -473,7 +473,7 @@ class ThemeManager(QObject):
             b = min(255, int(b + (255 - b) * factor))
 
             return f"#{r:02x}{g:02x}{b:02x}"
-        except ValueError, IndexError:
+        except (ValueError, IndexError):
             return color
 
     def _get_light_border_color(self, text_color: str) -> str:
@@ -552,7 +552,7 @@ class ThemeManager(QObject):
             # フォールバック: デフォルトの軽いグレー
             return "#cccccc"
 
-        except ValueError, IndexError:
+        except (ValueError, IndexError):
             # エラーが発生した場合はデフォルトの軽いグレー
             return "#cccccc"
 
