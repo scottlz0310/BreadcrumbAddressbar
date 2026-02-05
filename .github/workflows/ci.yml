@@ -11,23 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.14.2"]
+        python-version: ["3.14.3"]
 
     steps:
       - uses: actions/checkout@v6
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
+        run: |
+          uv python install ${{ matrix.python-version }}
 
       - name: Install Qt dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libegl1 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 xvfb
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
 
       - name: Cache pip
         uses: actions/cache@v5
@@ -39,8 +38,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --python ${{ matrix.python-version }} --system -e .
-          uv pip install --python ${{ matrix.python-version }} --system pytest pytest-qt pytest-cov coverage ruff basedpyright
+          uv pip install --system -e .
+          uv pip install --system pytest pytest-qt pytest-cov coverage ruff basedpyright
 
       - name: Start virtual display
         run: |
@@ -83,17 +82,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.14.2"]
+        python-version: ["3.14.3"]
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }} # Use matrix to control version
-
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: |
+          uv python install ${{ matrix.python-version }}
 
       - name: Cache pip
         uses: actions/cache@v5
@@ -105,12 +103,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --python ${{ matrix.python-version }} --system -e .
-          uv pip install --python ${{ matrix.python-version }} --system ruff basedpyright
+          uv pip install --system -e .
+          uv pip install --system ruff basedpyright
 
       - name: Install/Pin ruff for CI
         run: |
-          uv pip install --python ${{ matrix.python-version }} --system ruff==0.14.8
+          uv pip install --system ruff==0.14.8
 
       - name: Run ruff format check
         run: |
@@ -131,13 +129,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.14.3" # Keep Python 3.14.2 to ensure build reproducibility
-
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python 3.14.3
+        run: |
+          uv python install 3.14.3
 
       - name: Cache pip
         uses: actions/cache@v5
@@ -149,7 +146,7 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          uv pip install --python 3.14.2 --system build twine
+          uv pip install --system build twine
 
       - name: Build package
         run: |
@@ -172,13 +169,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.14.3"
-
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python 3.14.3
+        run: |
+          uv python install 3.14.3
 
       - name: Cache pip
         uses: actions/cache@v5
@@ -190,8 +186,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --python 3.14.2 --system -e .
-          uv pip install --python 3.14.2 --system ruff basedpyright
+          uv pip install --system -e .
+          uv pip install --system ruff basedpyright
 
       - name: Run comprehensive quality checks
         run: |
