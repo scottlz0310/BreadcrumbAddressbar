@@ -51,13 +51,13 @@ jobs:
       - name: Check pytest plugins
         run: |
           # pytest-qtプラグインを無効化してヘルプを表示
-          PYTEST_DISABLE_PLUGIN_AUTOLOAD=pytestqt pytest --help
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD=pytestqt uv run pytest --help
           echo "=== pytest-cov plugin check ==="
-          PYTEST_DISABLE_PLUGIN_AUTOLOAD=pytestqt pytest --help | grep -i cov || echo "pytest-cov not found in help"
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD=pytestqt uv run pytest --help | grep -i cov || echo "pytest-cov not found in help"
           echo "=== installed packages ==="
-          pip list | grep -E "(pytest|cov)"
+          uv pip list | grep -E "(pytest|cov)"
           echo "=== pytest plugins ==="
-          PYTEST_DISABLE_PLUGIN_AUTOLOAD=pytestqt pytest --version
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD=pytestqt uv run pytest --version
         env:
           QT_QPA_PLATFORM: offscreen
           DISPLAY: :99
@@ -67,7 +67,7 @@ jobs:
           # pytest-qtプラグインを無効化してテスト実行
           echo "=== Testing with pytest-cov ==="
           # pytest-qtプラグインを無効化せずにpytest-covを直接使用
-          pytest --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing -m "not qt" --disable-pytest-warnings
+          uv run pytest --cov=breadcrumb_addressbar --cov-report=xml --cov-report=term-missing -m "not qt" --disable-pytest-warnings
           echo "=== Coverage report generated successfully ==="
         env:
           QT_QPA_PLATFORM: offscreen
@@ -114,15 +114,15 @@ jobs:
 
       - name: Run ruff format check
         run: |
-          ruff format --check .
+          uv run ruff format --check .
 
       - name: Run ruff lint
         run: |
-          ruff check .
+          uv run ruff check .
 
       - name: Run basedpyright
         run: |
-          basedpyright breadcrumb_addressbar/
+          uv run basedpyright breadcrumb_addressbar/
 
   build:
     runs-on: ubuntu-latest
@@ -153,11 +153,11 @@ jobs:
 
       - name: Build package
         run: |
-          python -m build
+          uv run python -m build
 
       - name: Check package
         run: |
-          twine check dist/*
+          uv run twine check dist/*
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v6

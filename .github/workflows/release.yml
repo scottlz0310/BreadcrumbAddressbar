@@ -34,7 +34,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
+          uv run pytest tests/ -v --tb=short -m "not qt" --disable-pytest-warnings
         env:
           QT_QPA_PLATFORM: offscreen
           DISPLAY: :99
@@ -47,8 +47,8 @@ jobs:
 
       - name: Run linting
         run: |
-          ruff format --check .
-          ruff check .
+          uv run ruff format --check .
+          uv run ruff check .
 
   build-and-publish:
     needs: test
@@ -80,7 +80,7 @@ jobs:
 
       - name: Build package
         run: |
-          python -m build
+          uv run python -m build
 
       - name: Test package installation
         run: |
@@ -91,7 +91,7 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          twine upload dist/*
+          uv run twine upload dist/*
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
