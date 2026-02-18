@@ -54,7 +54,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 ci = [
-    { name = "basedpyright", specifier = ">=1.38.0" },
+    { name = "basedpyright", specifier = ">=1.38.1" },
     { name = "coverage", specifier = ">=7.13.4" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
@@ -62,7 +62,7 @@ ci = [
     { name = "ruff", specifier = ">=0.15.1" },
 ]
 dev = [
-    { name = "basedpyright", specifier = ">=1.38.0" },
+    { name = "basedpyright", specifier = ">=1.38.1" },
     { name = "pre-commit", specifier = ">=4.5.1" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
