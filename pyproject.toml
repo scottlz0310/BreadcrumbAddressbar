@@ -26,14 +26,14 @@ dev = [
     "basedpyright>=1.38.3",
     "pytest>=9.0.2",
     "pytest-qt>=4.5.0",
-    "pytest-cov>=7.0.0",
+    "pytest-cov>=7.1.0",
     "pre-commit>=4.5.1",
 ]
-test = ["pytest>=9.0.2", "pytest-qt>=4.5.0", "pytest-cov>=7.0.0"]
+test = ["pytest>=9.0.2", "pytest-qt>=4.5.0", "pytest-cov>=7.1.0"]
 ci = [
     "pytest>=9.0.2",
     "pytest-qt>=4.5.0",
-    "pytest-cov>=7.0.0",
+    "pytest-cov>=7.1.0",
     "coverage>=7.13.5",
     "ruff>=0.15.7",
     "basedpyright>=1.38.3",
