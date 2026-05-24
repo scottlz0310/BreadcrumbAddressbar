@@ -35,7 +35,7 @@ setup(
             "pytest>=9.0.3",
             "pytest-qt>=4.5.0",
             "pytest-cov>=7.1.0",
-            "black>=26.3.1",
+            "black>=26.5.1",
             "isort>=8.0.1",
             "flake8>=7.3.0",
         ],
